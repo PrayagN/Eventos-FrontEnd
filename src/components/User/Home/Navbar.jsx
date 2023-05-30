@@ -13,9 +13,9 @@ function Navbar() {
         
     }
   let Links = [
-    { name: "Home", link: "/" },
-    { name: "Services", link: "/" },
-    { name: "Organizers", link: "/" },
+    { name: "Home", link:'/' },
+    { name: "Services", link: "/services" },
+    { name: "Organizers", link: "/organizers" },
   ];
   const [isOpen, setisOpen] = useState(false);
   
@@ -41,7 +41,7 @@ function Navbar() {
               key={index}
               className="font-semibold cursor-pointer my-7 md:my-0 md:ml-8 text-black "
               >
-              <a href={link.link}>{link.name}</a>
+              <Link to={link.link}>{link.name}</Link>
             </li>
           ))}
           <li className="ml-5">

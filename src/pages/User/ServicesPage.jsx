@@ -1,15 +1,16 @@
 import React from 'react'
 import Navbar from '../../components/User/Home/Navbar'
-import Organizer from '../../components/User/organizer/Organizer'
+import Services from '../../components/User/Services/Services'
 import Footer from '../../components/User/Home/Footer'
-function OrganizerPage() {
+
+function ServicesPage() {
   return (
     <div>
-    <Navbar/>
-      <Organizer/>
+      <Navbar/>
+      <Services/>
       <Footer/>
     </div>
   )
 }
 
-export default OrganizerPage
+export default ServicesPage

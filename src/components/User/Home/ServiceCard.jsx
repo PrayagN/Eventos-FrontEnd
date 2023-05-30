@@ -2,7 +2,7 @@ import React from 'react'
 
 function ServiceCard({icon:Icon,title,content}) {
   return (
-      <div className="">
+      <div className=" ">
           <div className="flex ">
           <Icon className="text-blue-600"/>
 

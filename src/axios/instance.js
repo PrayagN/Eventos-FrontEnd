@@ -6,7 +6,7 @@ const adminBaseUrl = import.meta.env.VITE_AdminBaseUrl;
 const organizerBaseUrl = import.meta.env.VITE_OrganizerBaseUrl;
 
 const createAxiosClient =(baseURL)=>{
-    console.log(baseURL+"client");  
+    
     const client = axios.create({
         baseURL,
         timeout:4000,

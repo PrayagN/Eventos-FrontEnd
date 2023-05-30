@@ -87,7 +87,7 @@ function Home() {
           services
         </Typography>
       </div>
-      <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid mt-12 pt-1 mx-5 gap-10">
+      <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid mt-12 pt-1 mx-14 gap-10 ">
         <Gallery Image={img1} title="Alumini Party" />
         <Gallery Image={img2} title="Reception Events" />
         <Gallery Image={img3} title="Birthday Party" />
