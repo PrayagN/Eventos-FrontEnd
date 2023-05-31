@@ -36,6 +36,7 @@ function AdminLogin() {
         const {data} = await adminSignin(values)
         if(data.token){
           toast.success(data.message)
+          localStorage.setItem('atoken',data.token)
           navigate('/admin/dashboard')
         }else if(data.message){
           console.log(data.message);

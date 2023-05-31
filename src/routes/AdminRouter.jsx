@@ -5,11 +5,14 @@ import Dashboardpage from '../pages/Admin/Dashboardpage'
 
 function AdminRouter() {
   return (
+       
     <Routes>
         <Route path={'/'} element={< AdminLoginPage/>} />
+
         <Route path={'/dashboard'} element={<Dashboardpage/>} />
         
     </Routes>
+       
   )
 }
 

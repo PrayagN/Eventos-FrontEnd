@@ -1,9 +1,11 @@
 import React from 'react'
 import Dashboard from '../../components/Admin/dashboard/dashboard'
+import Sidebar from '../../components/Admin/Sidebar/Sidebar'
 
 function Dashboardpage() {
   return (
-    <div>
+    <div className='flex w-full h-screen'>
+      <Sidebar/>
       <Dashboard/>
     </div>
   )
