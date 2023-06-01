@@ -6,7 +6,11 @@ import {userAxiosInstance} from '../axios/instance'
     const userSignup =(values)=>{
         return userAxiosInstance.post('/signup',values)
     }
+    const userAuth =()=>{
+        return userAxiosInstance.get('/isUserAuth')
+    }
 export {
     userSignin,
-    userSignup
+    userSignup,
+    userAuth
 }

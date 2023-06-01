@@ -41,7 +41,7 @@ function UserLogin() {
       const {data} = await userSignin(values)
       if(data.token){
         // toast.success(data.message,{duration})
-        localStorage.setItem('token',data.token)
+        localStorage.setItem('usertoken',data.token)
         dispatch(userActions.userAddDetails({Utoken:data.token,username:data.username}))
         navigate('/')
       }else if(data.message){

@@ -5,17 +5,20 @@ import Dashboardpage from '../pages/Admin/Dashboardpage'
 import CustomerPage from '../pages/Admin/CustomerPage'
 import EventsPage from '../pages/Admin/EventsPage'
 import OrganizerPage from '../pages/Admin/OrganizerPage'
+import PrivateRoutes from '../middleware/PrivateRoutes'
 
 function AdminRouter() {
   return (
        
     <Routes>
-        <Route path={'/'} element={< AdminLoginPage/>} />
+        <Route path='/' element={< AdminLoginPage/>} />
+      <Route element={<PrivateRoutes role={'admin'} route={'/admin'} /> }>
 
-        <Route path={'/dashboard'} element={<Dashboardpage/>} />
-        <Route path={'/customers'} element={<CustomerPage/>} />
-        <Route path={'/events'} element={<EventsPage/>} />
-        <Route path={'/organizers'} element={<OrganizerPage/>}/>
+        <Route path='/dashboard' element={<Dashboardpage/>} />
+        <Route path='/customers' element={<CustomerPage/>} />
+        <Route path='/events' element={<EventsPage/>} />
+        <Route path='/organizers' element={<OrganizerPage/>}/>
+      </Route>
         
     </Routes>
        

@@ -4,7 +4,7 @@ import Organizers from '../../components/Admin/organizers/Organizers'
 
 function OrganizerPage() {
   return (
-    <div className='flex w-full h-screen'>
+    <div className='flex'>
       <Sidebar/>
       <Organizers/>
     </div>

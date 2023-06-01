@@ -37,8 +37,8 @@ function OrganizerLogin() {
           axios.post(`${organizerAPI}signin`,values).then((response)=>{
             if(response.data.status){
               toast.success(response.data.message,{duration:4000})
-              localStorage.setItem('token',response.data.token)
-              dispatch(organizerActions.organizerAddDetails({organizerName:response.data.organizerName,token:response.data.token}))
+              localStorage.setItem('organizertoken',response.data.token)
+              dispatch(organizerActions.organizerAddDetails({organizerName:response.data.organizerName,organizertoken:response.data.token}))
               navigate('/organizer/profile')
             }else{
               toast.error(response.data.message,{duration:4000})

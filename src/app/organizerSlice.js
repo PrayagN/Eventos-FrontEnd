@@ -10,7 +10,7 @@ const OrganizerSlice = createSlice({
         organizerAddDetails(state,actions){
             const newItem =actions.payload
             state.organizerName = newItem.organizerName
-            state.organizerToken = newItem.token
+            state.organizerToken = newItem.organaziertoken
         },
         organizerLogout(state,actions){
             state.organizerName =""
