@@ -17,6 +17,7 @@ const initialValues = {
   email: "",
   password: "",
   mobile: "",
+  otp:''
 };
 
 const validationSchema = Yup.object({
@@ -76,8 +77,8 @@ function UserSignup() {
   const handleOTPVerification = async () => {
     try {
       console.log(formik.values, "dsfa");
-      await verify.confirm(otp);
-      const {data} = await userSignup(formik.values,otp)
+      await verify.confirm(formik.values.otp);
+      const {data} = await userSignup(formik.values)
       if (data.status) {
           navigate("/signin");
           setOTPOpen(false);
@@ -173,10 +174,13 @@ function UserSignup() {
                 <h2 className="text-2xl font-bold mb-4">OTP Verification</h2>
                 <input
                   type="text"
-                  value={otp}
-                  onChange={(e) => setOTP(e.target.value)}
+                  // value={otp}
+                  name="otp"
+                  {...formik.getFieldProps("otp")}
+                  // onChange={(e) => setOTP(e.target.value)}
                   className="border border-gray-300 rounded-md p-2 mb-4"
                   placeholder="Enter OTP"
+
                 />
                 <button
                   onClick={handleOTPVerification}

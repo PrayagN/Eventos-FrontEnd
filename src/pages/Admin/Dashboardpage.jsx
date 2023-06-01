@@ -4,7 +4,7 @@ import Sidebar from '../../components/Admin/Sidebar/Sidebar'
 
 function Dashboardpage() {
   return (
-    <div className='flex w-full h-screen'>
+    <div className='flex md:flex-row'>
       <Sidebar/>
       <Dashboard/>
     </div>

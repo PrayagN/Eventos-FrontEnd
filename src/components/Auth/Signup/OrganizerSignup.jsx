@@ -15,6 +15,7 @@ const initialValues = {
   email: "",
   password: "",
   mobile: "",
+  otp:''
 };
 const validationSchema = Yup.object({
   organizerName: Yup.string().required("required"),
@@ -27,7 +28,7 @@ const validationSchema = Yup.object({
 function OrganizerSignup() {
   const [isOTPOpen, setOTPOpen] = useState(false);
   const [verify, setVerify] = useState(null);
-  const [otp,setOTP] = useState(null)
+  // const [otp,setOTP] = useState(null)
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues,
@@ -164,8 +165,9 @@ function OrganizerSignup() {
               <input
                 type="text-"
                 className="text-red-600"
-                value={otp}
-                onChange={(e) => setOTP(e.target.value)}
+                name="otp"
+                {...formik.getFieldProps('otp')}
+                // onChange={(e) => setOTP(e.target.value)}
               />
 
               {/* ... */}
