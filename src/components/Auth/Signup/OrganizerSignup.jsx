@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { organizerAPI } from "../../../Api";
+import React, { useEffect, useState } from "react";
+import {ImCross} from 'react-icons/im'
 import axios from "axios";
 import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
@@ -9,13 +9,15 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../../../firebase";
-import Modal from 'react-modal'
+import Modal from "react-modal";
+import { viewEvents, organizerSignup } from "../../../Services/organizerApi";
 const initialValues = {
   organizerName: "",
   email: "",
   password: "",
   mobile: "",
-  otp:''
+  otp: "",
+  event: "",
 };
 const validationSchema = Yup.object({
   organizerName: Yup.string().required("required"),
@@ -24,19 +26,39 @@ const validationSchema = Yup.object({
   mobile: Yup.string()
     .matches(/^[0-9]{10}$/, "mobile number is not valid")
     .required("required"),
+  event:Yup.string().required()
 });
+
+
 function OrganizerSignup() {
   const [isOTPOpen, setOTPOpen] = useState(false);
   const [verify, setVerify] = useState(null);
+  const [eventOptions, setEventOptions] = useState([]);
+
   // const [otp,setOTP] = useState(null)
+
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const response = await viewEvents();
+        if (response.data.status) {
+          setEventOptions(response.data.events);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchOptions();
+  }, []);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
       console.log(values.mobile);
-      axios
-        .post(`${organizerAPI}exist`, values)
+      const { response } = await organizerSignup(values)
         .then((response) => {
           if (response.data.status) {
             const sendOtp = async () => {
@@ -78,17 +100,19 @@ function OrganizerSignup() {
   });
   const handleOTPVerification = async () => {
     try {
-        console.log(formik.values, "dsfa");
-        await verify.confirm(otp);
-        axios.post(`${organizerAPI}signup`, formik.values).then((response) => {
+      console.log(formik.values, "dsfa");
+      await verify.confirm(formik.values.otp);
+      const { response } = await organizerSignup(formik.values).then(
+        (response) => {
           if (response.data.status) {
             navigate("/organizer");
             setOTPOpen(false);
           }
-        });
-      } catch (error) {
-        toast.error("Incorrect OTP. Please try again.");
-      }
+        }
+      );
+    } catch (error) {
+      toast.error("Incorrect OTP. Please try again.");
+    }
   };
 
   return (
@@ -102,7 +126,7 @@ function OrganizerSignup() {
           />
         </div>
         <div className="p-4 flex flex-col justify-center">
-          <form  onSubmit={formik.handleSubmit}>
+          <form onSubmit={formik.handleSubmit}>
             <h2 className="text-3xl font-bold p-5">
               Welcome to Eventos Organizers.
             </h2>
@@ -114,66 +138,119 @@ function OrganizerSignup() {
             </p>
             <div>
               <TextField
-              variant="standard"
-              name="organizerName"
-              style={{marginTop:'20px'}}
-              className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200" 
-              type="text"
-              label='organizerName'
-              {...formik.getFieldProps('organizerName')}
+                variant="standard"
+                name="organizerName"
+                style={{ marginTop: "20px" }}
+                className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200"
+                type="text"
+                label="organizerName"
+                {...formik.getFieldProps("organizerName")}
               />
-              {formik.touched.organizerName && formik.errors.organizerName ? (<div className="text-red-600 pl-2">{formik.errors.organizerName}</div>):null}
+              {formik.touched.organizerName && formik.errors.organizerName ? (
+                <div className="text-red-600 pl-2">
+                  {formik.errors.organizerName}
+                </div>
+              ) : null}
               <TextField
-              variant="standard"
-              name="email"
-              style={{marginTop:'20px'}}
-              className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200" 
-              type="text"
-              label='email'
-              {...formik.getFieldProps('email')}
+                variant="standard"
+                name="email"
+                style={{ marginTop: "20px" }}
+                className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200"
+                type="text"
+                label="email"
+                {...formik.getFieldProps("email")}
               />
-              {formik.touched.email && formik.errors.email ? (<div className="text-red-600 pl-2">{formik.errors.email}</div>):null}
+              {formik.touched.email && formik.errors.email ? (
+                <div className="text-red-600 pl-2">{formik.errors.email}</div>
+              ) : null}
               <TextField
-              variant="standard"
-              name="password"
-              style={{marginTop:'20px'}}
-              className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200" 
-              type="password"
-              label='password'
-              {...formik.getFieldProps('password')}
+                variant="standard"
+                name="password"
+                style={{ marginTop: "20px" }}
+                className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200"
+                type="password"
+                label="password"
+                {...formik.getFieldProps("password")}
               />
-              {formik.touched.password && formik.errors.password ? (<div className="text-red-600 pl-2">{formik.errors.password}</div>):null}
-              <TextField
-              variant="standard"
-              name="mobile"
-              style={{marginTop:'20px'}}
-              className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200" 
-              type="text"
-              label='mobile'
-              {...formik.getFieldProps('mobile')}
-              />
-              {formik.touched.mobile && formik.errors.mobile ? (<div className="text-red-600 pl-2">{formik.errors.mobile}</div>):null}
-               
+              {formik.touched.password && formik.errors.password ? (
+                <div className="text-red-600 pl-2">
+                  {formik.errors.password}
+                </div>
+              ) : null}
+              <div className="flex">
+                <TextField
+                  variant="standard"
+                  name="mobile"
+                  style={{ marginTop: "20px" }}
+                  className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200"
+                  type="text"
+                  label="mobile"
+                  {...formik.getFieldProps("mobile")}
+                />
+                {formik.touched.mobile && formik.errors.mobile ? (
+                  <div className="text-red-600 pl-2">
+                    {formik.errors.mobile}
+                  </div>
+                ) : null}
+
+                <select
+                  className="text-base p-2  rounded-lg focus:outline-none focus:border-indigo-500"
+                  name="event"
+                  {...formik.getFieldProps("event")}
+                  onChange={formik.handleChange}
+                >
+                  <option value="">Select an Event</option>
+                  {eventOptions.map((option) => (
+                    <option key={option.id} value={option.value}>
+                      {option.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div id="recaptcha-container" className="p-2"></div>
-            <Button variant="contained" color="primary" type="submit" className="w-full" style={{marginTop:'30px'}}>Register</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              className="w-full"
+              style={{ marginTop: "30px" }}
+            >
+              Register
+            </Button>
           </form>
-          <Modal isOpen={isOTPOpen}>
-            <div>
-              <h2>Enter OTP</h2>
-
-              <input
-                type="text-"
-                className="text-red-600"
-                name="otp"
-                {...formik.getFieldProps('otp')}
-                // onChange={(e) => setOTP(e.target.value)}
-              />
-
-              {/* ... */}
-              <button onClick={handleOTPVerification}>Verify OTP</button>
+          {isOTPOpen && (
+            <div className="w-20">
+              <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
+                <div className="bg-white rounded-lg p-6 shadow-md">
+                  <div className="flex justify-between items-start">
+                    <h2 className="text-2xl font-bold mb-4">
+                      OTP Verification
+                    </h2>
+                    <button
+                      className=" -my-4 ml-2  text-red-600 "
+                      onClick={() => setOTPOpen(false)}
+                    >
+                      {<ImCross />}
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    name="otp"
+                    {...formik.getFieldProps("otp")}
+                    className="border border-gray-300 rounded-md p-2 mb-4"
+                    placeholder="Enter OTP"
+                  />
+                  <button
+                    onClick={handleOTPVerification}
+                    className="bg-blue-500 text-white rounded-md py-2 px-4 ml-3 mr-2"
+                  >
+                    Verify
+                  </button>
+                </div>
+              </div>
             </div>
-          </Modal>
+          )}
           <Toaster />
         </div>
       </div>

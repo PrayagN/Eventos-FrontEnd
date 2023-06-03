@@ -17,19 +17,20 @@ function Sidebar() {
   const dispatch = useDispatch();
   const location = useLocation();
   const menu = [
-    { name: "Dashboard", link: "/admin/dashboard", icon: MdOutlineDashboard },
-    { name: "Customers", link: "/admin/customers", icon: IoIosPeople },
-    {
-      name: "Events",
-      link: "/admin/events",
-      icon: SiEventstore,
-      submenu: true,
-      submenuItems: [{ name: "Booked Events", icon: FcAcceptDatabase, link: "/admin/events/bookedEvents" }],
-    },
-    { name: "Organizers", link: "/admin/organizers", icon: VscOrganization },
+    { name: "Dashboard", link: "/organizer/dashboard", icon: MdOutlineDashboard },
+    { name: "Account", link: "/organizer/bookedclients", icon: IoIosPeople },
+    { name: "Booked Clients", link: "/organizer/bookedclients", icon: IoIosPeople },
+    // {
+    //   name: "Events",
+    //   link: "/admin/events",
+    //   icon: SiEventstore,
+    //   submenu: true,
+    //   submenuItems: [{ name: "Booked Events", icon: FcAcceptDatabase, link: "/admin/events/bookedEvents" }],
+    // },
+    // { name: "Organizers", link: "/admin/organizers", icon: VscOrganization },
     {
       name: "Logout",
-      link: "/admin/",
+      link: "/organizer/",
       icon: BiLogOutCircle,
       margin: true,
     },
@@ -62,7 +63,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="flex   h-screen  md:flex-row shadow-lg shadow-gray-600 bg-white ">
+    <div className="flex   h-auto md:flex-row shadow-lg shadow-gray-600 bg-white ">
       <div className={`bg-white ${open ? "w-72" : "w-16"} duration-500 text-black px-4 `}>
         <div className="py-3 flex justify-between ">
           <div className={`${open ? "block" : "hidden"} flex pr-32 text-black text-xl font-bold gap-2`}>
@@ -83,7 +84,7 @@ function Sidebar() {
         <p
           className={`text-gray-900 font-semibold text-lg m-3 ${open ? "block" : "hidden"} text-[#1976d2] `}
         >
-          Welcome Admin🫡
+          Welcome Organizer 🌃
         </p>
 
         <div className="mt-20 flex flex-col gap-4 relative">

@@ -8,6 +8,7 @@ import toast,{ Toaster } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
 // import { userActions } from "../../../app/userSlice";
 import { adminSignin } from "../../../Services/adminApi";
+import { adminActions } from "../../../app/adminSlice";
 
 
 const initialValues ={
@@ -36,6 +37,7 @@ function AdminLogin() {
         const {data} = await adminSignin(values)
         if(data.token){
           toast.success(data.message)
+          dispatch(adminActions.adminLogin('admintoken',data.token))
           localStorage.setItem('admintoken',data.token)
           navigate('/admin/dashboard')
         }else if(data.message){

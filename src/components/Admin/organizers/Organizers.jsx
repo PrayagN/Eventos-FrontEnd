@@ -15,10 +15,10 @@ function Organizers() {
       </div>
       <h1 className="m-12 text-4xl font-semibold font-arim">Organizers</h1>
       <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid mt-12 my-4 mx-8 gap-6 p-4 pt-3 rounded-lg shadow shadow-gray-600">
-        <Card />
-        <Card />
-        <Card/>
-        <Card/>
+        <Card title='Adco Events' description='Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.' />
+        <Card title='Eventina' description='Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.' />
+        <Card title='Adco '    description='Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.'/>
+        <Card title='Jesco' description='Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.' />
       </div>
     </div>
   );

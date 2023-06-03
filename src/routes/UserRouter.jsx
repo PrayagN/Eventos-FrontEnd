@@ -15,6 +15,7 @@ function UserRouter() {
       <Route path ='/otp' element ={<UserOtpPage/>} />
       <Route path="/organizers" element={<OrganizerPage/>}/>
       <Route path="/services" element={<ServicesPage/>} />
+      
     </Routes>
   );
 }

@@ -1,9 +1,12 @@
 import React from 'react'
+import Sidebar from '../../components/Organizer/sidebar/Sidebar'
+import Profile from '../../components/Organizer/Profile'
 
 function OrganizerProfilePage() {
   return (
-    <div>
-      <h1>Organizer Profile</h1>
+    <div className='flex h-screen'>
+      <Sidebar/>
+      <Profile/>
     </div>
   )
 }

@@ -1,0 +1,1 @@
+export const  photosAPI ="http://localhost:3000/"

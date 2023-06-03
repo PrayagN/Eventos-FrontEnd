@@ -1,44 +1,38 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-// import firebase from 'firebase/app';
-import { auth } from "../../../firebase";  
-import { useLocation } from 'react-router-dom';
 
-const OTPVerificationPage = () => {
-  const [otp, setOTP] = useState('');
-  const navigate = useNavigate();
-    const location = useLocation()
-    const { formData, confirmationResult } = location.state;
-    console.log({formData},'asdfasdf');
-    console.log({confirmationResult},'sdafsfd');
-  const handleOTPVerification = () => {
-    const confirmationResult = JSON.parse(localStorage.getItem('confirmationResult'));
-    const code = otp;
-    
-    firebase
-      .auth()
-      .signInWithCredential(firebase.auth.PhoneAuthProvider.credential(confirmationResult.verificationId, code))
-      .then((result) => {
-        // User signed in successfully.
-        const user = result.user;
-        // ...
-        // Redirect to desired page after successful OTP verification
-        navigate('/signin');
-      })
-      .catch((error) => {
-        // User couldn't sign in (bad verification code?)
-        // Handle the error, display error message, or take appropriate action
-        console.log('Error verifying OTP:', error);
-      });
-  };
+import OtpInput from "react-otp-input";
+import { useState } from "react";
+
+export default function App() {
+  const [code, setCode] = useState("");
+
+  const handleChange = (code) => setCode(code);
 
   return (
-    <div>
-      <h2>Enter OTP</h2>
-      <input type="text-" className='text-red-600' value={otp} onChange={(e) => setOTP(e.target.value)} />
-      <button onClick={handleOTPVerification}>Verify OTP</button>
+    <div className="App">
+      <h1>Hello CodeSandbox</h1>
+      <OtpInput
+        value={code}
+        onChange={handleChange}
+        numInputs={6}
+        separator={<span style={{ width: "8px" }}></span>}
+        isInputNum={true}
+        shouldAutoFocus={true}
+        inputStyle={{
+          border: "1px solid transparent",
+          borderRadius: "8px",
+          width: "54px",
+          height: "54px",
+          fontSize: "12px",
+          color: "#000",
+          fontWeight: "400",
+          caretColor: "blue"
+        }}
+        focusStyle={{
+          border: "1px solid #CFD3DB",
+          outline: "none"
+        }}
+      />
+      <h2>Start editing to see some magic happen!</h2>
     </div>
   );
-};
-
-export default OTPVerificationPage;
+}

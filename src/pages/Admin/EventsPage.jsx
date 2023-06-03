@@ -4,7 +4,7 @@ import Sidebar from '../../components/Admin/Sidebar/Sidebar'
 
 function EventsPage() {
   return (
-    <div className='flex w-full '>
+    <div className='flex  '>
         <Sidebar/>
       <Events/>
     </div>

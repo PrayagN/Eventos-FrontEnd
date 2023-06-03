@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { userAPI } from "../../../Api";
 import axios from "axios";
 import eMSignup from "../../../assets/Login/eMSignup.jfif";
+import OtpInput from "react-otp-input";
 import { useFormik } from "formik";
 import { Button } from "@mui/material";
 import * as Yup from "yup";
@@ -11,13 +12,15 @@ import { useNavigate } from "react-router-dom";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"; // Added signInWithPhoneNumber import
 import { auth } from "../../../firebase";
 import Modal from "react-modal";
+import {ImCross} from 'react-icons/im'
+
 import { userSignup } from "../../../Services/userApi";
 const initialValues = {
   username: "",
   email: "",
   password: "",
   mobile: "",
-  otp:''
+  otp: "",
 };
 
 const validationSchema = Yup.object({
@@ -78,16 +81,15 @@ function UserSignup() {
     try {
       console.log(formik.values, "dsfa");
       await verify.confirm(formik.values.otp);
-      const {data} = await userSignup(formik.values)
+      const { data } = await userSignup(formik.values);
       if (data.status) {
-          navigate("/signin");
-          setOTPOpen(false);
-        }
-      
+        navigate("/signin");
+        setOTPOpen(false);
+      }
     } catch (error) {
       toast.error("Incorrect OTP. Please try again.");
     }
-  }
+  };
 
   return (
     <main className="w-full h-screen flex rounded bg-cover">
@@ -168,29 +170,39 @@ function UserSignup() {
             </Button>
           </form>
           {/* OTP Modal */}
-          <Modal isOpen={isOTPOpen}>
-            <div className="fixed inset-0 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg p-6 shadow-md">
-                <h2 className="text-2xl font-bold mb-4">OTP Verification</h2>
-                <input
-                  type="text"
-                  // value={otp}
-                  name="otp"
-                  {...formik.getFieldProps("otp")}
-                  // onChange={(e) => setOTP(e.target.value)}
-                  className="border border-gray-300 rounded-md p-2 mb-4"
-                  placeholder="Enter OTP"
-
-                />
-                <button
-                  onClick={handleOTPVerification}
-                  className="bg-blue-500 text-white rounded-md py-2 px-4 mr-2"
-                >
-                  Verify
-                </button>
+          {/* OTP Modal */}
+          {isOTPOpen && (
+            <div className="w-20">
+              <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
+                <div className="bg-white rounded-lg p-6 shadow-md">
+                  <div className="flex justify-between items-start">
+                    <h2 className="text-2xl font-bold mb-4">
+                      OTP Verification
+                    </h2>
+                    <button
+                      className=" -my-4 ml-2  text-red-600 "
+                      onClick={() => setOTPOpen(false)}
+                    >
+                      {<ImCross />}
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    name="otp"
+                    {...formik.getFieldProps("otp")}
+                    className="border border-gray-300 rounded-md p-2 mb-4"
+                    placeholder="Enter OTP"
+                  />
+                  <button
+                    onClick={handleOTPVerification}
+                    className="bg-blue-500 text-white rounded-md py-2 px-4 ml-3 mr-2"
+                  >
+                    Verify
+                  </button>
+                </div>
               </div>
             </div>
-          </Modal>
+          )}
           <Toaster />
         </div>
       </div>
