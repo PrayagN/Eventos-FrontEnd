@@ -22,7 +22,9 @@ const validationSchema = Yup.object().shape({
 
 function Profile() {
   const [services, setServices] = useState([]);
-
+  const [logo,setlogo]= useState('https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg')
+  const [images,setImages] = useState([])
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -76,7 +78,7 @@ function Profile() {
       <div className="m-4 space-y-16">
         <h1 className="text-4xl font-semibold font-arim">Profile</h1>
 
-        <Card title={formik.values.organizerName} size="true" event={formik.values.event} />
+        <Card title={formik.values.organizerName} img={logo} size="true" event={formik.values.event} />
 
         <Posts className="" />
       </div>

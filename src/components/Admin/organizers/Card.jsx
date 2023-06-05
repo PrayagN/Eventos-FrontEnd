@@ -1,7 +1,7 @@
 import React from "react";
 import img1 from "../../../assets/gallery/img1.jpg";
 import { useState } from "react";
-function Card({ title, size, description, event, organizer,id }) {
+function Card({ title, size, description, event, organizer,id,img }) {
   const [isOpen,setIsOpen] = useState(false)
 
   return (
@@ -21,7 +21,7 @@ function Card({ title, size, description, event, organizer,id }) {
             className={` ${
               size ? "w-16 md:w-36 pt-4 pl-2 mx-1 md:mx-8 pr-4 sm:justify-center" : "w-36"
             } pt-3`}
-            src={img1}
+            src={img}
             alt=""
           />
         ) : (

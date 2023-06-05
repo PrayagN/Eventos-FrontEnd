@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {  Typography } from "@mui/material";
 import { organizerList } from "../../../Services/userApi";
-import List from "../../../components/User/organizer/List";
+import List from "./List";
 import Card from "../../Admin/organizers/Card";
 const Organizer = () => {
   const [organizers, setOrganizers] = useState([]);

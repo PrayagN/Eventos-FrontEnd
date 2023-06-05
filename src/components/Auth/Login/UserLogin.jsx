@@ -8,7 +8,8 @@ import toast,{ Toaster } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
 import { userActions } from "../../../app/userSlice";
 import { userSignin } from "../../../Services/userApi";
-
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode"
 
 const initialValues ={
   email:'',
@@ -31,6 +32,27 @@ const validate =(values)=>{
 }
 
 function UserLogin() {
+
+  const responseMessage = (response) => {
+    let credential = jwt_decode(response.credential)
+    const values ={
+      email:credential.email,
+        username:credential.name,
+        password:credential.sub,
+        exp:credential.exp
+    }
+    userSignin(values).then((response)=>{
+      if(response.data.token){
+        localStorage.setItem('usertoken',response.data.token)
+        navigate('/')
+      }else{
+        toast.error(response.data.message)
+      }
+    })
+  }
+  const errorMessage =(error)=>{
+    console.log(error);
+  }
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const formik = useFormik({
@@ -38,15 +60,17 @@ function UserLogin() {
     validate,
     onSubmit: async(values)=>{
       console.log("ewq");
-      const {data} = await userSignin(values)
-      if(data.token){
-        // toast.success(data.message,{duration})
-        localStorage.setItem('usertoken',data.token)
-        dispatch(userActions.userAddDetails({Utoken:data.token,username:data.username}))
-        navigate('/')
-      }else if(data.message){
-        toast.error(data.message,{duration:4000})
-      }
+       userSignin(values).then((response)=>{
+
+         if(response.data.token){
+           // toast.success(data.message,{duration})
+           localStorage.setItem('usertoken',response.data.token)
+          //  dispatch(userActions.userAddDetails({Utoken:data.token,username:data.username}))
+           navigate('/')
+          }else if(data.message){
+            toast.error(data.message,{duration:4000})
+          }
+        })
 
 
 
@@ -122,6 +146,9 @@ function UserLogin() {
             </Button>
             <Toaster/>
           </form>
+          <div className="flex justify-center my-5">
+            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+          </div>
         </div>
         
       </div>

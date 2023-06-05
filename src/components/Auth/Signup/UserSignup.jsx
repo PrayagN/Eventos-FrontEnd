@@ -12,8 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"; // Added signInWithPhoneNumber import
 import { auth } from "../../../firebase";
 import Modal from "react-modal";
-import {ImCross} from 'react-icons/im'
-import {GoogleLogin} from '@react-oauth/google'
+import { ImCross } from "react-icons/im";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode"
 
 import { userSignup } from "../../../Services/userApi";
 const initialValues = {
@@ -33,6 +34,33 @@ const validationSchema = Yup.object({
     .required("required"),
 });
 function UserSignup() {
+  /// Google Signup
+  const responseMessage = (response) => {
+    let credential = jwt_decode(response.credential)
+    const values ={
+      email:credential.email,
+        username:credential.name,
+        password:credential.sub,
+        exp:credential.exp
+    }
+    console.log(values);
+      userSignup(values).then((response)=>{
+        if(response.data.status){
+          console.log(response,'sdfs');
+          localStorage.setItem('usertoken',response.data.token)
+          
+          navigate('/')
+        }else {
+          toast.error(response.data.message)
+        }
+      })
+    console.log(credential);
+  };
+
+  const errorMessage = (error) => {
+    console.log(error);
+  };
+  /// normal
   const [isOTPOpen, setOTPOpen] = useState(false);
   const [otp, setOTP] = useState(null);
   const [verify, setVerify] = useState(null);
@@ -170,6 +198,10 @@ function UserSignup() {
               Register
             </Button>
           </form>
+
+          <div className="flex justify-center my-5">
+            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+          </div>
           {/* OTP Modal */}
           {/* OTP Modal */}
           {isOTPOpen && (

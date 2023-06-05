@@ -9,33 +9,9 @@ import UnauthorizedRoutes from "../middleware/UnauthorizedRoutes";
 import  AdminLoginPage  from '../pages/Admin/AdminLoginPage'
 import { adminActions } from "../app/adminSlice";
 import { useDispatch } from "react-redux";
-import jwt_decode from "jwt-decode";
-import { toast } from "react-hot-toast";
+
 function AdminRouter() {
-  const { adminLogin, adminLogout } = adminActions;
-
-  const dispatch = useDispatch();
-
-  let token = localStorage.getItem("admintoken");
-  const authStateListener = async () => {
-    if (token) {
-      try {
-        let decoded = await jwt_decode(token);
-        if (decoded.exp * 1000 > Date.now()) {
-          dispatch(adminLogin());
-        } else {
-          toast.error("session expired, please signin");
-          localStorage.removeItem("admintoken");
-          dispatch(adminLogout());
-        }
-      } catch (error) {
-        dispatch(adminLogout());
-      }
-    }
-  };
-  useEffect(() => {
-    authStateListener();
-  }, []);
+  
 
   return (
     <Routes>

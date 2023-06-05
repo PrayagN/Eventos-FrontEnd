@@ -3,6 +3,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import { useSelector } from "react-redux";
 
 function Dashboard() {
+  console.log('aaaaaaaa');
   const open = useSelector((state) => state.sidebar.open);
   console.log(open, "sidebar1");
   return (

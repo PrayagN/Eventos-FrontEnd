@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { adminAuth } from "../Services/adminApi";
 import {organizerAuth} from '../Services/organizerApi'
-
+import { userAuth } from "../Services/userApi";
 function PrivateRoutes({ role, route }) {
   const [auth, setAuth] = useState(null);
 
@@ -31,6 +31,19 @@ function PrivateRoutes({ role, route }) {
         }
         setAuth(response.data.auth)
     
+      }).catch((error)=>{
+        setAuth(false)
+
+      })
+    }else if(role  === 'user'){
+      userAuth().then((response)=>{
+        if(!response.data.auth){
+
+        }else if(response.data.auth){
+
+        }
+        setAuth(response.data.auth)
+        console.log(auth,'auth');
       }).catch((error)=>{
         setAuth(false)
 

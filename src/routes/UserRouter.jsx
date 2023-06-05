@@ -6,16 +6,21 @@ import LandingPage from "../pages/User/LandingPage";
 import UserOtpPage from "../pages/User/UserOtpPage1";
 import OrganizerPage from "../pages/User/OrganizerPage";
 import ServicesPage from "../pages/User/ServicesPage";
+import UnauthorizedRoutes from "../middleware/UnauthorizedRoutes";
 function UserRouter() {
   return (
     <Routes>
-      <Route path="/signin" element={<UserLoginPage />} />
-      <Route path="/signup" element={<UserSignupPage />} />
-      <Route path="/" element ={<LandingPage/>} />
-      <Route path ='/otp' element ={<UserOtpPage/>} />
-      <Route path="/organizers" element={<OrganizerPage/>}/>
-      <Route path="/services" element={<ServicesPage/>} />
-      
+      <Route element={<UnauthorizedRoutes role={'user'} route={'/'} />}>
+        <Route path="/signin" element={<UserLoginPage />} />
+
+        <Route path="/signup" element={<UserSignupPage />} />
+      </Route>
+
+      <Route path="/otp" element={<UserOtpPage />} />
+
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/organizers" element={<OrganizerPage />} />
+      <Route path="/services" element={<ServicesPage />} />
     </Routes>
   );
 }

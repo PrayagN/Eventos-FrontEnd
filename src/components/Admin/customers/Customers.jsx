@@ -4,12 +4,19 @@ import { listCustomers } from "../../../Services/adminApi";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+
   useEffect(() => {
     listCustomers().then((response) => {
       console.log(response.data.customers);
       setCustomers(response.data.customers);
     });
   }, []);
+
+  const filteredCustomers = customers.filter((customer) =>
+    customer.username.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <div className="w-full">
       <div className="flex justify-end">
@@ -23,9 +30,7 @@ function Customers() {
       </div>
 
       <h1 className="m-12 text-4xl font-semibold font-arim">Customers</h1>
-      {/* <div className='shadow w-14 shadow-gray-600 '>
-        <input type="text" placeholder='Search' />
-      // </div> */}
+
       <div className="mt-32 mx-8">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg shadow-gray-600   ">
           <div className="flex items-center justify-between pb-4 bg-white ">
@@ -45,8 +50,10 @@ function Customers() {
               <input
                 type="text"
                 id="table-search-users"
-                className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block p-2 mx-2 my-2  pl-10 text-sm text-black border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for users"
+              
+                onKeyUp={(e) => setSearchValue(e.target.value)}
               />
             </div>
           </div>
@@ -71,38 +78,39 @@ function Customers() {
               </tr>
             </thead>
             <tbody>
-
-              {customers.map((customers,index)=> (<tr className="bg-white border-b hover:bg-gray-50 ">
-                <td className="w-4 p-4">
-                  <div className="flex items-center">
-                    {index+1}
-                  </div>
-                </td>
-                <th
-                  scope="row"
-                  className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-black"
+              {filteredCustomers.map((customer, index) => (
+                <tr
+                  className="bg-white border-b hover:bg-gray-50 "
+                  key={customer.id}
                 >
-                  <img
-                    className="w-10 h-10 rounded-full"
-                    src="https://cliply.co/wp-content/uploads/2020/08/442008112_GLANCING_AVATAR_3D_400px.gif"
-                    alt=""
-                  />
-                  <div className="pl-3">
-                    <div className="text-base font-semibold">{customers.username}</div>
-                    {/* <div className="font-normal text-gray-500">
-                      neil.sims@flowbite.com
-                    </div> */}
-                  </div>
-                </th>
-                <td className="px-6 py-4">{customers.email}</td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>{" "}
-                    {customers.district && ({})}
-                  </div>
-                </td>
-                <td className="px-6 py-4">{customers.mobile}</td>
-              </tr>))}
+                  <td className="w-4 p-4">
+                    <div className="flex items-center">{index + 1}</div>
+                  </td>
+                  <th
+                    scope="row"
+                    className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-black"
+                  >
+                    <img
+                      className="w-10 h-10 rounded-full"
+                      src="https://cliply.co/wp-content/uploads/2020/08/442008112_GLANCING_AVATAR_3D_400px.gif"
+                      alt=""
+                    />
+                    <div className="pl-3">
+                      <div className="text-base font-semibold">
+                        {customer.username}
+                      </div>
+                    </div>
+                  </th>
+                  <td className="px-6 py-4">{customer.email}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center">
+                      <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>{" "}
+                      {customer.district && <span>{customer.district}</span>}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">{customer.mobile}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

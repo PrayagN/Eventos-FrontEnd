@@ -4,10 +4,10 @@ import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import EventosLogo   from '../../../assets/EventosLogo.png'
 function Navbar() {
-    const [user,setUser] = useState(localStorage.getItem('token'))
+    const [user,setUser] = useState(localStorage.getItem('usertoken'))
   const navigate = useNavigate()
     const handleLogout =()=>{
-        localStorage.clear('token')
+        localStorage.clear('usertoken')
         setUser(null)
         navigate('/')
         
