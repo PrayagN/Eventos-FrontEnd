@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { adminAuth } from "../Services/adminApi";
+import {organizerAuth} from '../Services/organizerApi'
 
 function PrivateRoutes({ role, route }) {
   const [auth, setAuth] = useState(null);
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (role === "admin") {
@@ -15,10 +16,25 @@ function PrivateRoutes({ role, route }) {
           // Handle authentication success
         }
         setAuth(response.data.auth);
+        console.log(auth);
       }).catch((error) => {
         // Handle API error
         setAuth(false);
       });
+    
+    }else if(role  === 'organizer'){
+      organizerAuth().then((response)=>{
+        if(!response.data.auth){
+
+        }else if(response.data.auth){
+
+        }
+        setAuth(response.data.auth)
+    
+      }).catch((error)=>{
+        setAuth(false)
+
+      })
     }
   }, []);
 

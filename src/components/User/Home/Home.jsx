@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ExtensionOutlineIcon from "@mui/icons-material/ExtensionOutlined";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PieChartOutlineIcon from "@mui/icons-material/PieChartOutline";
@@ -14,7 +14,9 @@ import RotatingSquare from "../../RotatingSquare";
 import Sponsors from "./Sponsers";
 import Footer from "./Footer";
 
+
 function Home() {
+ 
   return (
     <div className="w-full h-screen  items-center  ">
       <div className="relative ">

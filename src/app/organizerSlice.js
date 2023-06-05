@@ -7,7 +7,7 @@ const OrganizerSlice = createSlice({
         organizerName: null
     },
     reducers:{
-        organizerAddDetails(state,actions){
+        organizerLogin(state,actions){
             const newItem =actions.payload
             state.organizerName = newItem.organizerName
             state.organizerToken = newItem.organaziertoken

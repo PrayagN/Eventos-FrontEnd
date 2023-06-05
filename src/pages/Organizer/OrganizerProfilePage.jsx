@@ -4,7 +4,7 @@ import Profile from '../../components/Organizer/Profile'
 
 function OrganizerProfilePage() {
   return (
-    <div className='flex h-screen'>
+    <div className='flex '>
       <Sidebar/>
       <Profile/>
     </div>

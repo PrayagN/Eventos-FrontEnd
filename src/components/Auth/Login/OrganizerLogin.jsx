@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast,{ Toaster } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
 import { organizerActions } from "../../../app/organizerSlice";
-
+import {organizerSignin} from '../../../Services/organizerApi'
 
 const initialValues ={
     email:'',
@@ -33,20 +33,17 @@ function OrganizerLogin() {
     const formik = useFormik({
         initialValues,
         validate,
-        onSubmit:(values)=>{
-          axios.post(`${organizerAPI}signin`,values).then((response)=>{
-            if(response.data.status){
+        onSubmit:async(values)=>{
+          const response =await organizerSignin(values)
+            if(response.data.token){
               toast.success(response.data.message,{duration:4000})
               localStorage.setItem('organizertoken',response.data.token)
-              dispatch(organizerActions.organizerAddDetails({organizerName:response.data.organizerName,organizertoken:response.data.token}))
-              navigate('/organizer/profile')
+              dispatch(organizerActions.organizerLogin({organizerName:response.data.organizerName,organizertoken:response.data.token}))
+              navigate('/organizer/dashboard')
             }else{
               toast.error(response.data.message,{duration:4000})
             }
-          }).catch((error)=>{
-            toast.error(error,{duration:4000})
-          })
-        }
+          }
       });
 
   return (

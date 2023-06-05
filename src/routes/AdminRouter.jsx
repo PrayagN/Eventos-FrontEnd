@@ -39,13 +39,10 @@ function AdminRouter() {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          token ? <Navigate to="/admin/dashboard" /> : <AdminLoginPage />
-        }
-      />
-      {/* <Route path="/" element={<UnauthorizedRoutes role={"admin"} />} /> */}
+      
+      <Route  element={<UnauthorizedRoutes role={"admin"} route={'/admin/dashboard'} />}>
+        <Route path="/" element={<AdminLoginPage />} />
+      </Route>
       <Route element={<PrivateRoutes role={"admin"} route={"/admin"} />}>
         <Route path="/dashboard" element={<Dashboardpage />} />
         <Route path="/customers" element={<CustomerPage />} />

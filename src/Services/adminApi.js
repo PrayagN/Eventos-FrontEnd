@@ -16,3 +16,9 @@ export const eventsLoad =()=>{
 export const eventPhotos =()=>{
     return adminAxiosInstance.get('')
 }
+export const listOrganizers =()=>{
+    return adminAxiosInstance.get('/listOrganizers')
+}
+export const listCustomers =()=>{
+    return adminAxiosInstance.get('/listCustomers')
+}

@@ -34,15 +34,15 @@ function AdminLogin() {
       initialValues,
       validate,
       onSubmit:async(values)=>{
-        const {data} = await adminSignin(values)
-        if(data.token){
-          toast.success(data.message)
-          dispatch(adminActions.adminLogin('admintoken',data.token))
-          localStorage.setItem('admintoken',data.token)
+        const response = await adminSignin(values)
+        if(response.data.token){
+          toast.success(response.data.message)
+          dispatch(adminActions.adminLogin('admintoken',response.data.token))
+          localStorage.setItem('admintoken',response.data.token)
           navigate('/admin/dashboard')
-        }else if(data.message){
-          console.log(data.message);
-          toast.error(data.message,{duration:4000})
+        }else if(response.data.message){
+          console.log(response.data.message);
+          toast.error(response.data.message,{duration:4000})
           console.log('sdfsfd');
         }
       }

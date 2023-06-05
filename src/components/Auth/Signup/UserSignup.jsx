@@ -13,6 +13,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"; // Add
 import { auth } from "../../../firebase";
 import Modal from "react-modal";
 import {ImCross} from 'react-icons/im'
+import {GoogleLogin} from '@react-oauth/google'
 
 import { userSignup } from "../../../Services/userApi";
 const initialValues = {
