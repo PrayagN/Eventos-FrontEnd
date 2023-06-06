@@ -133,7 +133,7 @@ function OrganizerSignup() {
             <p className="pl-4 mb-2 text-gray-400">
               Already have an account ?{" "}
               <span className="text-blue-600">
-                <Link to="/organizer/signin">Log in</Link>
+                <Link to="/organizer/">Log in</Link>
               </span>
             </p>
             <div>
@@ -205,7 +205,7 @@ function OrganizerSignup() {
                       {option.title}
                     </option>
                   ))}
-                </select>
+                </select>l
               </div>
             </div>
             <div id="recaptcha-container" className="p-2"></div>

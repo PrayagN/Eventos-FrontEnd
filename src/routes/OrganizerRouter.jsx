@@ -16,8 +16,8 @@ function OrganizerRouter() {
       </Route>
         <Route element={<PrivateRoutes role={"organizer"} route={"/organizer"} />}>
         <Route path='/dashboard' element={<OrganizerDashboardPage/>} />
-        <Route path='/profile' element ={<OrganizerProfilePage/>} />
         </Route>
+        <Route path='/profile' element ={<OrganizerProfilePage/>} />
     </Routes>
   )
 }

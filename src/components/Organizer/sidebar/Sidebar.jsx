@@ -58,8 +58,8 @@ function Sidebar() {
   }, [location.pathname]);
 
   const handleLogout = () => {
-    localStorage.removeItem("admintoken");
-    navigate("/admin");
+    localStorage.removeItem("organizertoken");
+    navigate("/organizer");
   };
 
   return (

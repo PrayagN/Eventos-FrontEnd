@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
 import img2 from "../../assets/gallery/img2.jpg";
 import Card from "../Admin/organizers/Card";
-import Posts from "./Posts";
 import { useState } from "react";
 import { FcPlus } from "react-icons/fc";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { organizerProfile, updateProfile } from "../../Services/organizerApi";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
+import { FcCameraAddon } from "react-icons/fc";
+import Slide from "./Slide";
+import img1 from "../../assets/gallery/img1.jpg";
 
+import img3 from "../../assets/gallery/img3.jpg";
+const photos = [img1, img2, img3];
 const validationSchema = Yup.object().shape({
   organizerName: Yup.string().required("Organizer Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -22,16 +26,26 @@ const validationSchema = Yup.object().shape({
 
 function Profile() {
   const [services, setServices] = useState([]);
-  const [logo,setlogo]= useState('https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg')
-  const [images,setImages] = useState([])
-  
+  const [logo, setlogo] = useState(
+    "https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg"
+  );
+  const [images, setImages] = useState([]);
+
+  const handleLogoChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setlogo(URL.createObjectURL(file));
+      formik.setFieldValue("logo", file);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await organizerProfile();
         const organizerData = response.data.profile[0];
-        formik.setValues(organizerData); 
-        console.log(organizerData);// Set initial values with the fetched data
+        formik.setValues(organizerData);
+        console.log(organizerData); // Set initial values with the fetched data
       } catch (error) {
         console.log(error);
       }
@@ -49,14 +63,14 @@ function Profile() {
       capacity: "",
       district: "",
       state: "",
-      description: '',
-      logo: '',
+      description: "",
+      logo: "",
       images: [],
       services: [],
     },
     validationSchema,
     onSubmit: async (values) => {
-      const   updatedValues ={...values,services:services.join(',')}
+      const updatedValues = { ...values, services: services.join(",") };
       const response = await updateProfile(updatedValues);
       if (response) {
         toast.success(response.data.message);
@@ -64,12 +78,11 @@ function Profile() {
       }
     },
   });
-  
+
   const addService = () => {
     if (formik.values.services.trim() !== "") {
-      
-      setServices((prevServices)=>[...prevServices,formik.values.services]);
-      formik.setFieldValue('services','');
+      setServices((prevServices) => [...prevServices, formik.values.services]);
+      formik.setFieldValue("services", "");
     }
   };
 
@@ -78,13 +91,32 @@ function Profile() {
       <div className="m-4 space-y-16">
         <h1 className="text-4xl font-semibold font-arim">Profile</h1>
 
-        <Card title={formik.values.organizerName} img={logo} size="true" event={formik.values.event} />
+        <label className="absolute  text-white px-52   cursor-pointer">
+          <FcCameraAddon className="w-32" />
+          <input
+            type="file"
+            className="hidden"
+            accept="image/*"
+            onChange={handleLogoChange}
+          />
+        </label>
+        <Card
+          title={formik.values.organizerName}
+          img={logo}
+          size="true"
+          event={formik.values.event}
+        />
 
-        <Posts className="" />
+        <div className="w-96">
+          <Slide autoSlide={true}>
+            {photos.map((s) => (
+              <img src={s} alt="" />
+            ))}
+          </Slide>
+        </div>
       </div>
       <div className="flex justify-end">
         <form className="mt-7 mx-20 " onSubmit={formik.handleSubmit}>
-
           <div className="flex  ">
             <div className="border p-4 w-96  ">
               <div className="">
@@ -265,12 +297,14 @@ function Profile() {
           </div>
           <ul className="flex gap-10">
             {services.map((service, index) => (
-              <li key={index}>{index + 1}. {service}</li>
+              <li key={index}>
+                {index + 1}. {service}
+              </li>
             ))}
           </ul>
-          
+
           <div className="flex justify-end mt-3">
-          <button
+            <button
               type="submit"
               className="bg-blue-600 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
             >

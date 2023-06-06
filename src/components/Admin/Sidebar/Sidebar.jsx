@@ -141,11 +141,12 @@ function Sidebar() {
                       className={`${submenu ? 'rotate-360' : 'rotate-180'} ml-32`}
                       onClick={() => setSubmenu(!submenu)}
                     />
-                  )}
+                    )}
                 </Link>
               )}
             </div>
           ))}
+          
         </div>
       </div>
     </div>
