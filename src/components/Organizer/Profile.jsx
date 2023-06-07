@@ -10,8 +10,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { FcCameraAddon } from "react-icons/fc";
 import Slide from "./Slide";
 import img1 from "../../assets/gallery/img1.jpg";
-
+import { Button } from "@material-tailwind/react";
+import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
 import img3 from "../../assets/gallery/img3.jpg";
+import { storage } from "../../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 const photos = [img1, img2, img3];
 const validationSchema = Yup.object().shape({
   organizerName: Yup.string().required("Organizer Name is required"),
@@ -25,8 +29,9 @@ const validationSchema = Yup.object().shape({
 });
 
 function Profile() {
+  const [orgImages, setOrgImages] = useState([]);
   const [services, setServices] = useState([]);
-  const [logo, setlogo] = useState(
+  const [logo, setLogo] = useState(
     "https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg"
   );
   const [images, setImages] = useState([]);
@@ -34,24 +39,34 @@ function Profile() {
   const handleLogoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setlogo(URL.createObjectURL(file));
+      setLogo(URL.createObjectURL(file));
       formik.setFieldValue("logo", file);
     }
   };
+  const handleFileUpload = (event) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      setImages(fileArray);
+      setOrgImages([]);
+    }
+  };
+  const [fire, setFire] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await organizerProfile();
-        const organizerData = response.data.profile[0];
+        const organizerData = response.data.profile;
         formik.setValues(organizerData);
         console.log(organizerData); // Set initial values with the fetched data
+        setOrgImages(organizerData.images);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, []);
+  }, [fire]);
 
   const formik = useFormik({
     initialValues: {
@@ -64,17 +79,37 @@ function Profile() {
       district: "",
       state: "",
       description: "",
-      logo: "",
-      images: [],
+
+      // images: [],
       services: [],
     },
     validationSchema,
     onSubmit: async (values) => {
-      const updatedValues = { ...values, services: services.join(",") };
-      const response = await updateProfile(updatedValues);
-      if (response) {
-        toast.success(response.data.message);
-        console.log(response.data);
+      toast.loading("updating");
+      try {
+        let urlArray = [];
+        for (let i = 0; i < images.length; i++) {
+          const storageRef = ref(storage, `/organizer-posts/${images[i].name}`);
+          const snapshot = await uploadBytes(storageRef, images[i]);
+          const url = await getDownloadURL(snapshot.ref);
+
+          urlArray.push(url);
+        }
+        console.log(urlArray);
+        values = {
+          ...values,
+          services: services.join(","),
+          imageUrl: urlArray,
+        };
+        const response = await updateProfile(values);
+        if (response) {
+          toast.dismiss();
+          toast.success(response.data.message);
+          console.log(response.data);
+          setFire(!fire);
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
   });
@@ -91,8 +126,8 @@ function Profile() {
       <div className="m-4 space-y-16">
         <h1 className="text-4xl font-semibold font-arim">Profile</h1>
 
-        <label className="absolute  text-white px-52   cursor-pointer">
-          <FcCameraAddon className="w-32" />
+        <label className="absolute  text-white px-52   ">
+          <FcCameraAddon className="w-32 cursor-pointer" />
           <input
             type="file"
             className="hidden"
@@ -109,10 +144,34 @@ function Profile() {
 
         <div className="w-96">
           <Slide autoSlide={true}>
-            {photos.map((s) => (
-              <img src={s} alt="" />
-            ))}
+            {orgImages.length > 0
+              ? orgImages.map((file, index) => (
+                  <img key={index} src={file} alt={file.name} />
+                ))
+              : images.map((file, index) => (
+                  <img
+                    key={index}
+                    src={URL.createObjectURL(file)}
+                    alt={file.name}
+                  />
+                ))}
           </Slide>
+          <div className="flex justify-center mt-3 ">
+            <Button>
+              <label className="flex item-center gap-3">
+                <input
+                  type="file"
+                  id="uploadFile"
+                  className="hidden "
+                  multiple
+                  onChange={handleFileUpload}
+                />
+
+                <CloudArrowUpIcon strokeWidth={2} className="h-5 w-5" />
+                <span>Upload your recent works</span>
+              </label>
+            </Button>
+          </div>
         </div>
       </div>
       <div className="flex justify-end">
@@ -313,6 +372,7 @@ function Profile() {
           </div>
         </form>
       </div>
+
       <Toaster />
     </div>
   );

@@ -38,7 +38,7 @@ function OrganizerLogin() {
             if(response.data.token){
               toast.success(response.data.message,{duration:4000})
               localStorage.setItem('organizertoken',response.data.token)
-              dispatch(organizerActions.organizerLogin({organizerName:response.data.organizerName,organizertoken:response.data.token}))
+              // dispatch(organizerActions.organizerLogin({organizerName:response.data.organizerName,organizertoken:response.data.token}))
               navigate('/organizer/dashboard')
             }else{
               toast.error(response.data.message,{duration:4000})

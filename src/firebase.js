@@ -1,22 +1,17 @@
-// Import the functions you need from the SDKs you need
-import {initializeApp} from "firebase/app";
-import { getAuth,RecaptchaVerifier } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import {getStorage} from 'firebase/storage'
 const firebaseConfig = {
-  apiKey: "AIzaSyBn8F9Um48xevEsIW74Sd9kSkaksOeM1bY",
-  authDomain: "otp-verification-974f5.firebaseapp.com",
-  projectId: "otp-verification-974f5",
-  storageBucket: "otp-verification-974f5.appspot.com",
-  messagingSenderId: "567070174200",
-  appId: "1:567070174200:web:72e929c5978d47a0e2c40d",
-  measurementId: "G-1KDVQQZW9X"
+  apiKey: "AIzaSyAKzDRylyDT5fq4MzMXWLK5BD4v0M-WQq0",
+  authDomain: "eventos-8f5a0.firebaseapp.com",
+  projectId: "eventos-8f5a0",
+  storageBucket: "eventos-8f5a0.appspot.com",
+  messagingSenderId: "115558089444",
+  appId: "1:115558089444:web:903e6530c88acbfc07e2f1",
+  measurementId: "G-8M29HBNN5R",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app)
+export const auth = getAuth(app);
+export const storage = getStorage(app)
