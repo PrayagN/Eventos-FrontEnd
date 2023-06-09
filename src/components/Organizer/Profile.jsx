@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import img2 from "../../assets/gallery/img2.jpg";
-import Card from "../Admin/organizers/Card";
+import Card from './Card'
 import { useState } from "react";
 import { FcPlus } from "react-icons/fc";
 import { useFormik } from "formik";
@@ -16,7 +16,6 @@ import img3 from "../../assets/gallery/img3.jpg";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const photos = [img1, img2, img3];
 const validationSchema = Yup.object().shape({
   organizerName: Yup.string().required("Organizer Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -31,16 +30,17 @@ const validationSchema = Yup.object().shape({
 function Profile() {
   const [orgImages, setOrgImages] = useState([]);
   const [services, setServices] = useState([]);
-  const [logo, setLogo] = useState(
-    "https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg"
-  );
+  const [logo, setLogo] = useState(null);
+  const [orgLogo,setOrgLogo] = useState("https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg")
   const [images, setImages] = useState([]);
-
+  console.log(orgLogo,'losdafa');
   const handleLogoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setLogo(URL.createObjectURL(file));
-      formik.setFieldValue("logo", file);
+      console.log(file)
+      setLogo(file);
+      setOrgLogo(null)
+      
     }
   };
   const handleFileUpload = (event) => {
@@ -61,6 +61,10 @@ function Profile() {
         formik.setValues(organizerData);
         console.log(organizerData); // Set initial values with the fetched data
         setOrgImages(organizerData.images);
+        if(organizerData.logo){
+          setOrgLogo(organizerData.logo)
+        }
+        
       } catch (error) {
         console.log(error);
       }
@@ -79,8 +83,6 @@ function Profile() {
       district: "",
       state: "",
       description: "",
-
-      // images: [],
       services: [],
     },
     validationSchema,
@@ -95,12 +97,21 @@ function Profile() {
 
           urlArray.push(url);
         }
-        console.log(urlArray);
         values = {
           ...values,
           services: services.join(","),
           imageUrl: urlArray,
         };
+        if(logo){
+          const storageRef =ref(storage,`/organizer-logo/`+ logo?.name)
+          const snapShot = await uploadBytes(storageRef,logo)
+          const logoUrl = await getDownloadURL(snapShot.ref)
+          values={
+            ...values,
+            logoUrl:logoUrl
+          }
+        }
+       
         const response = await updateProfile(values);
         if (response) {
           toast.dismiss();
@@ -137,11 +148,11 @@ function Profile() {
         </label>
         <Card
           title={formik.values.organizerName}
-          img={logo}
+         logo ={orgLogo}
+imagePreview={logo}
           size="true"
           event={formik.values.event}
         />
-
         <div className="w-96">
           <Slide autoSlide={true}>
             {orgImages.length > 0

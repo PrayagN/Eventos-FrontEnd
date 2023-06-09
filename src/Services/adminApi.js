@@ -22,3 +22,9 @@ export const listOrganizers =()=>{
 export const listCustomers =()=>{
     return adminAxiosInstance.get('/listCustomers')
 }
+export const viewOrganizer =(id)=>{
+    return adminAxiosInstance.post('/viewOrganizer/',{id})
+}
+export const AcceptOrganizer =(id)=>{
+    return adminAxiosInstance.post('/acceptOrganizer',{id})
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import img1 from "../../../assets/gallery/img1.jpg";
 
-function List({title,description}) {
+function List({title,description,img}) {
   return (
     <div className="flex ">
       <div
@@ -13,7 +13,7 @@ function List({title,description}) {
 
         <img
           className={`rounded-lg w-28  pt-3`}
-          src={img1}
+          src={img}
           alt=""
           />
           </div>

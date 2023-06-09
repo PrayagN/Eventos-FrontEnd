@@ -3,13 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const AdminSlice = createSlice({
   name: "admin",
   initialState: {
-    admintoken: null,
     authorized: false,
   },
   reducers: {
-    adminLogin(state, actions) {
-      const newItem = actions.payload;
-      state.admintoken = newItem.admintoken;
+    adminLogin(state) {
       state.authorized = true;
     },
     adminLogout(state) {

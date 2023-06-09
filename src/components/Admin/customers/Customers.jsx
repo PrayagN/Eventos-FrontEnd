@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { listCustomers } from "../../../Services/adminApi";
+import AdminLogo from "../../common/AdminLogo";
 
 function Customers() {
   const [customers, setCustomers] = useState([]);
@@ -19,15 +20,7 @@ function Customers() {
 
   return (
     <div className="w-full">
-      <div className="flex justify-end">
-        <div className="rounded-full w-12  m-2">
-          <img
-            className="rounded-full"
-            src="https://i0.wp.com/hoyenapple.com/wp-content/uploads/2022/10/como-crear-o-editar-un-memoji.jpg?fit=2000%2C1200&ssl=1"
-            alt=""
-          />
-        </div>
-      </div>
+     <AdminLogo/>
 
       <h1 className="m-12 text-4xl font-semibold font-arim">Customers</h1>
 

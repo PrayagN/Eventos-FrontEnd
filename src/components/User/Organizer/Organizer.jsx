@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {  Typography } from "@mui/material";
 import { organizerList } from "../../../Services/userApi";
 import List from "./List";
-import Card from "../../Admin/organizers/Card";
+// import Card from "../../Admin/organizers/Card";
 const Organizer = () => {
   const [organizers, setOrganizers] = useState([]);
 
@@ -38,11 +38,12 @@ const Organizer = () => {
       
       <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid mt-12 pt-1 mx-14 gap-10 ">
         {organizers.map((organizer, index) => (
-          <Card
+          <List
             key={index}
             description={organizer.description}
             title={organizer.organizerName}
             organizer={true}
+            img={organizer.logo}
           />
         ))}
       </div>

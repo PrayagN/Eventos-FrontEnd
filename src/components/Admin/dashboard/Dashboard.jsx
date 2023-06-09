@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import { useSelector } from "react-redux";
+import AdminLogo from "../../common/AdminLogo";
 
 function Dashboard() {
   console.log('aaaaaaaa');
@@ -8,6 +9,7 @@ function Dashboard() {
   console.log(open, "sidebar1");
   return (
     <div className="w-full h-screen bg-gray-100 ">
+      <AdminLogo/>
       <div className={`grid gap-4 md:grid-cols-2 xl:grid-cols-4  ${open ? "ml-0" : "ml-32"}`}>
         <div className="bg-white h-32 m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600"></div>
         <div className="bg-white h-32 m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600"></div>

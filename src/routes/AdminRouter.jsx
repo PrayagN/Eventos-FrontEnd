@@ -6,17 +6,19 @@ import EventsPage from "../pages/Admin/EventsPage";
 import OrganizerPage from "../pages/Admin/OrganizerPage";
 import PrivateRoutes from "../middleware/PrivateRoutes";
 import UnauthorizedRoutes from "../middleware/UnauthorizedRoutes";
-import  AdminLoginPage  from '../pages/Admin/AdminLoginPage'
+import AdminLoginPage from "../pages/Admin/AdminLoginPage";
 import { adminActions } from "../app/adminSlice";
 import { useDispatch } from "react-redux";
+import OrganizerViewPage from "../pages/Admin/OrganizerViewPage";
 
 function AdminRouter() {
-  
-
   return (
     <Routes>
-      
-      <Route  element={<UnauthorizedRoutes role={"admin"} route={'/admin/dashboard'} />}>
+      <Route
+        element={
+          <UnauthorizedRoutes role={"admin"} route={"/admin/dashboard"} />
+        }
+      >
         <Route path="/" element={<AdminLoginPage />} />
       </Route>
       <Route element={<PrivateRoutes role={"admin"} route={"/admin"} />}>
@@ -24,6 +26,7 @@ function AdminRouter() {
         <Route path="/customers" element={<CustomerPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/organizers" element={<OrganizerPage />} />
+        <Route path="/organizers/view/" element={<OrganizerViewPage />} />
       </Route>
     </Routes>
   );

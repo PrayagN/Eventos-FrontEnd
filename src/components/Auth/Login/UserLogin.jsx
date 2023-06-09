@@ -44,6 +44,7 @@ function UserLogin() {
     userSignin(values).then((response)=>{
       if(response.data.token){
         localStorage.setItem('usertoken',response.data.token)
+        dispatch(userActions.userLogin())
         navigate('/')
       }else{
         toast.error(response.data.message)

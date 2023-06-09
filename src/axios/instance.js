@@ -15,7 +15,7 @@ const createAxiosClient =(baseURL)=>{
     return client
 }
 
-const attachToken = (req, token ='token')=>{
+const attachToken = (req, token ='usertoken')=>{
     let authToken = localStorage.getItem(token)
     if(authToken){
         req.headers.Authorization = `Bearer ${authToken}`
@@ -33,7 +33,7 @@ organizerAxiosInstance.interceptors.request.use(async(req)=>{
 
 const userAxiosInstance = createAxiosClient(userBaseUrl)
 userAxiosInstance.interceptors.request.use(async(req)=>{
-    console.log(userBaseUrl);
+    
     const modifiedReq = attachToken(req)
     return modifiedReq
 })

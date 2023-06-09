@@ -3,18 +3,18 @@ import { createSlice } from "@reduxjs/toolkit"
 const OrganizerSlice = createSlice({
     name:'organizer',
     initialState:{
-        organizerToken :null,
+        authorized:false,
         organizerName: null
     },
     reducers:{
         organizerLogin(state,actions){
             const newItem =actions.payload
             state.organizerName = newItem.organizerName
-            state.organizerToken = newItem.organaziertoken
+            state.authorized = true
         },
-        organizerLogout(state,actions){
+        organizerLogout(state){
             state.organizerName =""
-            state.organizerToken=""
+            state.authorized =false
         }
     }
 })
