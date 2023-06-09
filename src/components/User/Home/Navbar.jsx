@@ -7,6 +7,7 @@ import { userAuth } from "../../../Services/userApi";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../../../app/userSlice";
 function Navbar() {
+  // const [isOpen,setIsOpen] = useState(false)
   const dispatch = useDispatch();
   useEffect(() => {
     userAuth().then((response) => {
@@ -34,7 +35,7 @@ function Navbar() {
     { name: "Services", link: "/services" },
     { name: "Organizers", link: "/organizers" },
   ];
-  const [isOpen, setisOpen] = useState(false);
+  const [modal, setModal] = useState(false);
 
   return (
     <div className="shadow-md w-full  ">
@@ -80,11 +81,11 @@ function Navbar() {
                 </li>
               </Link>
             ) : (
-              <Link to="/signin">
+              <button onClick>
                 <li className="font-semibold cursor-pointer my-7 md:my-0 md:ml-8 text-blue-500 opacity-100">
                   Log in
                 </li>
-              </Link>
+              </button>
             )}
           </li>
         </ul>
