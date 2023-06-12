@@ -6,21 +6,24 @@ import EventosLogo from "../../../assets/EventosLogo.png";
 import { userAuth } from "../../../Services/userApi";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../../../app/userSlice";
+import { Card, CardHeader, Typography } from "@material-tailwind/react";
+
 function Navbar() {
-  // const [isOpen,setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    userAuth().then((response) => {
-      
-      if (response.data.auth) {
-        dispatch(userActions.userLogin());
-      }
-    }).catch((response)=>{
-      if(response){
-        dispatch(userActions.userLogout())
-        localStorage.removeItem('usertoken')
-      }
-    })
+    userAuth()
+      .then((response) => {
+        if (response.data.auth) {
+          dispatch(userActions.userLogin());
+        }
+      })
+      .catch((response) => {
+        if (response) {
+          dispatch(userActions.userLogout());
+          localStorage.removeItem("usertoken");
+        }
+      });
   }, []);
   const authorized = useSelector((state) => state.user.authorized);
   const navigate = useNavigate();
@@ -36,7 +39,11 @@ function Navbar() {
     { name: "Organizers", link: "/organizers" },
   ];
   const [modal, setModal] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
   return (
     <div className="shadow-md w-full  ">
       <div className="md:px-10 py-4  md:flex justify-between items-center bg-white">
@@ -52,7 +59,7 @@ function Navbar() {
           <br />
         </div>
         <div
-          onClick={() => setisOpen(!isOpen)}
+          onClick={() => setIsOpen(!isOpen)}
           className="w-7 h-7 absolute right-8 top-6 cursor-pointer md:hidden "
         >
           {isOpen ? <XMarkIcon /> : <Bars3BottomRightIcon />}
@@ -72,16 +79,34 @@ function Navbar() {
           ))}
           <li className="ml-5">
             {authorized ? (
-              <Link>
-                <li
-                  className="font-semibold cursor-pointer my-7 md:my-0 md:ml-8 text-red-500 opacity-100"
-                  onClick={handleLogout}
-                >
-                  Log out
-                </li>
-              </Link>
+             <nav className="flex justify-between items-center  py-4 px-6">
+             
+             <ul className="flex">
+           
+               <li className="relative">
+                 <button
+                   className="dropdown-button focus:outline-none"
+                   onClick={toggleDropdown}
+                 >
+                   <img src="https://cdn.onlinewebfonts.com/svg/img_569204.png" className="w-9" alt="" />
+                   {isDropdownOpen && (
+                     <ul className="dropdown-menu absolute mt-2 py-2 bg-white border border-gray-200 shadow-lg z-[9999]">
+                       <Link to={'/profile'} className="px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"   >
+                         Profile
+                       </Link>
+                       <button className="px-4 py-2 hover:bg-gray-100  cursor-pointer" onClick={handleLogout}>
+                         Logout 
+                       </button>
+                       
+                     </ul>
+                   )}
+                 </button>
+               </li>
+              
+             </ul>
+           </nav>
             ) : (
-              <button onClick>
+              <button onClick={() => setModal(true)}>
                 <li className="font-semibold cursor-pointer my-7 md:my-0 md:ml-8 text-blue-500 opacity-100">
                   Log in
                 </li>
@@ -95,6 +120,58 @@ function Navbar() {
           Making Events Simpler
         </span>
       </div>
+      {modal && (
+        <div className="flex inset-0 justify-center items-center h-screen md:flex-col ">
+          {" "}
+          <div className="rounded-lg p-6">
+            <div className="flex flex-col justify-center items-center">
+              <h2 className="text-2xl font-bold mb-4">Choose</h2>
+              <div className="flex flex-col md:flex-row justify-center items-center">
+                <Link
+                  to={"/organizer/"}
+                  className="flex justify-center items-center mx-5 my-5 "
+                >
+                  <Card className="w-96">
+                    <CardHeader
+                      floated={false}
+                      className="h-96 flex justify-center items-center"
+                    >
+                      <img src="/eventOrganizer.jpg" alt="" />
+                    </CardHeader>
+                    <Typography
+                      variant="h4"
+                      color="blue-gray"
+                      className="mb-2 flex justify-center"
+                    >
+                      Event Organizer
+                    </Typography>
+                  </Card>
+                </Link>
+                <Link
+                  to={"/signin "}
+                  className="flex justify-center items-center mx-5 my-5"
+                >
+                  <Card className="w-96">
+                    <CardHeader
+                      floated={false}
+                      className="h-96 flex justify-center items-center"
+                    >
+                      <img src="/client.jpg" alt="" />
+                    </CardHeader>
+                    <Typography
+                      variant="h4"
+                      color="blue-gray"
+                      className="mb-2 flex justify-center"
+                    >
+                      Client
+                    </Typography>
+                  </Card>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -18,7 +18,7 @@ import Footer from "./Footer";
 function Home() {
  
   return (
-    <div className="w-full h-screen  items-center  ">
+    <div className="w-full h-screen  items-center  z-[1] ">
       <div className="relative ">
         <img
           className="w-full opacity-60"

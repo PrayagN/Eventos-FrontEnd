@@ -194,7 +194,7 @@ function OrganizerSignup() {
                 ) : null}
 
                 <select
-                  className="text-base p-2  rounded-lg focus:outline-none focus:border-indigo-500"
+                  className="text-base p-2 mt-8 rounded-lg focus:outline-none focus:border-indigo-500"
                   name="event"
                   {...formik.getFieldProps("event")}
                   onChange={formik.handleChange}
@@ -205,7 +205,7 @@ function OrganizerSignup() {
                       {option.title}
                     </option>
                   ))}
-                </select>l
+                </select>
               </div>
             </div>
             <div id="recaptcha-container" className="p-2"></div>

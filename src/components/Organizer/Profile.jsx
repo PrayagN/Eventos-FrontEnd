@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import img2 from "../../assets/gallery/img2.jpg";
-import Card from './Card'
+import Card from "./Card";
 import { useState } from "react";
 import { FcPlus } from "react-icons/fc";
 import { useFormik } from "formik";
@@ -9,10 +9,10 @@ import { organizerProfile, updateProfile } from "../../Services/organizerApi";
 import toast, { Toaster } from "react-hot-toast";
 import { FcCameraAddon } from "react-icons/fc";
 import Slide from "./Slide";
-import img1 from "../../assets/gallery/img1.jpg";
+
 import { Button } from "@material-tailwind/react";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
-import img3 from "../../assets/gallery/img3.jpg";
+
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -29,28 +29,63 @@ const validationSchema = Yup.object().shape({
 
 function Profile() {
   const [orgImages, setOrgImages] = useState([]);
+
   const [services, setServices] = useState([]);
   const [logo, setLogo] = useState(null);
-  const [orgLogo,setOrgLogo] = useState("https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg")
+  const [orgLogo, setOrgLogo] = useState(
+    "https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg"
+  );
   const [images, setImages] = useState([]);
-  console.log(orgLogo,'losdafa');
+  const validateImage = (file) => {
+    const supportedFormats = ["image/jpeg", "image/png", "image/gif"];
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+
+    // Check file format
+    if (!supportedFormats.includes(file.type)) {
+      toast.error(
+        "Unsupported image format. Please choose a JPEG, PNG, or GIF image."
+      );
+      return false;
+    }
+
+    // Check file size
+    if (file.size > maxSizeInBytes) {
+      toast.error("The image size exceeds the maximum allowed limit of 5MB.");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleLogoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log(file)
-      setLogo(file);
-      setOrgLogo(null)
-      
+      if (validateImage(file)) {
+        console.log(file);
+        setLogo(file);
+        setOrgLogo(null);
+      }
     }
   };
+
   const handleFileUpload = (event) => {
     const files = event.target.files;
     if (files && files.length > 0) {
       const fileArray = Array.from(files);
+
+      // Validate each file
+      for (let i = 0; i < fileArray.length; i++) {
+        const file = fileArray[i];
+        if (!validateImage(file)) {
+          return;
+        }
+      }
+
       setImages(fileArray);
       setOrgImages([]);
     }
   };
+
   const [fire, setFire] = useState(false);
 
   useEffect(() => {
@@ -59,12 +94,12 @@ function Profile() {
         const response = await organizerProfile();
         const organizerData = response.data.profile;
         formik.setValues(organizerData);
+        setServices(organizerData.service);
         console.log(organizerData); // Set initial values with the fetched data
         setOrgImages(organizerData.images);
-        if(organizerData.logo){
-          setOrgLogo(organizerData.logo)
+        if (organizerData.logo) {
+          setOrgLogo(organizerData.logo);
         }
-        
       } catch (error) {
         console.log(error);
       }
@@ -83,7 +118,7 @@ function Profile() {
       district: "",
       state: "",
       description: "",
-      services: [],
+      servic: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -99,19 +134,19 @@ function Profile() {
         }
         values = {
           ...values,
-          services: services.join(","),
+          services,
           imageUrl: urlArray,
         };
-        if(logo){
-          const storageRef =ref(storage,`/organizer-logo/`+ logo?.name)
-          const snapShot = await uploadBytes(storageRef,logo)
-          const logoUrl = await getDownloadURL(snapShot.ref)
-          values={
+        if (logo) {
+          const storageRef = ref(storage, `/organizer-logo/` + logo?.name);
+          const snapShot = await uploadBytes(storageRef, logo);
+          const logoUrl = await getDownloadURL(snapShot.ref);
+          values = {
             ...values,
-            logoUrl:logoUrl
-          }
+            logoUrl: logoUrl,
+          };
         }
-       
+
         const response = await updateProfile(values);
         if (response) {
           toast.dismiss();
@@ -126,10 +161,9 @@ function Profile() {
   });
 
   const addService = () => {
-    if (formik.values.services.trim() !== "") {
-      setServices((prevServices) => [...prevServices, formik.values.services]);
-      formik.setFieldValue("services", "");
-    }
+    setServices((prevService) => [...prevService, formik.values.servic]);
+    formik.setFieldValue("servic", "");
+    console.log(services);
   };
 
   return (
@@ -148,8 +182,8 @@ function Profile() {
         </label>
         <Card
           title={formik.values.organizerName}
-         logo ={orgLogo}
-imagePreview={logo}
+          logo={orgLogo}
+          imagePreview={logo}
           size="true"
           event={formik.values.event}
         />
@@ -354,8 +388,8 @@ imagePreview={logo}
           >
             <input
               type="text"
-              name="services"
-              value={formik.values.services}
+              name="servic"
+              value={formik.values.servic}
               onChange={formik.handleChange}
               placeholder="Add Services"
             />
@@ -365,13 +399,18 @@ imagePreview={logo}
               <FcPlus size={"25px"} />
             </button>
           </div>
-          <ul className="flex gap-10">
-            {services.map((service, index) => (
-              <li key={index}>
-                {index + 1}. {service}
-              </li>
-            ))}
-          </ul>
+
+          <div style={{}}>
+            {services.length > 0 ? (
+              <ul className="grid lg:grid-cols-5 gap-2">
+                {services.map((service, index) => (
+                  <li key={index}>{service}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>No services added yet.</p>
+            )}
+          </div>
 
           <div className="flex justify-end mt-3">
             <button
