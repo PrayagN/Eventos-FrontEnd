@@ -3,7 +3,6 @@ import { Typography } from "@mui/material";
 import { organizerList } from "../../../Services/userApi";
 import List from "./List";
 
-
 const Organizer = () => {
   const [organizers, setOrganizers] = useState([]);
   const [events, setEvents] = useState([]);
@@ -24,10 +23,12 @@ const Organizer = () => {
 
         .toLowerCase()
         .includes(value.toLowerCase());
-      const organizerDistrict = organizer.district.toLowerCase().includes(value.toLowerCase())
+      const organizerDistrict = organizer.district
+        .toLowerCase()
+        .includes(value.toLowerCase());
       const eventMatch =
         selectedEvent === "All" || organizer.event === selectedEvent;
-      return organizerNameMatch||organizerDistrict && eventMatch;
+      return organizerNameMatch && eventMatch;
     });
 
     setFilteredOrganizers(filteredOrganizers);
@@ -55,7 +56,6 @@ const Organizer = () => {
 
   return (
     <div className="w-fll items-center">
-      
       <div className="max-h-96 max-[1250px]:">
         <h2 className="text-center text-3xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl mt-24 text-gray-500">
           The <span style={{ color: "#1976d2" }}>Event Management</span>{" "}
@@ -79,9 +79,12 @@ const Organizer = () => {
 
       <div className="flex flex-col items-center justify-center md:flex-row md:justify-start md:items-center">
         <div className="flex justify-center flex-grow ml-5 md:ml-24  mb-4 md:mb-0 md:mr-4 ">
-          <div className="shadow-lg  overflow-auto shadow-gray-600 rounded-3xl w-72 px-10  h-14 flex gap-4 justify-center items-center scrollbar-hide">
+          <div
+            className="shadow-lg overflow-x-auto shadow-gray-600 rounded-3xl h-14 pr-5  flex gap-4 justify-start items-center scrollbar-hide"
+            style={{ width: "300px", scrollLeft: 0 }}
+          >
             <button
-              className={`shadow-lg shadow-gray-600 py-1 ml-2 md:ml-16 px-4 rounded-lg ${
+              className={`shadow-lg shadow-gray-600 py-1 ml-2 px-4 rounded-lg ${
                 selectedEvent === "All" ? "bg-blue-500 text-white" : ""
               } hover:scale-110 duration-100`}
               onClick={() => handleEventClick("All")}
@@ -91,32 +94,36 @@ const Organizer = () => {
             {events.map((event, index) => (
               <button
                 key={index}
-                className={`shadow-lg shadow-gray-600 py-1 px-2 rounded-lg ${
+                className={`shadow-lg shadow-gray-600 py-1 px-2  rounded-lg ${
                   selectedEvent === event.title ? "bg-blue-500 text-white" : ""
                 } hover:scale-110 duration-100`}
                 onClick={() => handleEventClick(event.title)}
+                style={{ whiteSpace: "nowrap" }}
               >
                 {event.title}
               </button>
             ))}
+            
           </div>
         </div>
 
-           
-        <div class="relative mb-3 shadow-lg shadow-gray-600 rounded-xl mr-5" data-te-input-wrapper-init>
+       <div className="relative mb-3 shadow-lg shadow-gray-600 rounded-xl mr-5" data-te-input-wrapper-init>
   <input
     type="text"
-    className="peer rounded-xl  min-h-[auto] w-full  outline-none  px-3 py-[0.32rem] leading-[1.6]  transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none  dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+    className="peer rounded-xl min-h-[auto] w-full outline-none px-3 py-[0.32rem] leading-[1.6] transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
     id="exampleFormControlInput1"
     value={searchQuery}
     onChange={handleSearchChange}
-    />
-  <label
-    for="exampleFormControlInput1"
-    class="pointer-events-none font-semibold absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-blue-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none  dark:peer-focus:text-primary"
-    >Search
-  </label>
-    </div>
+  />
+  {searchQuery.length === 0 && (
+    <label
+      for="exampleFormControlInput1"
+      class="pointer-events-none font-semibold absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-blue-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:peer-focus:text-primary"
+    >
+      Search
+    </label>
+  )}
+</div>
 
       </div>
 
@@ -129,17 +136,20 @@ const Organizer = () => {
               title={organizer.organizerName}
               organizer={true}
               img={organizer.logo}
+              
             />
+            
           ))
-        ) : (
+          
+        )
+         : (
           <div className="grid-cols-none">
             There is no such organizer available
           </div>
         )}
-    
+        
       </div>
     </div>
-
   );
 };
 

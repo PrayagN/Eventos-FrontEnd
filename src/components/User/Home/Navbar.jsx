@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Bars3BottomRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { Button } from "@mui/material";
+
 import { Link, useNavigate } from "react-router-dom";
 import EventosLogo from "../../../assets/EventosLogo.png";
 import { userAuth } from "../../../Services/userApi";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../../../app/userSlice";
 import { Card, CardHeader, Typography } from "@material-tailwind/react";
-
+import defaultAvatar from '/logoutAvatar.avif'
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [image, setImage] = useState(defaultAvatar);
+  const [modal, setModal] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     userAuth()
       .then((response) => {
         if (response.data.auth) {
+          {response.data.userData.image && setImage(response.data.userData.image)}
           dispatch(userActions.userLogin());
         }
       })
@@ -38,8 +42,6 @@ function Navbar() {
     { name: "Services", link: "/services" },
     { name: "Organizers", link: "/organizers" },
   ];
-  const [modal, setModal] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -65,46 +67,48 @@ function Navbar() {
           {isOpen ? <XMarkIcon /> : <Bars3BottomRightIcon />}
         </div>
         <ul
-          className={` md:flex pl-9 md:pl-0   pr-20 mr-20  md:items-center  absolute bg-white  md:static  md:z-auto z-[-1] left-0 w-full md:w-auto   transition-all duration-500 ease in ${
-            isOpen ? "top-12 " : "top-[-490px] "
+          className={` md:flex pl-9 md:pl-0   pr-20 mr-20  md:items-center    absolute bg-transparent  md:static  md:z-auto z-[1] left-0 w-full md:w-auto   transition-all duration-500 ease in ${
+            isOpen ? "top-12 backdrop-filter backdrop-blur-sm mt-12 text-white " : "top-[-490px]  "
           }`}
         >
           {Links.map((link, index) => (
             <li
               key={index}
-              className="font-semibold cursor-pointer my-7 md:my-0 md:ml-8 text-black "
+              className="font-semibold flex justify-start  cursor-pointer my-10 md:my-0 md:ml-8 "
             >
               <Link to={link.link}>{link.name}</Link>
             </li>
           ))}
           <li className="ml-5">
             {authorized ? (
-             <nav className="flex justify-between items-center  py-4 px-6">
-             
-             <ul className="flex">
-           
-               <li className="relative">
-                 <button
-                   className="dropdown-button focus:outline-none"
-                   onClick={toggleDropdown}
-                 >
-                   <img src="https://cdn.onlinewebfonts.com/svg/img_569204.png" className="w-9" alt="" />
-                   {isDropdownOpen && (
-                     <ul className="dropdown-menu absolute mt-2 py-2 bg-white border border-gray-200 shadow-lg z-[9999]">
-                       <Link to={'/profile'} className="px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"   >
-                         Profile
-                       </Link>
-                       <button className="px-4 py-2 hover:bg-gray-100  cursor-pointer" onClick={handleLogout}>
-                         Logout 
-                       </button>
-                       
-                     </ul>
-                   )}
-                 </button>
-               </li>
-              
-             </ul>
-           </nav>
+              <nav className="flex justify-between items-center  py-4 px-6">
+                <ul className="flex">
+                  <li className="relative">
+                    <button
+                      className="dropdown-button focus:outline-none"
+                      onClick={toggleDropdown}
+                    >
+                      <img src={image} className="w-10 rounded-lg flex justify-center" alt="" />
+                      {isDropdownOpen && (
+                        <ul className="dropdown-menu absolute mt-2 py-2 bg-white border border-gray-200 shadow-lg z-[9999]">
+                          <Link
+                            to={"/profile"}
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
+                          >
+                            Profile
+                          </Link>
+                          <button
+                            className="px-4 py-2 hover:bg-gray-100  cursor-pointer"
+                            onClick={handleLogout}
+                          >
+                            Logout
+                          </button>
+                        </ul>
+                      )}
+                    </button>
+                  </li>
+                </ul>
+              </nav>
             ) : (
               <button onClick={() => setModal(true)}>
                 <li className="font-semibold cursor-pointer my-7 md:my-0 md:ml-8 text-blue-500 opacity-100">
