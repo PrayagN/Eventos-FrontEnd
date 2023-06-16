@@ -1,12 +1,10 @@
 import React from "react";
-// import axios from "axios";
-// import { userAPI } from "../../../Api";
+
 import { Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import toast,{ Toaster } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
-// import { userActions } from "../../../app/userSlice";
 import { adminSignin } from "../../../Services/adminApi";
 import { adminActions } from "../../../app/adminSlice";
 

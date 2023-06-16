@@ -1,6 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+function List({ title, description, img,id }) {
+  const navigate = useNavigate()
 
-function List({ title, description, img }) {
+  const handleButton=()=>{
+    navigate('/organizers/view',{state:{id}})
+  }
+
   return (
     <div className="flex">
       <div
@@ -26,19 +32,28 @@ function List({ title, description, img }) {
           </p>
         </div>
         <div className="absolute bottom-0 left-0 right-0 flex justify-center ">
-          {/* <button className="animate-bounce bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            View
-          </button> */}
-          <a  className="relative inline-flex items-center justify-center p-4 px-6 py-3 bg-blue-500 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-blue-500 rounded shadow-md group animate-bounce">
-  <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-blue-500 group-hover:translate-x-0 ease">
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-    </svg>
-  </span>
-  <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">View</span>
-  <span className="relative invisible">View</span>
-</a>
-
+          <button onClick={handleButton} className="relative inline-flex items-center justify-center p-4 px-6 py-3 bg-blue-500 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-blue-500 rounded shadow-md group  mb-2">
+            <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-blue-500 group-hover:translate-x-0 ease">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                ></path>
+              </svg>
+            </span>
+            <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">
+              View
+            </span>
+            <span className="relative invisible">View</span>
+          </button>
         </div>
       </div>
     </div>

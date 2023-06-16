@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { userAPI } from "../../../Api";
-import axios from "axios";
+
 import eMSignup from "../../../assets/Login/eMSignup.jfif";
-import OtpInput from "react-otp-input";
+
 import { useFormik } from "formik";
 import { Button } from "@mui/material";
 import * as Yup from "yup";
@@ -11,10 +10,10 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"; // Added signInWithPhoneNumber import
 import { auth } from "../../../firebase";
-import Modal from "react-modal";
+
 import { ImCross } from "react-icons/im";
 import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode"
+import jwt_decode from "jwt-decode";
 
 import { userSignup } from "../../../Services/userApi";
 const initialValues = {
@@ -36,24 +35,24 @@ const validationSchema = Yup.object({
 function UserSignup() {
   /// Google Signup
   const responseMessage = (response) => {
-    let credential = jwt_decode(response.credential)
-    const values ={
-      email:credential.email,
-        username:credential.name,
-        password:credential.sub,
-        exp:credential.exp
-    }
+    let credential = jwt_decode(response.credential);
+    const values = {
+      email: credential.email,
+      username: credential.name,
+      password: credential.sub,
+      exp: credential.exp,
+    };
     console.log(values);
-      userSignup(values).then((response)=>{
-        if(response.data.status){
-          console.log(response,'sdfs');
-          localStorage.setItem('usertoken',response.data.token)
-          
-          navigate('/')
-        }else {
-          toast.error(response.data.message)
-        }
-      })
+    userSignup(values).then((response) => {
+      if (response.data.status) {
+        console.log(response, "sdfs");
+        localStorage.setItem("usertoken", response.data.token);
+
+        navigate("/");
+      } else {
+        toast.error(response.data.message);
+      }
+    });
     console.log(credential);
   };
 

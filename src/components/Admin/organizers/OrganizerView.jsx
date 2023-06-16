@@ -18,6 +18,7 @@ import toast, { Toaster } from "react-hot-toast";
 function OrganizerView() {
   const [organizer, setOrganizer] = useState({});
   const [isAccepted, setIsAccepted] = useState();
+  const [services,setServices] = useState([])
   const location = useLocation();
   const organizer_id = location?.state.id;
   console.log(isAccepted);
@@ -26,6 +27,7 @@ function OrganizerView() {
       viewOrganizer(organizer_id).then((response) => {
         if (response.data.organizer) {
           setOrganizer(response.data.organizer);
+          setServices(response.data.organizer.service)
           const status = response.data.organizer.status;
           setIsAccepted(status);
         } else {
@@ -34,7 +36,7 @@ function OrganizerView() {
       });
     }
   }, [organizer_id, isAccepted]);
-
+console.log(services);
   const handleButton = () => {
     AcceptOrganizer(organizer_id).then((response) => {
       if (response.data.status) {
@@ -203,6 +205,20 @@ function OrganizerView() {
       />
     </label>
   </div>
+  <br />
+  <div className="flex flex-col md:flex-row md:items-center w-full">
+  <label className="w-full " >
+    Services
+  <Input
+    variant="static"
+    className="w-full "
+    id="services"
+    value={services.join('  ,  ')}
+    style={{ fontWeight: 'bold' }}
+    />
+    </label>
+</div>
+
 </Card>
 
 </div>

@@ -15,12 +15,16 @@ import {userAxiosInstance} from '../axios/instance'
     const organizerList =()=>{
         return userAxiosInstance.get('/listOrganizers')
     }
+    const organizerView =(id)=>{
+        return userAxiosInstance.post('/viewOrganizer',{id})
+    }
     const profileGet =()=>{
         return userAxiosInstance.get('/profile')
     }
     const updateProfile =(values)=>{
         return userAxiosInstance.put('/updateProfile',values)
     }
+    
 export {
     userSignin,
     userSignup,
@@ -28,5 +32,6 @@ export {
     eventList,
     organizerList,
     profileGet,
-    updateProfile
+    updateProfile,
+    organizerView
 }

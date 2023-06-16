@@ -9,6 +9,7 @@ import ServicesPage from "../pages/User/ServicesPage";
 import UnauthorizedRoutes from "../middleware/UnauthorizedRoutes";
 import PrivateRoutes from "../middleware/PrivateRoutes";
 import ProfilePage from "../pages/User/ProfilePage";
+import  OrganizerViewPage from '../pages/User/OrganizerViewPage';
 function UserRouter() {
   return (
     <Routes>
@@ -23,6 +24,7 @@ function UserRouter() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/organizers" element={<OrganizerPage />} />
       <Route path="/services" element={<ServicesPage />} />
+      <Route path ='/organizers/view' element={<OrganizerViewPage/>} /> 
       <Route element={<PrivateRoutes role={'user'} route={'/'} />}>
         <Route path="/profile" element={<ProfilePage/>}/>
       </Route>

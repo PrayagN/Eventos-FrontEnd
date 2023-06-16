@@ -48,16 +48,27 @@ function Navbar() {
   };
   return (
     <div className="shadow-md w-full  ">
-      <div className="md:px-10 py-4  md:flex justify-between items-center bg-white">
+      <div className="py-4  md:flex justify-between items-center bg-white px-10">
         <div className="flex text-2xl cursor-pointer items-center gap-2">
+         <div>
+
           <img
             className="w-12  sm:w-12 md:w-16 lg:w-16 xl:w-16 mx-4  "
             src={EventosLogo}
             alt=""
-          />{" "}
-          <span className="font-bold " style={{ marginLeft: "-20px" }}>
+            />{" "}
+            </div>
+            <div>
+
+          <span className="font-bold " >
             Eventos
           </span>
+          <div className="  ">
+        <span className="text-xs grid text-gray-400">
+          Making Events Simpler
+        </span>
+            </div>
+      </div>
           <br />
         </div>
         <div
@@ -67,7 +78,7 @@ function Navbar() {
           {isOpen ? <XMarkIcon /> : <Bars3BottomRightIcon />}
         </div>
         <ul
-          className={` md:flex pl-9 md:pl-0   pr-20 mr-20  md:items-center    absolute bg-transparent  md:static  md:z-auto z-[1] left-0 w-full md:w-auto   transition-all duration-500 ease in ${
+          className={` md:flex pl-9 md:pl-0      md:items-center    absolute bg-transparent  md:static  md:z-auto z-[1] left-0 w-full md:w-auto   transition-all duration-500 ease in ${
             isOpen ? "top-12 backdrop-filter backdrop-blur-sm mt-12 text-white " : "top-[-490px]  "
           }`}
         >
@@ -119,11 +130,7 @@ function Navbar() {
           </li>
         </ul>
       </div>
-      <div className=" md:mx-22 mx-16 sm:mx-20 -mt-7 sm:-mt-7 md:-mt-9 lg:-mt-9 xl:-mt-9  lg:mx-32 xl:mx-32  pb-5 ">
-        <span className="text-xs grid text-gray-400">
-          Making Events Simpler
-        </span>
-      </div>
+      
       {modal && (
         <div className="flex inset-0 justify-center items-center h-screen md:flex-col ">
           {" "}
