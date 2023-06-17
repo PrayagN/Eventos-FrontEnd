@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { organizerView } from "../../../Services/userApi";
+import { checkoutPayment, organizerView } from "../../../Services/userApi";
 import { FcOk } from "react-icons/fc";
 import toast,{Toaster} from 'react-hot-toast'
 
@@ -56,11 +56,18 @@ const handleGuests =(event)=>{
 const handleSubmit =()=>{
   if(!selectedDate || !guests){
     toast.error('please fill the details')
+    return
   }
   const values ={
-    selectedDate,guests
+    selectedDate,guests,organizer_id
   }
-
+  console.log(values);
+  checkoutPayment(values).then((response)=>{
+    if(response.data.url){
+      
+      window.location.href = response.data.url
+    }
+  }).catch((err)=>console.log(err.message))
 
 }
   return (
@@ -77,7 +84,7 @@ const handleSubmit =()=>{
                     alt=""
                   />
                   <div className="flex flex-col justify-center">
-                    <Typography
+                    <Typography 
                       variant="h2"
                       color="blue-gray"
                       className="mb-2 font-bold text-center md:text-left"
@@ -128,11 +135,11 @@ const handleSubmit =()=>{
                   </Typography>
                   <div className="flex flex-col  md:flex-row md:justify-between gap-4">
                     <div className="flex flex-col ">
-                      <Typography
-                        variant="h8"
+                      {/* <Typography
+                        variant="h2"
                         color="blue-gray"
                         className="mb-2 font-bold"
-                      ></Typography>
+                      ></Typography> */}
                       <div className="flex flex-wrap">
                         <div className="w-full md:w-1/2 lg:w-1/3">
                           <div className="flex items-center gap-4">
@@ -158,7 +165,7 @@ const handleSubmit =()=>{
               </CardBody>
               <CardFooter className="mt-12 p-0">
                 <Button
-                  size="xl"
+                  
                   color="white"
                   className={`text-blue-500 hover:scale-[1.02] focus:scale-[1.02] active:scale-100 ${isSubmitDisabled ? 'hover:':''} `}
                   ripple={false}
@@ -188,7 +195,7 @@ const handleSubmit =()=>{
                   <div className="flex items-start flex-wrap">
                     <div>
                       <Typography
-                        variant="h8"
+                        variant="h1"
                         color="blue-gray"
                         className="w-24 mr-4 font-bold"
                       >
@@ -196,7 +203,7 @@ const handleSubmit =()=>{
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h1" color="" className="font-bold">
+                      <Typography variant="h1"  className="font-bold">
                         {organizer.email}
                       </Typography>
                     </div>
@@ -205,7 +212,7 @@ const handleSubmit =()=>{
                   <div className="flex items-start flex-wrap">
                     <div>
                       <Typography
-                        variant="h8"
+                        variant="h1"
                         color="blue-gray"
                         className="w-24 mr-4 font-bold"
                       >
@@ -214,7 +221,7 @@ const handleSubmit =()=>{
                     </div>
                     <div>
                       <Typography
-                        variant=""
+                        variant="h1"
                         color="blue-gray"
                         className="font-bold"
                       >
@@ -226,7 +233,7 @@ const handleSubmit =()=>{
                   <div className="flex items-start flex-wrap">
                     <div>
                       <Typography
-                        variant="h8"
+                        variant="h1"
                         color="blue-gray"
                         className="w-24 mr-4 font-bold"
                       >
@@ -235,7 +242,7 @@ const handleSubmit =()=>{
                     </div>
                     <div>
                       <Typography
-                        variant=""
+                        variant="h1"
                         color="blue-gray"
                         className="font-bold"
                       >
@@ -248,7 +255,7 @@ const handleSubmit =()=>{
                     <div>
 
                     <Typography
-                      variant="h8"
+                      variant="h1"
                       color="blue-gray"
                       className="w-24 mr-4 font-bold"
                       >
@@ -258,7 +265,7 @@ const handleSubmit =()=>{
                       <div>
 
                     <Typography
-                      variant=""
+                      variant="h1"
                       color="blue-gray"
                       className="font-bold"
                       >
@@ -285,9 +292,9 @@ const handleSubmit =()=>{
                 <div className="flex justify-start  ">
                   <ul className="flex flex-wrap gap-4">
                     {service.map((service, index) => (
-                      <div className="flex">
+                      <div className="flex" key={index}>
 
-                      <li className="flex items-start gap-4" key={index}>
+                      <li className="flex items-start gap-4" >
                         <span className="rounded-full border border-white/20 bg-white/20 p-1">
                           <FcOk className="h-5 w-5" />
                         </span>

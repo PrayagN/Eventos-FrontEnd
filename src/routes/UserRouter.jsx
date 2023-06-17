@@ -10,6 +10,7 @@ import UnauthorizedRoutes from "../middleware/UnauthorizedRoutes";
 import PrivateRoutes from "../middleware/PrivateRoutes";
 import ProfilePage from "../pages/User/ProfilePage";
 import  OrganizerViewPage from '../pages/User/OrganizerViewPage';
+import PaymentSuccess from "../components/User/Payment/PaymentSuccess";
 function UserRouter() {
   return (
     <Routes>
@@ -27,6 +28,7 @@ function UserRouter() {
       <Route path ='/organizers/view' element={<OrganizerViewPage/>} /> 
       <Route element={<PrivateRoutes role={'user'} route={'/'} />}>
         <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/paymentSuccess" element={<PaymentSuccess/>} />
       </Route>
     </Routes>
   );

@@ -24,7 +24,9 @@ import {userAxiosInstance} from '../axios/instance'
     const updateProfile =(values)=>{
         return userAxiosInstance.put('/updateProfile',values)
     }
-    
+    const checkoutPayment =(values)=>{
+        return userAxiosInstance.post('/create-checkout-session',values)
+    }
 export {
     userSignin,
     userSignup,
@@ -33,5 +35,7 @@ export {
     organizerList,
     profileGet,
     updateProfile,
-    organizerView
+    organizerView,
+    checkoutPayment
+
 }
