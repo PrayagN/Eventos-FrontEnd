@@ -11,6 +11,7 @@ import PrivateRoutes from "../middleware/PrivateRoutes";
 import ProfilePage from "../pages/User/ProfilePage";
 import  OrganizerViewPage from '../pages/User/OrganizerViewPage';
 import PaymentSuccess from "../components/User/Payment/PaymentSuccess";
+import PaymentForm from "../components/User/Payment/Checkout";
 function UserRouter() {
   return (
     <Routes>
@@ -26,8 +27,11 @@ function UserRouter() {
       <Route path="/organizers" element={<OrganizerPage />} />
       <Route path="/services" element={<ServicesPage />} />
       <Route path ='/organizers/view' element={<OrganizerViewPage/>} /> 
+      <Route path="/*" element={<div>page not found</div>} />
+      
       <Route element={<PrivateRoutes role={'user'} route={'/'} />}>
         <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path ='/paymentform' element={<PaymentForm/>}/>
         <Route path="/paymentSuccess" element={<PaymentSuccess/>} />
       </Route>
     </Routes>

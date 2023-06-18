@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { checkoutPayment, organizerView } from "../../../Services/userApi";
+import { organizerView } from "../../../Services/userApi";
 import { FcOk } from "react-icons/fc";
 import toast,{Toaster} from 'react-hot-toast'
+import { BiRupee } from "react-icons/bi";
 
 import {
   Card,
@@ -15,13 +16,15 @@ import {
 import { CheckIcon } from "@heroicons/react/24/outline";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Checkout from "../Payment/Checkout";
 
 function OrganizerView() {
   const [organizer, setOrganizer] = useState({});
   const [service, setServices] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null); // State for selected date
   const [guests,setGuests] = useState('')
-  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const location = useLocation();
   const organizer_id = location?.state.id;
   console.log(organizer_id);
@@ -41,7 +44,8 @@ function OrganizerView() {
 
   console.log(organizer);
 
- 
+ const organizername =organizer.organizerName
+ const budget = organizer.budget
 
 const handleDate =(date)=>{
     setSelectedDate(date)
@@ -52,24 +56,19 @@ const handleGuests =(event)=>{
   setGuests(event.target.value)
   
 }
+const values ={
+  selectedDate,guests,organizer_id,organizername,budget
+}
 
 const handleSubmit =()=>{
   if(!selectedDate || !guests){
     toast.error('please fill the details')
     return
   }
-  const values ={
-    selectedDate,guests,organizer_id
-  }
-  console.log(values);
-  checkoutPayment(values).then((response)=>{
-    if(response.data.url){
-      
-      window.location.href = response.data.url
-    }
-  }).catch((err)=>console.log(err.message))
-
+  setIsSubmitted((prevState) => !prevState);
+ 
 }
+
   return (
     <div className="w-full">
       <div className="grid px-10 mx-10 gap-4 my-5">
@@ -104,7 +103,7 @@ const handleSubmit =()=>{
             <Card
               color="blue"
               variant="gradient"
-              className="w-full max-w-[20rem] p-8 bg-blue-400 "
+              className="w-full max-w-[20rem] p-8 bg-blue-500 "
             >
               <CardHeader
                 floated={false}
@@ -124,9 +123,10 @@ const handleSubmit =()=>{
                   color="white"
                   className="mt-6 flex justify-center gap-1 text-4xl  flex-wrap font-normal"
                 >
-                  <span className="mt-2 text-lg">$</span>499{" "}
+                  <span className="mt-2 text-lg"><BiRupee/></span>{organizer.budget}{" "}
                   <span className="self-end text-2xl">/person </span>
                 </Typography>
+                
               </CardHeader>
               <CardBody className="p-0 ">
                 <div className="flex flex-col gap-4">
@@ -149,6 +149,9 @@ const handleSubmit =()=>{
                                 placeholderText="🗓️ Select Event Date"
                                 selected={selectedDate}
                                 onChange={handleDate}
+                                minDate={new Date()}
+                                autoComplete="off"
+                                // excludeDates={} // want to use array 
                                 className="px-4 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                               />
                             </div>
@@ -167,7 +170,7 @@ const handleSubmit =()=>{
                 <Button
                   
                   color="white"
-                  className={`text-blue-500 hover:scale-[1.02] focus:scale-[1.02] active:scale-100 ${isSubmitDisabled ? 'hover:':''} `}
+                  className={`text-blue-500 hover:scale-[1.02] focus:scale-[1.02] active:scale-100  `}
                   ripple={false}
                   fullWidth={true}
                   onClick={handleSubmit}
@@ -326,12 +329,13 @@ const handleSubmit =()=>{
                   alt="gallery"
                   className="block h-full w-full rounded-lg object-cover object-center"
                   src={image}
-                />
+                  />
               </div>
             ))}
           </div>
         </div>
       </div>
+      {isSubmitted && <Checkout status={isSubmitted} values={values} />}
       <Toaster/>
     </div>
   );
