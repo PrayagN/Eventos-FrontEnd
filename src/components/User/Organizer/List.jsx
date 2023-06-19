@@ -31,8 +31,8 @@ function List({ title, description, img,id }) {
             {description}
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center ">
-          <button onClick={handleButton} className="relative inline-flex items-center justify-center p-4 px-6 py-3 bg-blue-500 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-blue-500 rounded shadow-md group  mb-2">
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center  ">
+          <button onClick={handleButton} className="w-32 h-10 relative inline-flex items-center justify-center p-4 px-6 py-3 bg-blue-500 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-blue-500 rounded shadow-md group  mb-4">
             <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-blue-500 group-hover:translate-x-0 ease">
               <svg
                 className="w-6 h-6"

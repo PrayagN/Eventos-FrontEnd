@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { organizerView } from "../../../Services/userApi";
 import { FcOk } from "react-icons/fc";
-import toast,{Toaster} from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast";
 import { BiRupee } from "react-icons/bi";
 
 import {
@@ -22,19 +22,26 @@ function OrganizerView() {
   const [organizer, setOrganizer] = useState({});
   const [service, setServices] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null); // State for selected date
-  const [guests,setGuests] = useState('')
+  const [guests, setGuests] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [bookedDates, setBookedDates] = useState([]);
 
   const location = useLocation();
   const organizer_id = location?.state.id;
   console.log(organizer_id);
-
   useEffect(() => {
     if (organizer_id) {
       organizerView(organizer_id).then((response) => {
         if (response.data.organizer) {
           setOrganizer(response.data.organizer);
           setServices(response.data.organizer.service);
+          const excludedDates = response.data.bookedDates.map((dateString) => {
+            const date = new Date(dateString);
+            date.setDate(date.getDate() - 1); // Subtract one day from the date
+            return date;
+          });
+
+          setBookedDates(excludedDates);
         } else {
           toast.error(response.data.message);
         }
@@ -42,32 +49,32 @@ function OrganizerView() {
     }
   }, [organizer_id]);
 
-  console.log(organizer);
+  const organizername = organizer.organizerName;
+  const budget = organizer.budget;
+  const advance = organizer.advance;
 
- const organizername =organizer.organizerName
- const budget = organizer.budget
+  const handleDate = (date) => {
+    setSelectedDate(date);
+  };
+  const handleGuests = (event) => {
+    setGuests(event.target.value);
+  };
+  const values = {
+    selectedDate,
+    guests,
+    organizer_id,
+    organizername,
+    budget,
+    advance,
+  };
 
-const handleDate =(date)=>{
-    setSelectedDate(date)
-    
-
-}
-const handleGuests =(event)=>{
-  setGuests(event.target.value)
-  
-}
-const values ={
-  selectedDate,guests,organizer_id,organizername,budget
-}
-
-const handleSubmit =()=>{
-  if(!selectedDate || !guests){
-    toast.error('please fill the details')
-    return
-  }
-  setIsSubmitted((prevState) => !prevState);
- 
-}
+  const handleSubmit = () => {
+    if (!selectedDate || !guests) {
+      toast.error("please fill the details");
+      return;
+    }
+    setIsSubmitted((prevState) => !prevState);
+  };
 
   return (
     <div className="w-full">
@@ -83,7 +90,7 @@ const handleSubmit =()=>{
                     alt=""
                   />
                   <div className="flex flex-col justify-center">
-                    <Typography 
+                    <Typography
                       variant="h2"
                       color="blue-gray"
                       className="mb-2 font-bold text-center md:text-left"
@@ -123,10 +130,12 @@ const handleSubmit =()=>{
                   color="white"
                   className="mt-6 flex justify-center gap-1 text-4xl  flex-wrap font-normal"
                 >
-                  <span className="mt-2 text-lg"><BiRupee/></span>{organizer.budget}{" "}
+                  <span className="mt-2 text-lg">
+                    <BiRupee />
+                  </span>
+                  {organizer.budget}{" "}
                   <span className="self-end text-2xl">/person </span>
                 </Typography>
-                
               </CardHeader>
               <CardBody className="p-0 ">
                 <div className="flex flex-col gap-4">
@@ -135,11 +144,6 @@ const handleSubmit =()=>{
                   </Typography>
                   <div className="flex flex-col  md:flex-row md:justify-between gap-4">
                     <div className="flex flex-col ">
-                      {/* <Typography
-                        variant="h2"
-                        color="blue-gray"
-                        className="mb-2 font-bold"
-                      ></Typography> */}
                       <div className="flex flex-wrap">
                         <div className="w-full md:w-1/2 lg:w-1/3">
                           <div className="flex items-center gap-4">
@@ -151,30 +155,35 @@ const handleSubmit =()=>{
                                 onChange={handleDate}
                                 minDate={new Date()}
                                 autoComplete="off"
-                                // excludeDates={} // want to use array 
+                                excludeDates={bookedDates}
+                                
                                 className="px-4 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                               />
                             </div>
                           </div>
                         </div>
                       </div>
-                            <div className="pt-5">
-                            <input type="text" value={guests} onChange={handleGuests} className="px-4 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="👥 Guests" required/>
-
-                            </div>
+                      <div className="pt-5">
+                        <input
+                          type="text"
+                          value={guests}
+                          onChange={handleGuests}
+                          className="px-4 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          placeholder="👥 Guests"
+                          required
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </CardBody>
               <CardFooter className="mt-12 p-0">
                 <Button
-                  
                   color="white"
                   className={`text-blue-500 hover:scale-[1.02] focus:scale-[1.02] active:scale-100  `}
                   ripple={false}
                   fullWidth={true}
                   onClick={handleSubmit}
-                  
                 >
                   Book Now
                 </Button>
@@ -206,7 +215,7 @@ const handleSubmit =()=>{
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h1"  className="font-bold">
+                      <Typography variant="h1" className="font-bold">
                         {organizer.email}
                       </Typography>
                     </div>
@@ -256,25 +265,23 @@ const handleSubmit =()=>{
 
                   <div className="flex items-start flex-wrap">
                     <div>
-
-                    <Typography
-                      variant="h1"
-                      color="blue-gray"
-                      className="w-24 mr-4 font-bold"
+                      <Typography
+                        variant="h1"
+                        color="blue-gray"
+                        className="w-24 mr-4 font-bold"
                       >
-                      Address
-                    </Typography>
-                      </div>
-                      <div>
-
-                    <Typography
-                      variant="h1"
-                      color="blue-gray"
-                      className="font-bold"
+                        Address
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography
+                        variant="h1"
+                        color="blue-gray"
+                        className="font-bold"
                       >
-                      {organizer.district}
-                    </Typography>
-                      </div>
+                        {organizer.district}
+                      </Typography>
+                    </div>
                   </div>
                 </div>
               </CardBody>
@@ -296,15 +303,14 @@ const handleSubmit =()=>{
                   <ul className="flex flex-wrap gap-4">
                     {service.map((service, index) => (
                       <div className="flex" key={index}>
-
-                      <li className="flex items-start gap-4" >
-                        <span className="rounded-full border border-white/20 bg-white/20 p-1">
-                          <FcOk className="h-5 w-5" />
-                        </span>
-                        <Typography className="font-normal">
-                          {service}
-                        </Typography>
-                      </li>
+                        <li className="flex items-start gap-4">
+                          <span className="rounded-full border border-white/20 bg-white/20 p-1">
+                            <FcOk className="h-5 w-5" />
+                          </span>
+                          <Typography className="font-normal">
+                            {service}
+                          </Typography>
+                        </li>
                       </div>
                     ))}
                   </ul>
@@ -329,14 +335,14 @@ const handleSubmit =()=>{
                   alt="gallery"
                   className="block h-full w-full rounded-lg object-cover object-center"
                   src={image}
-                  />
+                />
               </div>
             ))}
           </div>
         </div>
       </div>
       {isSubmitted && <Checkout status={isSubmitted} values={values} />}
-      <Toaster/>
+      <Toaster />
     </div>
   );
 }

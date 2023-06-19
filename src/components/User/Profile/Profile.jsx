@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function Profile() {
-  const [profile, setProfile] = useState("");
+  // const [profile, setProfile] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [uploadedPhoto, setUploadedPhoto] = useState(avatar);
 
@@ -31,10 +31,10 @@ function Profile() {
     profileGet().then((response) => {
       if (response.data.profile) {
         formik.setValues(response.data.profile);
-        {
+        // {
           response.data.profile.image &&
             setUploadedPhoto(response.data.profile.image);
-        }
+        // }
       } else {
         toast.error("Something went wrong");
       }
@@ -58,7 +58,7 @@ function Profile() {
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values, "sdfssdf");
+      
       toast.loading("updating");
       try {
         if (imagePreview) {

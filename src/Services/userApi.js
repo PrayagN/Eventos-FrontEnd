@@ -12,6 +12,9 @@ import {userAxiosInstance} from '../axios/instance'
     const  eventList=()=>{
         return userAxiosInstance.get('/listEvent')
     }
+    const eventOrganizers = (id)=>{
+        return userAxiosInstance.post('/eventOrganizers',{id})
+    }
     const organizerList =()=>{
         return userAxiosInstance.get('/listOrganizers')
     }
@@ -27,11 +30,13 @@ import {userAxiosInstance} from '../axios/instance'
     const checkoutPayment =(values)=>{
         return userAxiosInstance.post('/create-checkout-session',values)
     }
+    
 export {
     userSignin,
     userSignup,
     userAuth,
     eventList,
+    eventOrganizers,
     organizerList,
     profileGet,
     updateProfile,

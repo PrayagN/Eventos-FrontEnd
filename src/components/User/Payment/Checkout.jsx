@@ -10,6 +10,7 @@ function Checkout({ status, values }) {
   const closeModal = () => {
     setCheckoutModal(false);
   };
+  console.log(values,'values');
   const handleSubmit = () => {
     checkoutPayment(values)
       .then((response) => {
@@ -78,7 +79,7 @@ function Checkout({ status, values }) {
                 <p className="font-bold">Advance Amount</p>
                 <p className="font-bold flex items-center ">
                 <BiRupee className="mr-1" />
-                  {values.budget * values.guests * 0.1}
+                  {values.budget * values.guests * values.advance/100}
                 </p>
               </div>
             </div>

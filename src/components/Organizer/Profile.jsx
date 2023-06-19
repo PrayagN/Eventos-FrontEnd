@@ -22,9 +22,8 @@ const validationSchema = Yup.object().shape({
   mobile: Yup.number().required("Mobile is required"),
   venue: Yup.string().required("Venue is required"),
   budget: Yup.number().required("Budget is required"),
-  capacity: Yup.string().required("Capacity is required"),
   district: Yup.string().required("District is required"),
-  state: Yup.string().required("State is required"),
+  advance: Yup.number().typeError('Invalid percentage').required('Percentage is required').min(0, 'Percentage must be greater than or equal to 0').max(100, 'Percentage must be less than or equal to 100')
 });
 
 function Profile() {
@@ -114,9 +113,8 @@ function Profile() {
       mobile: "",
       venue: "",
       budget: "",
-      capacity: "",
       district: "",
-      state: "",
+      advance: "",
       description: "",
       servic: "",
     },
@@ -311,7 +309,7 @@ function Profile() {
               <div className="flex gap-8">
                 <div className="">
                   <label className="block mb-2 text-sm font-medium text-black">
-                    Budget
+                    Budget/person
                   </label>
                   <input
                     type="number"
@@ -328,18 +326,18 @@ function Profile() {
                 </div>
                 <div className="">
                   <label className="block mb-2 text-sm font-medium text-black">
-                    Capacity
+                    Advance%
                   </label>
                   <input
                     type="text"
-                    name="capacity"
+                    name="advance"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    {...formik.getFieldProps("capacity")}
+                    {...formik.getFieldProps("advance")}
                     required
                   />
-                  {formik.touched.capacity && formik.errors.capacity && (
+                  {formik.touched.advance && formik.errors.advance && (
                     <div className="text-red-500 text-sm mt-1">
-                      {formik.errors.capacity}
+                      {formik.errors.advance}
                     </div>
                   )}
                 </div>
@@ -362,23 +360,7 @@ function Profile() {
                     </div>
                   )}
                 </div>
-                <div className="">
-                  <label className="block mb-2 text-sm font-medium text-black">
-                    State
-                  </label>
-                  <input
-                    type="text"
-                    name="state"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    {...formik.getFieldProps("state")}
-                    required
-                  />
-                  {formik.touched.state && formik.errors.state && (
-                    <div className="text-red-500 text-sm mt-1">
-                      {formik.errors.state}
-                    </div>
-                  )}
-                </div>
+               
               </div>
             </div>
           </div>
