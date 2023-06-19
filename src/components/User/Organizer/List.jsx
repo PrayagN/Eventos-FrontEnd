@@ -1,10 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-function List({ title, description, img,id }) {
+function List({ title, description, img,id,organizer }) {
   const navigate = useNavigate()
 
   const handleButton=()=>{
-    navigate('/organizers/view',{state:{id}})
+    if(organizer){
+      navigate('/organizers/view',{state:{id}})
+    }else{
+      navigate(`/services/view`,{state:{id}})
+    }
+    
   }
 
   return (

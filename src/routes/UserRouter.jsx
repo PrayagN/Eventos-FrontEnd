@@ -10,14 +10,14 @@ import ServicesListPage from "../pages/User/ServicesListPage";
 import UnauthorizedRoutes from "../middleware/UnauthorizedRoutes";
 import PrivateRoutes from "../middleware/PrivateRoutes";
 import ProfilePage from "../pages/User/ProfilePage";
-import  OrganizerViewPage from '../pages/User/OrganizerViewPage';
+import OrganizerViewPage from "../pages/User/OrganizerViewPage";
 import PaymentSuccess from "../components/User/Payment/PaymentSuccess";
 import PaymentForm from "../components/User/Payment/Checkout";
 
 function UserRouter() {
   return (
     <Routes>
-      <Route element={<UnauthorizedRoutes role={'user'} route={'/'} />}>
+      <Route element={<UnauthorizedRoutes role={"user"} route={"/"} />}>
         <Route path="/signin" element={<UserLoginPage />} />
 
         <Route path="/signup" element={<UserSignupPage />} />
@@ -28,14 +28,15 @@ function UserRouter() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/organizers" element={<OrganizerPage />} />
       <Route path="/services" element={<ServicesPage />} />
-      <Route path ='/organizers/view' element={<OrganizerViewPage/>} /> 
-      <Route path="/services/:title" element={<ServicesListPage/>}/>
+      <Route path="/organizers/view" element={<OrganizerViewPage />} />
+      <Route path="/services/view" element={<OrganizerViewPage />} />
+      <Route path="/services/:title" element={<ServicesListPage />} />
       <Route path="/*" element={<div>page not found</div>} />
 
-      <Route element={<PrivateRoutes role={'user'} route={'/'} />}>
-        <Route path="/profile" element={<ProfilePage/>}/>
-        <Route path ='/paymentform' element={<PaymentForm/>}/>
-        <Route path="/paymentSuccess" element={<PaymentSuccess/>} />
+      <Route element={<PrivateRoutes role={"user"} route={"/"} />}>
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/paymentform" element={<PaymentForm />} />
+        <Route path="/paymentSuccess" element={<PaymentSuccess />} />
       </Route>
     </Routes>
   );
