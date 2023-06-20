@@ -6,6 +6,9 @@ export const adminSignin=(values)=>{
 export const adminAuth =()=>{
     return adminAxiosInstance.get('/isAdminAuth')
 }
+export const loadDashboard =()=>{
+    return adminAxiosInstance.get('/loadDashboard')
+}
 
 export const addEvents =(formData)=>{
     return adminAxiosInstance.post('/addEvents',formData)
@@ -27,4 +30,7 @@ export const viewOrganizer =(id)=>{
 }
 export const AcceptOrganizer =(id)=>{
     return adminAxiosInstance.post('/acceptOrganizer',{id})
+}
+export const BookedEventsData =()=>{
+    return adminAxiosInstance.get('/bookedEventsData')
 }

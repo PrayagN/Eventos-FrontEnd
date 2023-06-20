@@ -10,6 +10,7 @@ import AdminLoginPage from "../pages/Admin/AdminLoginPage";
 import { adminActions } from "../app/adminSlice";
 import { useDispatch } from "react-redux";
 import OrganizerViewPage from "../pages/Admin/OrganizerViewPage";
+import BookedEventsPage from "../pages/Admin/BookedEventsPage";
 
 function AdminRouter() {
   return (
@@ -25,6 +26,7 @@ function AdminRouter() {
         <Route path="/dashboard" element={<Dashboardpage />} />
         <Route path="/customers" element={<CustomerPage />} />
         <Route path="/events" element={<EventsPage />} />
+        <Route path="/events/bookedevents" element ={< BookedEventsPage/>}/>
         <Route path="/organizers" element={<OrganizerPage />} />
         <Route path="/organizers/view/" element={<OrganizerViewPage />} />
       </Route>

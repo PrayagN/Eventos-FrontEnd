@@ -19,6 +19,7 @@ function OrganizerView() {
   const [organizer, setOrganizer] = useState({});
   const [isAccepted, setIsAccepted] = useState();
   const [services,setServices] = useState([])
+  const [conductedCount,setConductedCount] = useState('')
   const location = useLocation();
   const organizer_id = location?.state.id;
   console.log(isAccepted);
@@ -28,6 +29,7 @@ function OrganizerView() {
         if (response.data.organizer) {
           setOrganizer(response.data.organizer);
           setServices(response.data.organizer.service)
+          setConductedCount(response.data.count)
           const status = response.data.organizer.status;
           setIsAccepted(status);
         } else {
@@ -166,18 +168,6 @@ console.log(services);
       />
     </label>
     <label>
-      State
-      <Input
-        variant="static"
-        className="w-full md:w-auto lg:w-80"
-        style={{ fontWeight: "bold" }}
-        value={organizer.state}
-      />
-    </label>
-  </div>
-  <br />
-  <div className="flex flex-col md:flex-row md:items-center gap-4 lg:gap-28">
-    <label>
       Venue
       <Input
         variant="static"
@@ -186,13 +176,17 @@ console.log(services);
         value={organizer.venue}
       />
     </label>
+  </div>
+  <br />
+  <div className="flex flex-col md:flex-row md:items-center gap-4 lg:gap-28">
+   
     <label>
-      Capacity
+      Conducted
       <Input
         variant="static"
         className="w-full md:w-auto lg:w-auto"
         style={{ fontWeight: "bold" }}
-        value={organizer.capacity}
+        value={conductedCount}
       />
     </label>
     <label>

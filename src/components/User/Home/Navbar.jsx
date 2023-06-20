@@ -7,7 +7,7 @@ import { userAuth } from "../../../Services/userApi";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../../../app/userSlice";
 import { Card, CardHeader, Typography } from "@material-tailwind/react";
-import defaultAvatar from '/logoutAvatar.avif'
+import defaultAvatar from "/logoutAvatar.avif";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState(defaultAvatar);
@@ -18,7 +18,10 @@ function Navbar() {
     userAuth()
       .then((response) => {
         if (response.data.auth) {
-          {response.data.userData.image && setImage(response.data.userData.image)}
+          {
+            response.data.userData.image &&
+              setImage(response.data.userData.image);
+          }
           dispatch(userActions.userLogin());
         }
       })
@@ -50,25 +53,21 @@ function Navbar() {
     <div className="shadow-md w-full  ">
       <div className="py-4  md:flex justify-between items-center bg-white px-10">
         <div className="flex text-2xl cursor-pointer items-center gap-2">
-         <div>
-
-          <img
-            className="w-12  sm:w-12 md:w-16 lg:w-16 xl:w-16 mx-4  "
-            src={EventosLogo}
-            alt=""
+          <div>
+            <img
+              className="w-12  sm:w-12 md:w-16 lg:w-16 xl:w-16 mx-4  "
+              src={EventosLogo}
+              alt=""
             />{" "}
+          </div>
+          <div>
+            <span className="font-bold ">Eventos</span>
+            <div className="  ">
+              <span className="text-xs grid text-gray-400">
+                Making Events Simpler
+              </span>
             </div>
-            <div>
-
-          <span className="font-bold " >
-            Eventos
-          </span>
-          <div className="  ">
-        <span className="text-xs grid text-gray-400">
-          Making Events Simpler
-        </span>
-            </div>
-      </div>
+          </div>
           <br />
         </div>
         <div
@@ -79,7 +78,9 @@ function Navbar() {
         </div>
         <ul
           className={` md:flex pl-9 md:pl-0      md:items-center    absolute bg-transparent  md:static  md:z-auto z-[1] left-0 w-full md:w-auto   transition-all duration-500 ease in ${
-            isOpen ? "top-12 backdrop-filter backdrop-blur-sm mt-12 text-white " : "top-[-490px]  "
+            isOpen
+              ? "top-12 backdrop-filter backdrop-blur-sm mt-12 text-white "
+              : "top-[-490px]  "
           }`}
         >
           {Links.map((link, index) => (
@@ -99,21 +100,37 @@ function Navbar() {
                       className="dropdown-button focus:outline-none"
                       onClick={toggleDropdown}
                     >
-                      <img src={image} className="w-10 rounded-lg flex justify-center" alt="" />
+                      <img
+                        src={image}
+                        className="w-10 rounded-lg flex justify-center"
+                        alt=""
+                      />
                       {isDropdownOpen && (
-                        <ul className="dropdown-menu absolute mt-2 py-2 bg-white border border-gray-200 shadow-lg z-[9999]">
-                          <Link
-                            to={"/profile"}
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
-                          >
-                            Profile
-                          </Link>
-                          <button
-                            className="px-4 py-2 hover:bg-gray-100  cursor-pointer"
-                            onClick={handleLogout}
-                          >
-                            Logout
-                          </button>
+                        <ul className="dropdown-menu absolute mt-2 py-2 bg-white border border-gray-200 shadow-lg z-[9999] ">
+                          <li>
+                            <Link
+                              to={"/profile"}
+                              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
+                            >
+                              Profile
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to={"/booked-events"}
+                              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
+                            >
+                              Booked Events
+                            </Link>
+                          </li>
+                          <li>
+                            <button
+                              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                              onClick={handleLogout}
+                            >
+                              Logout
+                            </button>
+                          </li>
                         </ul>
                       )}
                     </button>
@@ -130,7 +147,7 @@ function Navbar() {
           </li>
         </ul>
       </div>
-      
+
       {modal && (
         <div className="flex inset-0 justify-center items-center h-screen md:flex-col ">
           {" "}

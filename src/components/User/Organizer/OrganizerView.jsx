@@ -17,6 +17,7 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Checkout from "../Payment/Checkout";
+import Reviews from "./Reviews";
 
 function OrganizerView() {
   const [organizer, setOrganizer] = useState({});
@@ -90,19 +91,19 @@ function OrganizerView() {
                     alt=""
                   />
                   <div className="flex flex-col justify-center">
-                    <Typography
-                      variant="h2"
+                    <h1
+                      
                       color="blue-gray"
-                      className="mb-2 font-bold text-center md:text-left"
+                      className="mb-2 font-bold text-center md:text-left text-4xl"
                     >
                       {organizer.organizerName}
-                    </Typography>
+                    </h1>
                   </div>
                 </div>
               </div>
 
               <div className="flex">
-                <Typography>{organizer.description}</Typography>
+                <h1>{organizer.description}</h1>
               </div>
             </Card>
           </div>
@@ -118,30 +119,27 @@ function OrganizerView() {
                 color="transparent"
                 className="m-0 mb-8 rounded-none border-b border-white/10 pb-8 text-center"
               >
-                <Typography
-                  variant="small"
-                  color="white"
-                  className="font-normal uppercase"
+                <h1
+                  className="font-normal uppercase text-white"
                 >
                   standard
-                </Typography>
-                <Typography
-                  variant="h1"
-                  color="white"
-                  className="mt-6 flex justify-center gap-1 text-4xl  flex-wrap font-normal"
+                </h1>
+                <h1
+                 
+                  className="mt-6 flex justify-center gap-1 text-4xl text-white  flex-wrap font-normal"
                 >
                   <span className="mt-2 text-lg">
                     <BiRupee />
                   </span>
                   {organizer.budget}{" "}
                   <span className="self-end text-2xl">/person </span>
-                </Typography>
+                </h1>
               </CardHeader>
               <CardBody className="p-0 ">
                 <div className="flex flex-col gap-4">
-                  <Typography variant="h6" color="white" className="uppercase ">
+                  <h6  className="uppercase ">
                     Check Availability
-                  </Typography>
+                  </h6>
                   <div className="flex flex-col  md:flex-row md:justify-between gap-4">
                     <div className="flex flex-col ">
                       <div className="flex flex-wrap">
@@ -195,19 +193,18 @@ function OrganizerView() {
           <div className="w-full">
             <Card className="mt-6 sm:h-auto md:h-60">
               <CardBody>
-                <Typography
-                  variant="h6"
-                  color="blue"
-                  className="uppercase mb-4"
+                <h6
+                  
+                  className="uppercase mb-4 text-blue-500 font-bold"
                 >
                   Details
-                </Typography>
+                </h6>
 
                 <div className="flex flex-col gap-4 justify-center">
                   <div className="flex items-start flex-wrap">
                     <div>
                       <Typography
-                        variant="h1"
+                        // variant="h1"
                         color="blue-gray"
                         className="w-24 mr-4 font-bold"
                       >
@@ -215,16 +212,16 @@ function OrganizerView() {
                       </Typography>
                     </div>
                     <div>
-                      <Typography variant="h1" className="font-bold">
+                      <h1 className="font-bold">
                         {organizer.email}
-                      </Typography>
+                      </h1>
                     </div>
                   </div>
 
                   <div className="flex items-start flex-wrap">
                     <div>
                       <Typography
-                        variant="h1"
+                        // variant="h1"
                         color="blue-gray"
                         className="w-24 mr-4 font-bold"
                       >
@@ -233,7 +230,7 @@ function OrganizerView() {
                     </div>
                     <div>
                       <Typography
-                        variant="h1"
+                        variant="h6"
                         color="blue-gray"
                         className="font-bold"
                       >
@@ -245,7 +242,7 @@ function OrganizerView() {
                   <div className="flex items-start flex-wrap">
                     <div>
                       <Typography
-                        variant="h1"
+                        // variant="h1"
                         color="blue-gray"
                         className="w-24 mr-4 font-bold"
                       >
@@ -254,7 +251,7 @@ function OrganizerView() {
                     </div>
                     <div>
                       <Typography
-                        variant="h1"
+                        // variant="h1"
                         color="blue-gray"
                         className="font-bold"
                       >
@@ -266,16 +263,18 @@ function OrganizerView() {
                   <div className="flex items-start flex-wrap">
                     <div>
                       <Typography
-                        variant="h1"
+                        variant="h6"
+                        
                         color="blue-gray"
                         className="w-24 mr-4 font-bold"
+                        
                       >
                         Address
                       </Typography>
                     </div>
                     <div>
                       <Typography
-                        variant="h1"
+                        // variant="h1"
                         color="blue-gray"
                         className="font-bold"
                       >
@@ -323,7 +322,7 @@ function OrganizerView() {
 
       <div>
         <div className="flex justify-center">
-          <Typography variant="h3" color="blue" className="uppercase mb-4">
+          <Typography  className="uppercase mb-4">
             Gallery
           </Typography>
         </div>
@@ -340,6 +339,13 @@ function OrganizerView() {
             ))}
           </div>
         </div>
+        <div className="mx-10 px-10 my-5">
+          <h1 className="text-2xl text-blue-600" >Review & Rating</h1>
+          <Reviews/>
+        </div>
+      </div>
+      <div>
+
       </div>
       {isSubmitted && <Checkout status={isSubmitted} values={values} />}
       <Toaster />

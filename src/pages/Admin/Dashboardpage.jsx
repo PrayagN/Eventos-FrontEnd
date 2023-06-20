@@ -1,5 +1,5 @@
 import React from 'react'
-import Dashboard from '../../components/Admin/dashboard/dashboard'
+import Dashboard from '../../components/Admin/dashboard/Dashboard'
 import Sidebar from '../../components/Admin/Sidebar/Sidebar'
 
 function Dashboardpage() {

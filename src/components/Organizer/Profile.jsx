@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import img2 from "../../assets/gallery/img2.jpg";
+import {validateImage} from '../../constants/constants'
 import Card from "./Card";
 import { useState } from "react";
 import { FcPlus } from "react-icons/fc";
@@ -35,36 +35,16 @@ function Profile() {
     "https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg"
   );
   const [images, setImages] = useState([]);
-  const validateImage = (file) => {
-    const supportedFormats = ["image/jpeg", "image/png", "image/gif"];
-    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-
-    // Check file format
-    if (!supportedFormats.includes(file.type)) {
-      toast.error(
-        "Unsupported image format. Please choose a JPEG, PNG, or GIF image."
-      );
-      return false;
-    }
-
-    // Check file size
-    if (file.size > maxSizeInBytes) {
-      toast.error("The image size exceeds the maximum allowed limit of 5MB.");
-      return false;
-    }
-
-    return true;
-  };
+ 
 
   const handleLogoChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
+    
       if (validateImage(file)) {
-        console.log(file);
         setLogo(file);
         setOrgLogo(null);
       }
-    }
+    
   };
 
   const handleFileUpload = (event) => {

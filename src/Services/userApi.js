@@ -30,6 +30,9 @@ import {userAxiosInstance} from '../axios/instance'
     const checkoutPayment =(values)=>{
         return userAxiosInstance.post('/create-checkout-session',values)
     }
+    const bookedEvents =()=>{
+        return userAxiosInstance.get('/booked-events')
+    }
     
 export {
     userSignin,
@@ -41,6 +44,7 @@ export {
     profileGet,
     updateProfile,
     organizerView,
-    checkoutPayment
+    checkoutPayment,
+    bookedEvents
 
 }

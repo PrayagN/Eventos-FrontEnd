@@ -13,6 +13,7 @@ import ProfilePage from "../pages/User/ProfilePage";
 import OrganizerViewPage from "../pages/User/OrganizerViewPage";
 import PaymentSuccess from "../components/User/Payment/PaymentSuccess";
 import PaymentForm from "../components/User/Payment/Checkout";
+import BookedEventsPage from "../pages/User/BookedEventsPage";
 
 function UserRouter() {
   return (
@@ -35,6 +36,7 @@ function UserRouter() {
 
       <Route element={<PrivateRoutes role={"user"} route={"/"} />}>
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path='/booked-events' element={<BookedEventsPage/>}/>
         <Route path="/paymentform" element={<PaymentForm />} />
         <Route path="/paymentSuccess" element={<PaymentSuccess />} />
       </Route>
