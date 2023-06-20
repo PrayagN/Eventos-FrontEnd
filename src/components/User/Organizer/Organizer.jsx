@@ -2,14 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import { organizerList } from "../../../Services/userApi";
 import List from "./List";
-
+import Pagination from "../Pagination/Pagination";
 const Organizer = () => {
   const [organizers, setOrganizers] = useState([]);
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState("All");
+  const [selectedEvent, setSelectedEvent] = useState('All');
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredOrganizers, setFilteredOrganizers] = useState([]);
+  const [activePage, setActivePage] = useState(1);
+  const [totalOrganizers,setTotalOrganizers] = useState(0)
+  const organizerLimitPerPage = 2;
 
+  useEffect(() => {
+    organizerList(activePage,organizerLimitPerPage,searchQuery,selectedEvent).then((response) => {
+      console.log(response.data.organizers);
+      setOrganizers(response?.data.organizers);
+      setEvents(response.data.events);
+      setTotalOrganizers(response.data.total)
+    });
+  }, [activePage,searchQuery,selectedEvent]);
   const handleEventClick = (event) => {
     setSelectedEvent(event);
   };
@@ -18,41 +28,8 @@ const Organizer = () => {
     const value = event.target.value;
     setSearchQuery(value);
 
-    const filteredOrganizers = organizers.filter((organizer) => {
-      const organizerNameMatch = organizer.organizerName
-
-        .toLowerCase()
-        .includes(value.toLowerCase());
-      const organizerDistrict = organizer.district
-        .toLowerCase()
-        .includes(value.toLowerCase());
-      const eventMatch =
-        selectedEvent === "All" || organizer.event === selectedEvent;
-      return organizerNameMatch && eventMatch;
-    });
-
-    setFilteredOrganizers(filteredOrganizers);
   };
 
-  useEffect(() => {
-    const fetch = async () => {
-      const response = await organizerList();
-      console.log(response.data.organizers);
-      setOrganizers(response.data.organizers);
-      setEvents(response.data.events);
-    };
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    const filteredOrganizers = organizers.filter((organizer) => {
-      if (selectedEvent === "All") {
-        return true;
-      }
-      return organizer.event === selectedEvent;
-    });
-    setFilteredOrganizers(filteredOrganizers);
-  }, [organizers, selectedEvent]);
 
   return (
     <div className="w-fll items-center">
@@ -118,19 +95,16 @@ const Organizer = () => {
             onChange={handleSearchChange}
           />
           {searchQuery.length === 0 && (
-            <label
-              
-              className="pointer-events-none font-semibold absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-blue-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:peer-focus:text-primary"
-            >
+            <label className="pointer-events-none font-semibold absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-blue-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:peer-focus:text-primary">
               Search
             </label>
           )}
         </div>
       </div>
 
-      <div className="grid xl:grid-cols-3 md:grid-cols-3  mt-12 pt-1 ml-32 gap-5  ">
-        {filteredOrganizers.length > 0 ? (
-          filteredOrganizers.map((organizer, index) => (
+      <div className="grid xl:grid-cols-3 md:grid-cols-3  mt-12 pt-1  gap-5  ">
+        {organizers.length > 0 ? (
+          organizers.map((organizer, index) => (
             <List
               key={index}
               description={organizer.description}
@@ -145,6 +119,9 @@ const Organizer = () => {
             There is no such organizer available
           </div>
         )}
+      </div>
+      <div className="flex justify-center mt-10">
+        <Pagination activePage ={activePage} limit ={organizerLimitPerPage} setActivePage={setActivePage} totalOrganizers ={totalOrganizers} />
       </div>
     </div>
   );

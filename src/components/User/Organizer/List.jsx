@@ -13,7 +13,7 @@ function List({ title, description, img,id,organizer }) {
   }
 
   return (
-    <div className="flex">
+    <div className="flex justify-center">
       <div
         className={`max-w-sm rounded-lg shadow shadow-gray-600 w-72 relative`}
       >

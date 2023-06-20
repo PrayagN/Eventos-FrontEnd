@@ -15,8 +15,8 @@ import {userAxiosInstance} from '../axios/instance'
     const eventOrganizers = (id)=>{
         return userAxiosInstance.post('/eventOrganizers',{id})
     }
-    const organizerList =()=>{
-        return userAxiosInstance.get('/listOrganizers')
+    const organizerList =(activePage,size,searchQuery,selectedEvent)=>{
+        return userAxiosInstance.get('/listOrganizers',{params:{activePage,size,searchQuery,selectedEvent}})
     }
     const organizerView =(id)=>{
         return userAxiosInstance.post('/viewOrganizer',{id})
