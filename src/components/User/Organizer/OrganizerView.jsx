@@ -34,6 +34,7 @@ function OrganizerView() {
   const [rated, setRated] = React.useState(1);
   const [review, setReview] = useState("");
   const [showReview,setShowReview] = useState([])
+  const [done,setDone] = useState('')
 
   const location = useLocation();
   const organizer_id = location?.state.id;
@@ -45,8 +46,14 @@ function OrganizerView() {
         if(response.data.status){
           setIsOpen(true);
         }else if(response.data.message){
+          
             setIsOpen(false)
             toast.success(response.data.message)
+        }else if(response.data.message1){
+          console.log('yes');
+          setDone('yes')
+          setIsOpen(false)
+         
         }
       })
       .catch((error) => {
@@ -76,7 +83,7 @@ function OrganizerView() {
       
 
     }
-  }, [organizer_id]);
+  }, [organizer_id,done]);
 
   const organizername = organizer.organizerName;
   const budget = organizer.budget;
@@ -333,7 +340,7 @@ function OrganizerView() {
 
       <div>
         <div className="flex justify-center">
-          <Typography className="uppercase mb-4">Gallery</Typography>
+          <Typography color='blue' className="uppercase mb-4 text-2xl font-bold">Gallery</Typography>
         </div>
         <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
           <div className="-m-1 flex flex-wrap">
@@ -351,7 +358,7 @@ function OrganizerView() {
 
         <div className="mx-10 px-10 my-5">
           <div className="flex justify-between">
-            <h1 className="text-2xl text-black font-medium">
+            <h1 className="text-2xl text-black font-medium mx-5">
               Rating & Reviews
             </h1>
             {authorized && (
@@ -365,7 +372,7 @@ function OrganizerView() {
               </div>
             )}
           </div>
-          <div>
+          <div className="px-10">
           {showReview.length>0?
 
           <Reviews review={showReview} />

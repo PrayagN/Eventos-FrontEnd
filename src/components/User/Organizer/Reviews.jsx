@@ -16,7 +16,7 @@ function Reviews({ review }) {
   return (
     <>
       { review.map((review, index) => (
-        <div className="flex justify-start mt-2" key={index}>
+        <div className="flex justify-start mt-2 " key={index}>
           <article>
             <div className="flex items-center mb-4 space-x-4">
               <img

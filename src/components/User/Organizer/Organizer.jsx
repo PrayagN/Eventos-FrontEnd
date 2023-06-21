@@ -10,14 +10,16 @@ const Organizer = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activePage, setActivePage] = useState(1);
   const [totalOrganizers,setTotalOrganizers] = useState(0)
+  const [review,setReview] = useState([])
   const organizerLimitPerPage = 2;
 
   useEffect(() => {
     organizerList(activePage,organizerLimitPerPage,searchQuery,selectedEvent).then((response) => {
-      console.log(response.data.organizers);
+      
       setOrganizers(response?.data.organizers);
       setEvents(response.data.events);
       setTotalOrganizers(response.data.total)
+      setReview(response.data.review)
     });
   }, [activePage,searchQuery,selectedEvent]);
   const handleEventClick = (event) => {
@@ -112,6 +114,8 @@ const Organizer = () => {
               organizer={true}
               img={organizer.logo}
               id={organizer._id}
+              review = {review}
+              budget = {organizer.budget}
             />
           ))
         ) : (
