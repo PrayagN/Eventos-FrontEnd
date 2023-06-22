@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import {validateImage} from '../../constants/constants'
 import Card from "./Card";
 import { useState } from "react";
 import { FcPlus } from "react-icons/fc";
@@ -7,7 +6,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { organizerProfile, updateProfile } from "../../Services/organizerApi";
 import toast, { Toaster } from "react-hot-toast";
-import { FcCameraAddon } from "react-icons/fc";
 import Slide from "./Slide";
 
 import { Button } from "@material-tailwind/react";
@@ -24,6 +22,7 @@ const validationSchema = Yup.object().shape({
   budget: Yup.number().required("Budget is required"),
   district: Yup.string().required("District is required"),
   advance: Yup.number().typeError('Invalid percentage').required('Percentage is required').min(0, 'Percentage must be greater than or equal to 0').max(100, 'Percentage must be less than or equal to 100')
+  
 });
 
 function Profile() {
@@ -37,15 +36,6 @@ function Profile() {
   const [images, setImages] = useState([]);
  
 
-  const handleLogoChange = (event) => {
-    const file = event.target.files[0];
-    
-      if (validateImage(file)) {
-        setLogo(file);
-        setOrgLogo(null);
-      }
-    
-  };
 
   const handleFileUpload = (event) => {
     const files = event.target.files;
@@ -149,21 +139,14 @@ function Profile() {
       <div className="m-4 space-y-16">
         <h1 className="text-4xl font-semibold font-arim">Profile</h1>
 
-        <label className="absolute  text-white px-52   ">
-          <FcCameraAddon className="w-32 cursor-pointer" />
-          <input
-            type="file"
-            className="hidden"
-            accept="image/*"
-            onChange={handleLogoChange}
-          />
-        </label>
+       
         <Card
           title={formik.values.organizerName}
           logo={orgLogo}
           imagePreview={logo}
           size="true"
           event={formik.values.event}
+          setLogo={setLogo}
         />
         <div className="w-96">
           <Slide autoSlide={true}>

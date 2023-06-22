@@ -25,9 +25,9 @@ export const eventOrganizers = (
     organizerLimitPerPage,
   });
 };
-export const organizerList = (activePage, size, searchQuery, selectedEvent) => {
+export const organizerList = (activePage, organizerLimitPerPage, searchQuery, selectedEvent) => {
   return userAxiosInstance.get("/listOrganizers", {
-    params: { activePage, size, searchQuery, selectedEvent },
+    params: { activePage, organizerLimitPerPage, searchQuery, selectedEvent },
   });
 };
 export const organizerView = (id) => {

@@ -176,7 +176,7 @@ function Profile() {
             </div>
             <br />
             <div className="flex items-center">
-              <div className="px-4 py-2 font-semibold w-24">Contact.No</div>
+              <div className="px-4 py-2 font-semibold w-18">Phone</div>
               <input
                 className="px-2 mx-2 py-2 border border-gray-300 rounded-md w-48"
                 name="mobile"
@@ -188,6 +188,7 @@ function Profile() {
                 </div>
               )}
             </div>
+            
           </div>
           <div className="flex justify-end mt-3">
             <button

@@ -1,13 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { BiRupee } from "react-icons/bi";
+
 function List({ title, description, img, id, organizer, review, budget }) {
   const navigate = useNavigate();
+  console.log();
   let rating = 0;
   let reviewCount = 0;
-  review.map((review, index) => {
-    rating += review.rating;
-    reviewCount++;
-  });
+  // review.map((review, index) => {
+  //   rating += review.rating;
+  //   reviewCount++;
+  // });
 
   const star = [];
   for (let i = 0; i < Math.ceil(rating / reviewCount); i++) {
@@ -39,8 +42,14 @@ function List({ title, description, img, id, organizer, review, budget }) {
         className={`max-w-sm rounded-lg shadow shadow-gray-600 w-72 relative`}
       >
         <div className="flex justify-center">
-          <img className={`rounded-lg w-28 pt-3`} src={img} alt="" />
+          <img
+            className="rounded-lg object-fit pt-4"
+            src={img}
+            alt=""
+            style={{ width: "5rem", height: "5rem" }}
+          />
         </div>
+
         <div className={`p-5 h-64 mb-5`} style={{ minHeight: "7rem" }}>
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black justify-center flex">
             {title}
@@ -58,7 +67,10 @@ function List({ title, description, img, id, organizer, review, budget }) {
           </p>
           <div className="flex flex-wrap justify-between mt-5">
             <div className="flex">{star}</div>
-            <div>{budget}/person</div>
+            <div className="flex items-center">
+              <BiRupee className="mr-1" />
+              <span className="text-lg font-arim">{budget}/person</span>
+            </div>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 flex justify-center  ">

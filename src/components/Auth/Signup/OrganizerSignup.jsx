@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {ImCross} from 'react-icons/im'
+import { ImCross } from "react-icons/im";
 import axios from "axios";
 import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
@@ -11,6 +11,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../../../firebase";
 import Modal from "react-modal";
 import { viewEvents, organizerSignup } from "../../../Services/organizerApi";
+import { Select, Option } from "@material-tailwind/react";
 const initialValues = {
   organizerName: "",
   email: "",
@@ -26,9 +27,8 @@ const validationSchema = Yup.object({
   mobile: Yup.string()
     .matches(/^[0-9]{10}$/, "mobile number is not valid")
     .required("required"),
-  event:Yup.string().required()
+  event: Yup.string().required(),
 });
-
 
 function OrganizerSignup() {
   const [isOTPOpen, setOTPOpen] = useState(false);
@@ -36,7 +36,6 @@ function OrganizerSignup() {
   const [eventOptions, setEventOptions] = useState([]);
 
   // const [otp,setOTP] = useState(null)
-
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -49,7 +48,7 @@ function OrganizerSignup() {
         console.log(error);
       }
     };
-  
+
     fetchOptions();
   }, []);
   const navigate = useNavigate();
@@ -102,14 +101,12 @@ function OrganizerSignup() {
     try {
       console.log(formik.values, "dsfa");
       await verify.confirm(formik.values.otp);
-      const { response } = await organizerSignup(formik.values).then(
-        (response) => {
-          if (response.data.status) {
-            navigate("/organizer");
-            setOTPOpen(false);
-          }
-        }
-      );
+      const { data } = await organizerSignup(formik.values);
+
+      if (data.status) {
+        navigate("/organizer");
+        setOTPOpen(false);
+      }
     } catch (error) {
       toast.error("Incorrect OTP. Please try again.");
     }
@@ -117,7 +114,7 @@ function OrganizerSignup() {
 
   return (
     <main className="w-full h-screen flex rounded">
-      <div className="bg-white grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] rounded-2xl">
+      <div className="bg-white grid grid-cols-1 h-auto md:grid-cols-2 m-auto shadow-lg shadow-gray-600 sm:max-w-[900px] rounded-2xl">
         <div className="hidden md:block">
           <img
             src="https://media.istockphoto.com/id/1430871384/vector/event-planner-template-hand-drawn-cartoon-flat-illustration-with-planning-schedule-time.jpg?s=612x612&w=0&k=20&c=Aa-8uNDJCHmiilHB5A9-VYrbUmy5GhYG4VIfEtr9hmE="
@@ -141,7 +138,7 @@ function OrganizerSignup() {
                 variant="standard"
                 name="organizerName"
                 style={{ marginTop: "20px" }}
-                className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200"
+                className="border p-2 mr-2 w-full rounded-2xl "
                 type="text"
                 label="organizerName"
                 {...formik.getFieldProps("organizerName")}
@@ -155,7 +152,7 @@ function OrganizerSignup() {
                 variant="standard"
                 name="email"
                 style={{ marginTop: "20px" }}
-                className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200"
+                className="border p-2 mr-2 w-full rounded-2xl "
                 type="text"
                 label="email"
                 {...formik.getFieldProps("email")}
@@ -167,7 +164,7 @@ function OrganizerSignup() {
                 variant="standard"
                 name="password"
                 style={{ marginTop: "20px" }}
-                className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200"
+                className="border p-2 mr-2 w-full rounded-2xl "
                 type="password"
                 label="password"
                 {...formik.getFieldProps("password")}
@@ -182,19 +179,15 @@ function OrganizerSignup() {
                   variant="standard"
                   name="mobile"
                   style={{ marginTop: "20px" }}
-                  className="border p-2 mr-2 w-full rounded-2xl shadow-lg shadow-gray-200"
+                  className="border p-2 mr-2 w-full rounded-2xl"
                   type="text"
                   label="mobile"
                   {...formik.getFieldProps("mobile")}
                 />
-                {formik.touched.mobile && formik.errors.mobile ? (
-                  <div className="text-red-600 pl-2">
-                    {formik.errors.mobile}
-                  </div>
-                ) : null}
 
                 <select
-                  className="text-base p-2 mt-8 rounded-lg focus:outline-none focus:border-indigo-500"
+                  id="events"
+                  className=" text-base p-2 mt-8 rounded-lg focus:outline-none focus:border-indigo-500 border-gray-300 bg-white  dark:border-gray-600 transition duration-300 hover:bg-gray-100"
                   name="event"
                   {...formik.getFieldProps("event")}
                   onChange={formik.handleChange}
@@ -206,8 +199,14 @@ function OrganizerSignup() {
                     </option>
                   ))}
                 </select>
+                
               </div>
+              {formik.touched.mobile && formik.errors.mobile ? (
+                <div className="text-red-600 pl-2">{formik.errors.mobile}</div>
+              ) : null}
+             
             </div>
+            
             <div id="recaptcha-container" className="p-2"></div>
             <Button
               variant="contained"

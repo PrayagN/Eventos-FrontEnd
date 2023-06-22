@@ -1,4 +1,7 @@
 import React from "react";
+import { FcCameraAddon } from "react-icons/fc";
+import {validateImage} from '../../constants/constants'
+import toast, { Toaster } from "react-hot-toast";
 
 import { useState } from "react";
 function Card({
@@ -10,14 +13,15 @@ function Card({
   id,
   logo,
   imagePreview,
+  setLogo
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-  console.log(logo);
+  // const [isOpen, setIsOpen] = useState(false);
+  
   return (
-    <div
-      className={`flex cursor-pointer ${id ? "clickable" : ""}`}
-      onClick={() => setIsOpen(true)}
-    >
+    // <div
+    //   className={`flex cursor-pointer ${id ? "clickable" : ""}`}
+    //   onClick={() => setIsOpen(true)}
+    // >
       <div
         className={`max-w-sm rounded-lg shadow shadow-gray-600 ${
           size
@@ -25,7 +29,7 @@ function Card({
             : "mx-auto md:mx-0"
         }`}
       >
-        <div className="flex justify-center rounded-lg">
+        <div className="flex justify-center rounded-lg object-cover">
           {!organizer ? (
             imagePreview ? (
               <img
@@ -56,6 +60,15 @@ function Card({
             />
           )}
         </div>
+        <label className="absolute  text-white px-52   ">
+          <FcCameraAddon className="w-32 cursor-pointer" />
+          <input
+            type="file"
+            className="hidden"
+            accept="image/*"
+            onChange={(e)=>{setLogo(validateImage(e.target.files[0])),setOrgLogo(null)}}
+          />
+        </label>
 
         <div className={`${size ? "p-2" : "p-5"}`}>
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black justify-center flex ">
@@ -72,15 +85,10 @@ function Card({
             </p>
           )}
         </div>
+      
       </div>
-      {/* {isOpen && (
-             <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
-
-              </div>
-          )
-
-          } */}
-    </div>
+    
+    // </div>
   );
 }
 

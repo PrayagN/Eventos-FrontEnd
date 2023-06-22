@@ -18,5 +18,5 @@ export  const validateImage = (file) => {
       return false;
     }
 
-    return true;
+    return file;
   };

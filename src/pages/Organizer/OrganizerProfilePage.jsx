@@ -6,7 +6,7 @@ function OrganizerProfilePage() {
   return (
     <div className='flex '>
       <Sidebar/>
-      <Profile/>
+      <Profile />
     </div>
   )
 }

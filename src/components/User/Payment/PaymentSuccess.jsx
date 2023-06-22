@@ -11,7 +11,7 @@ function PaymentSuccess() {
       }, 1000);
       if (time === 0) {
         clearInterval(timer);
-        navigate('/profile');
+        navigate('/booked-events');
       }
       return () => clearInterval(timer);
     }, [time]);

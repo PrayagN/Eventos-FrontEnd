@@ -58,7 +58,7 @@ console.log(services);
       <div className="w-full">
         <AdminLogo />
       </div>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-4 ">
         <div className="w-full md:w-2/6">
           <Card className="mt-6">
             <div className="flex justify-center">
@@ -76,7 +76,10 @@ console.log(services);
                   {organizer.organizerName}
                 </Typography>
               </div>
-              <Typography >{organizer.description}</Typography>
+              <div className="h-60  overflow-y-auto scrollbar-hide">
+
+              <Typography  >{organizer.description}</Typography>
+              </div>
             </CardBody>
             <div className="flex justify-center gap-20 m-5">
               <button
@@ -104,7 +107,7 @@ console.log(services);
         </div>
         <div className="w-auto md:w-4/6">
         <Card className="p-2">
-  <div className="flex flex-col md:flex-row md:items-center w-full md:gap-6 mb-4">
+  <div className="flex flex-col md:flex-row md:items-center w-full md:gap-6 mb-4 p-5">
     <div className="flex flex-col md:flex-row md:gap-4 lg:gap-40">
       <label>
         OrganizerName

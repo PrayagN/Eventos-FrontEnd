@@ -5,6 +5,7 @@ import AdminLogo from "../../common/AdminLogo";
 import { useNavigate} from "react-router-dom";
 import { loadDashboard } from "../../../Services/adminApi";
 import { BiArrowFromLeft } from "react-icons/bi";
+import {IoIosPeople} from 'react-icons/io'
 function Dashboard() {
   const navigate = useNavigate()
   const [dashboard, setDashboard] = useState();
@@ -26,8 +27,24 @@ function Dashboard() {
           open ? "ml-0" : "ml-32"
         }`}
       >
-        <div className="bg-white h-32 m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600"></div>
-        <div className="bg-white h-32 m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600"></div>
+        <div className="bg-white h-32 m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600">
+          <div className="flex justify-center items-center text-5xl gap-5">
+        
+        <IoIosPeople/>
+        <div className="text-4xl">
+          {dashboard?.count}
+
+        </div>
+          </div>
+          <div>
+
+          </div>
+        </div>
+        <div className="bg-white h-32 m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600">
+          <div>
+
+          </div>
+        </div>
         <div className="bg-white h-32 m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600"></div>
         <div className="bg-white h-32 m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600"></div>
       </div>

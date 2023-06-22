@@ -33,27 +33,25 @@ function OrganizerView() {
   const [isOpen, setIsOpen] = useState(false);
   const [rated, setRated] = React.useState(1);
   const [review, setReview] = useState("");
-  const [showReview,setShowReview] = useState([])
-  const [done,setDone] = useState('')
+  const [showReview, setShowReview] = useState([]);
+  const [done, setDone] = useState("");
 
   const location = useLocation();
   const organizer_id = location?.state.id;
   const authorized = useSelector((state) => state.user.authorized);
-  
+
   const rateOrganizer = () => {
     reviewOrganizer(organizer_id, rated, review)
       .then((response) => {
-        if(response.data.status){
+        if (response.data.status) {
           setIsOpen(true);
-        }else if(response.data.message){
-          
-            setIsOpen(false)
-            toast.success(response.data.message)
-        }else if(response.data.message1){
-          console.log('yes');
-          setDone('yes')
-          setIsOpen(false)
-         
+        } else if (response.data.message) {
+          setIsOpen(false);
+          toast.success(response.data.message);
+        } else if (response.data.message1) {
+          console.log("yes");
+          setDone("yes");
+          setIsOpen(false);
         }
       })
       .catch((error) => {
@@ -67,8 +65,8 @@ function OrganizerView() {
         if (response.data.organizer) {
           setOrganizer(response.data.organizer);
           setServices(response.data.organizer.service);
-          setShowReview(response.data.review)
-          
+          setShowReview(response.data.review);
+
           const excludedDates = response.data.bookedDates.map((dateString) => {
             const date = new Date(dateString);
             date.setDate(date.getDate() - 1); // Subtract one day from the date
@@ -80,10 +78,8 @@ function OrganizerView() {
           toast.error(response.data.message);
         }
       });
-      
-
     }
-  }, [organizer_id,done]);
+  }, [organizer_id, done]);
 
   const organizername = organizer.organizerName;
   const budget = organizer.budget;
@@ -112,7 +108,6 @@ function OrganizerView() {
     setIsSubmitted((prevState) => !prevState);
   };
 
-
   return (
     <div className="w-full">
       <div className="grid px-10 mx-10 gap-4 my-5">
@@ -120,7 +115,7 @@ function OrganizerView() {
           <div className="w-full">
             <Card className="p-5">
               <div className="flex justify-between flex-col">
-                <div className="flex flex-wrap items-center ml-5 mt-5">
+                <div className="flex flex-wrap items-center  ml-5 mt-5">
                   <img
                     src={organizer.logo}
                     className="w-20 h-20 object-cover rounded-lg mb-2 md:mb-0 md:mr-4"
@@ -129,11 +124,16 @@ function OrganizerView() {
                   <div className="flex flex-col justify-center">
                     <h1
                       color="blue-gray"
-                      className="mb-2 font-bold text-center md:text-left text-4xl"
+                      className="mb-2 font-bold text-center md:text-left text-4xl uppercase"
                     >
                       {organizer.organizerName}
                     </h1>
                   </div>
+                </div>
+              </div>
+              <div className=" flex justify-center text-2xl m-6">
+                <div className="flex justify-center font-semibold bg-slate-50 border-b-2">
+                  <h1>About us</h1>
                 </div>
               </div>
 
@@ -340,15 +340,20 @@ function OrganizerView() {
 
       <div>
         <div className="flex justify-center">
-          <Typography color='blue' className="uppercase mb-4 text-2xl font-bold">Gallery</Typography>
+          <Typography
+            color="blue"
+            className="uppercase mb-4 text-2xl font-bold"
+          >
+            Gallery
+          </Typography>
         </div>
-        <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
+        <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12 ">
           <div className="-m-1 flex flex-wrap">
             {organizer.images?.map((image, index) => (
               <div className="w-full md:w-1/3 p-1 md:p-2" key={index}>
                 <img
                   alt="gallery"
-                  className="block h-full w-full rounded-lg object-cover object-center"
+                  className="block h-full w-full rounded-lg object-cover object-center "
                   src={image}
                 />
               </div>
@@ -373,11 +378,11 @@ function OrganizerView() {
             )}
           </div>
           <div className="px-10">
-          {showReview.length>0?
-
-          <Reviews review={showReview} />
-          :(<p className="text-lg ">No Ratings Yet</p>)
-          }
+            {showReview.length > 0 ? (
+              <Reviews review={showReview} />
+            ) : (
+              <p className="text-lg ">No Ratings Yet</p>
+            )}
           </div>
         </div>
       </div>
@@ -422,7 +427,7 @@ function OrganizerView() {
                       className="w-full h-96 "
                       style={{ borderColor: "black" }}
                       placeholder="write your review"
-                      onChange={(e)=>setReview(e.target.value)}
+                      onChange={(e) => setReview(e.target.value)}
                     />
                   </div>
                   {/* </div>

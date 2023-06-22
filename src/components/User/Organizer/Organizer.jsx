@@ -12,7 +12,6 @@ const Organizer = () => {
   const [totalOrganizers,setTotalOrganizers] = useState(0)
   const [review,setReview] = useState([])
   const organizerLimitPerPage = 2;
-
   useEffect(() => {
     organizerList(activePage,organizerLimitPerPage,searchQuery,selectedEvent).then((response) => {
       
@@ -25,6 +24,7 @@ const Organizer = () => {
   const handleEventClick = (event) => {
     setSelectedEvent(event);
   };
+  console.log(organizers);
 
   const handleSearchChange = (event) => {
     const value = event.target.value;
@@ -114,7 +114,7 @@ const Organizer = () => {
               organizer={true}
               img={organizer.logo}
               id={organizer._id}
-              review = {review}
+              review = {organizer.review}
               budget = {organizer.budget}
             />
           ))

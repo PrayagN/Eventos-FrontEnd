@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 function OrganizerViewPage() {
     return (
     <div className='flex'>
+      
         <Sidebar/>
       <OrganizerView  />
 
