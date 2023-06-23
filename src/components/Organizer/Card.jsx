@@ -23,13 +23,13 @@ function Card({
     //   onClick={() => setIsOpen(true)}
     // >
       <div
-        className={`max-w-sm rounded-lg shadow shadow-gray-600 ${
+        className={`max-w-sm rounded-lg shadow shadow-gray-600  ${
           size
-            ? "ml-4 md:ml-24 mt-6 md:mt-0 w-48 md:justify-center"
+            ? "ml-4 md:ml-24 mt-6 md:mt-0 w-auto md:justify-center"
             : "mx-auto md:mx-0"
         }`}
       >
-        <div className="flex justify-center rounded-lg object-cover">
+        <div className="flex justify-center rounded-lg object-cover flex-wrap relative">
           {!organizer ? (
             imagePreview ? (
               <img
@@ -59,21 +59,31 @@ function Card({
               alt=""
             />
           )}
+          <div>
+          
+
+        
+            </div>
+    <div>
+
+            </div>
         </div>
-        <label className="absolute  text-white px-52   ">
-          <FcCameraAddon className="w-32 cursor-pointer" />
+        <div className="absolute flex justify-end  text-white   ">
+          <FcCameraAddon className=" cursor-pointer" size={26} />
           <input
             type="file"
             className="hidden"
             accept="image/*"
-            onChange={(e)=>{setLogo(validateImage(e.target.files[0])),setOrgLogo(null)}}
-          />
-        </label>
-
-        <div className={`${size ? "p-2" : "p-5"}`}>
+            onChange={(e)=>{setLogo(validateImage(e.target.files[0]))}}
+            />
+        
+            </div>
+        <div className={`${size ? "p-2" : "p-5"} `}>
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black justify-center flex ">
             {title}
+           
           </h5>
+
 
           {event ? (
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 justify-center flex">

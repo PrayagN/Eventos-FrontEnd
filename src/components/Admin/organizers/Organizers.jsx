@@ -22,7 +22,7 @@ function Organizers() {
     <div className="w-full mb-4 ">
       <AdminLogo/>
       <h1 className="m-12 text-4xl font-semibold font-arim">Organizers</h1>
-      <div className="grid xl:grid-cols-5 text-sm  md:grid-cols-4 lg:grid mt-12 my-4 mx-8 gap-6 p-4 pt-3 rounded-lg shadow shadow-gray-600">
+      <div className="grid xl:grid-cols-3 text-sm  md:grid-cols-4 lg:grid mt-12 my-4 mx-8 gap-6 p-4 pt-3 rounded-lg shadow shadow-gray-600">
         {organizers?.map((organizer, index) => (
           <Card
           key={index}

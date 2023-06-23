@@ -34,7 +34,7 @@ const Organizer = () => {
 
 
   return (
-    <div className="w-fll items-center">
+    <div className="w-fll items-center ">
       <div className="max-h-96 max-[1250px]:">
         <h2 className="text-center text-3xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl mt-24 text-gray-500">
           The <span style={{ color: "#1976d2" }}>Event Management</span>{" "}

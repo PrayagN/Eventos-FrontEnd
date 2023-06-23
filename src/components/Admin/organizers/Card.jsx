@@ -4,27 +4,28 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Card({ title, size, description, event, organizer, id, img }) {
-const navigate =useNavigate()
-  const handleButton=()=>{
-    navigate('/admin/organizers/view',{state:{id}})
-  }
+  const navigate = useNavigate();
+
+  const handleButton = () => {
+    navigate("/admin/organizers/view", { state: { id } });
+  };
+
   return (
     <div
       className={`flex cursor-pointer`}
-   
     >
       <div
-        className={`max-w-sm rounded-lg shadow shadow-gray-600 card-container ${
+        className={`max-w-sm rounded-lg shadow shadow-gray-600 card-container  ${
           size
             ? "ml-4 md:ml-24 mt-6 md:mt-0 w-48 md:justify-center"
             : "mx-auto md:mx-0"
         }`}
       >
-        <div className="flex justify-center rounded-lg">
+        <div className="flex justify-center rounded-lg h-32 ">
           <div
             className={`${
               size
-                ? "w-16 md:w-24 pt-4 mx-1 md:mx-4 pr-2 sm:justify-center"
+                ? "w-16 md:w-24 pt-4 mx-1 md:mx-4 pr-2 sm:justify-center "
                 : "w-36"
             } pt-3`}
             style={{ width: size ? "4rem" : "6rem" }}
@@ -32,11 +33,13 @@ const navigate =useNavigate()
             {!organizer ? (
               <img className="w-full h-full object-contain" src={img} alt="" />
             ) : (
-              <img
-                className="w-full h-16 object-cover rounded-2xl"
-                src={img}
-                alt=""
-              />
+              <div className="w-full h-full aspect-w-3 aspect-h-2">
+                <img
+                  className="object-cover object-center w-full h-full"
+                  src={img}
+                  alt=""
+                />
+              </div>
             )}
           </div>
         </div>
@@ -51,20 +54,17 @@ const navigate =useNavigate()
               - {event}
             </p>
           ) : (
-
-          <div>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-5">
-              {description}
-            </p>
-          </div>
-
-         )}
+            <div>
+              <p className="mb-3 font-normal h-32 overflow-scroll scrollbar-hide text-gray-700 dark:text-gray-400 line-clamp-5">
+                {description}
+              </p>
+            </div>
+          )}
         </div>
         <div className="flex justify-center w-full h-8 mb-4">
-          {/* <button className="">View</button> */}
-          <button onClick={handleButton}
-            
-            className="relative inline-flex items-center justify-center  px-6  overflow-hidden font-medium text-blue-600 transition duration-300 ease-out border-2 border-blue-500 rounded-full shadow-md group"
+          <button
+            onClick={handleButton}
+            className="relative inline-flex items-center justify-center px-6  overflow-hidden font-medium text-blue-600 transition duration-300 ease-out border-2 border-blue-500 rounded-full shadow-md group"
           >
             <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-blue-500 group-hover:translate-x-0 ease">
               <svg

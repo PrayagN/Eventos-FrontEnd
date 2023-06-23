@@ -8,7 +8,10 @@ function BookedEventsPage() {
     <div>
       <Navbar/>
       <Header title={'Booked Events'}/>
+      <div className='mt-20'>
+
       <BookedEvents/>
+      </div>
       <Footer/>
     </div>
   )

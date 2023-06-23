@@ -7,7 +7,11 @@ function ServicesListPage() {
   return (
     <div>
       <Navbar/>
+      <div className='mt-20'>
+
       <ServicesList/>
+      </div>
+
       <Footer/>
     </div>
   )

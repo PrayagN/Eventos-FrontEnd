@@ -6,7 +6,10 @@ function LandingPage() {
   return (
     <div>
       <Navbar/>
-      <Home/>
+      <div className='mt-20'>
+
+      <Home />
+      </div>
     </div>
   )
 }

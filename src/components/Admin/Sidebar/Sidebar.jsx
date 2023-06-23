@@ -69,9 +69,24 @@ function Sidebar() {
     navigate("/admin");
     setActiveSubmenu(null);
   };
+  
+  const closeSidebarOnMobile = () => {
+    if (window.innerWidth < 768) {
+      setOpen(false);
+    }else {
+      setOpen(true)
+    }
+  };
 
+  useEffect(() => {
+    window.addEventListener("resize", closeSidebarOnMobile);
+
+    return () => {
+      window.removeEventListener("resize", closeSidebarOnMobile);
+    };
+  }, []);
   return (
-    <div className="flex min-h-screen md:flex-row shadow-lg shadow-gray-600 bg-white ">
+    <div className="flex min-h-screen md:flex-row shadow-lg shadow-gray-600 bg-white  ">
       <div className={`bg-white ${open ? "w-72" : "w-16"} duration-500 text-black px-4 `}>
         <div className="py-3 flex justify-between ">
           <div className={`${open ? "block" : "hidden"} flex pr-32 text-black text-xl font-bold gap-2`}>

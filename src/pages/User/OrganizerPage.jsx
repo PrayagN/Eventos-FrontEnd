@@ -9,7 +9,10 @@ function OrganizerPage() {
     <div>
     <Navbar/>
     <Header title='Organizers'/>
+    <div className='mt-20'>
       <Organizer/>
+
+    </div>
       <Footer/>
     </div>
   )

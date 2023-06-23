@@ -8,7 +8,10 @@ function ProfilePage() {
     <div>
       <Navbar/>
       <Header title='Profile'/>
+      <div className='mt-20'>
       <Profile/>
+
+      </div>
       <Footer/>
     </div>
   )
