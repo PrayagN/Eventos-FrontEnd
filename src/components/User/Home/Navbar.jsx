@@ -51,7 +51,7 @@ function Navbar() {
   };
   return (
     <div className="shadow-md w-full fixed z-10 top-0 ">
-      <div className="py-4  md:flex justify-between items-center bg-white px-10">
+      <div className="py-4  md:flex justify-between items-center bg-white px-10 shadow-lg shadow-gray-500">
         <div className="flex text-2xl cursor-pointer items-center gap-2">
           <div>
             <img

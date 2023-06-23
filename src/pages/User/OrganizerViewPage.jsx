@@ -7,8 +7,8 @@ function OrganizerViewPage() {
   return (
     <div>
       <Navbar/>
-      <Header title={'What we Do'}/>
       <div className='mt-20'>
+      <Header title={'What we Do'}/>
 
       <OrganizerView/>
       </div>

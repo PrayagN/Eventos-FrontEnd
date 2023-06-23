@@ -13,7 +13,7 @@ import img5 from "../../../assets/gallery/img5.webp";
 import RotatingSquare from "../../RotatingSquare";
 import Sponsors from "./Sponsers";
 import Footer from "./Footer";
-
+import ScrollButton from "../ScrollButton/ScrollButton";
 
 function Home() {
  
@@ -131,6 +131,7 @@ function Home() {
         </div>
       </div>
 
+      <ScrollButton/>
       <div className="">
         <Sponsors />
       </div>

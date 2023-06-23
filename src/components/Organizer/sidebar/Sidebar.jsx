@@ -25,7 +25,7 @@ function Sidebar() {
     { name: "Account", link: "/organizer/profile", icon: IoIosPeople },
     {
       name: "Booked Clients",
-      link: "/organizer/bookedclients",
+      link: "/organizer/booked-clients",
       icon: IoIosPeople,
     },
     // {

@@ -8,8 +8,8 @@ function OrganizerPage() {
   return (
     <div>
     <Navbar/>
-    <Header title='Organizers'/>
     <div className='mt-20'>
+    <Header title='Organizers'/>
       <Organizer/>
 
     </div>

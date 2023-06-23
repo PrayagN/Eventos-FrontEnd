@@ -6,6 +6,7 @@ import OrganizerProfilePage from '../pages/Organizer/OrganizerProfilePage'
 import PrivateRoutes from '../middleware/PrivateRoutes'
 import UnauthorizedRoutes  from '../middleware/UnauthorizedRoutes' 
 import OrganizerDashboardPage from '../pages/Organizer/OrganizerDashboardPage'
+import OrganizerBookedClientPage from '../pages/Organizer/OrganizerBookedClientPage'
 function OrganizerRouter() {
   return (
     <Routes>
@@ -16,8 +17,10 @@ function OrganizerRouter() {
       </Route>
         <Route element={<PrivateRoutes role={"organizer"} route={"/organizer"} />}>
         <Route path='/dashboard' element={<OrganizerDashboardPage/>} />
-        </Route>
         <Route path='/profile' element ={<OrganizerProfilePage/>} />
+        <Route path='/booked-clients' element={<OrganizerBookedClientPage/>} />
+        </Route>
+
     </Routes>
   )
 }
