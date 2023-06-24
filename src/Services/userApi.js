@@ -48,4 +48,6 @@ export const bookedEvents = () => {
 export const reviewOrganizer = (id,rating,review) => {
   return userAxiosInstance.post('/review-organizer',{id,rating,review});
 };
-
+export const cancelBooking = (id)=>{
+  return userAxiosInstance.post('/cancel-booking',{id})
+}

@@ -51,7 +51,7 @@ function Navbar() {
   };
   return (
     <div className="shadow-md w-full  ">
-      <div className="py-4  md:flex justify-between items-center">
+      <div className="py-4 mx-20 md:flex justify-between items-center">
         <div className="flex text-2xl cursor-pointer items-center gap-2">
           <div>
             <img
@@ -106,7 +106,9 @@ function Navbar() {
                         alt=""
                       />
                       {isDropdownOpen && (
-                        <ul className="dropdown-menu absolute mt-2 py-2 bg-white border border-gray-200 shadow-lg z-[9999] ">
+                        <div >
+
+                        <ul className="dropdown-menu   absolute mt-2 bg-white border border-gray-200 shadow-lg z-[9999] ">
                           <li>
                             <Link
                               to={"/profile"}
@@ -132,6 +134,7 @@ function Navbar() {
                             </button>
                           </li>
                         </ul>
+                      </div>
                       )}
                     </button>
                   </li>

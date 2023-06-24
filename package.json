@@ -41,6 +41,7 @@
     "react-social-login-buttons": "^3.9.1",
     "reactjs-social-login": "^2.6.2",
     "redux": "^4.2.1",
+    "tailwind-scrollbar": "^3.0.4",
     "tailwind-scrollbar-hide": "^1.1.7",
     "yup": "^1.1.1"
   },
