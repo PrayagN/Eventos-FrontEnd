@@ -23,3 +23,6 @@ export const updateProfile =(values)=>{
 export const bookedClients =()=>{
     return organizerAxiosInstance.get('/booked-clients')
 }
+export const updatePayment =(id)=>{
+    return organizerAxiosInstance.put('/update-payment',{id})
+}

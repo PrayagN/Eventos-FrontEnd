@@ -14,11 +14,11 @@ function BookedEvents() {
 
   return (
     <div className=" ">
-      <div className="flex p-5">
+      <div className="flex flex-wrap justify-between gap-10 p-5">
         {bookedDetails.map((booked, index) => (
           <div
             key={index}
-            className="flex flex-wrap bg-blue-600 rounded-xl shadow-lg p-1 shadow-gray-300"
+            className="flex flex-wrap bg-blue-400 rounded-xl shadow-lg p-1 shadow-gray-300"
           >
             <div className="flex bg-white p-4 gap-10  rounded-xl ">
               <div className="">

@@ -6,24 +6,34 @@ import {
 } from "@heroicons/react/24/outline";
 import {
   Card,
-  CardHeader,
   Typography,
   Button,
   CardBody,
   Chip,
   CardFooter,
   Avatar,
-  IconButton,
-  Tooltip,
   Input,
 } from "@material-tailwind/react";
-import { bookedClients } from "../../Services/organizerApi";
+import { bookedClients, updatePayment } from "../../Services/organizerApi";
 import { toast } from "react-hot-toast";
 import dateFormat, { masks } from "dateformat";
 
 function BookedClients() {
   const [customers, setCustomers] = useState([]);
-
+  const [show, setShow] = useState(null);
+  const [update,setUpdate] = useState('')
+  console.log(show);
+  
+    const updatePayments = (id) => {
+      setShow(null)
+      console.log(id);
+      updatePayment(id).then((response) => {
+        setUpdate(true)
+        toast.success(response.data.message)
+      }).catch((error)=>{
+        toast.error(error?.response?.data?.message)
+      })
+    };
   useEffect(() => {
     bookedClients()
       .then((response) => {
@@ -33,9 +43,8 @@ function BookedClients() {
       .catch((error) => {
         console.log(error.response.data.message);
       });
-  }, []);
+  }, [update]);
   console.log(customers[0]?.client);
-
   const TABLE_HEAD = [
     "Sl.no",
     "Client",
@@ -50,6 +59,13 @@ function BookedClients() {
     return dateFormat(date, "dd/mm/yyyy");
   };
 
+  const toggleDropdown = (index) => {
+    if (show === index) {
+      setShow(null); // Close the dropdown if it's already open
+    } else {
+      setShow(index); // Open the dropdown for the clicked row
+    }
+  };
   return (
     <div className="w-full ">
       <div className="m-10   mt-12">
@@ -137,24 +153,57 @@ function BookedClients() {
                           </Typography>
                         </div>
                       </td>
-                      <td className="p-4 border-b border-blue-gray-50">
+                      <td className="p-4 border-b border-blue-gray-50 relative">
                         <div className="flex justify-center">
                           <Chip
                             variant="ghost"
                             size="sm"
                             className={`bg-${
                               customer?.payment === "Advance Only"
-                                ? "green-500"
-                                : "blue-gray-500"
-                            } text-white rounded-full   lowercase`}
+                                ? "blue-500"
+                                : "green-500"
+                            } text-white rounded-full lowercase`}
                             value={
                               customer?.payment === "Advance Only"
                                 ? "Advance Only"
-                                : "Full Paid"
+                                : "Full paid"
                             }
                           />
+                          <div className="relative">
+                            <button
+                              className="inline-flex items-center p-2 text-xs font-medium text-center text-gray-900 bg-white rounded-lg  hover:animate-pulse"
+                              type="button"
+                              onClick={() => toggleDropdown(index)}
+                            >
+                              <svg
+                                className="w-4 h-4"
+                                aria-hidden="true"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                              </svg>
+                            </button>
+                            {show === index && (
+                              <div className="absolute top-full  text-black  rounded-lg shadow w-24 h-8 mt-2 bg-green-500">
+                                <ul className=" ml-2  text-sm text-gray-700 dark:text-gray-200">
+                                  <li
+                                    onClick={() =>
+                                      updatePayments(customer?._id)
+                                    }
+                                  >
+                                    <a className="block px-4 py-1 text-white ">
+                                      Full paid
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </td>
+
                       <td className="p-4 border-b border-blue-gray-50">
                         <td className="p-4 border-b border-blue-gray-50">
                           <Typography
@@ -199,6 +248,7 @@ function BookedClients() {
             </div>
           </CardFooter>
         </Card>
+      
       </div>
     </div>
   );
