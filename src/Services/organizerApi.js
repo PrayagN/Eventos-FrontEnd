@@ -20,3 +20,6 @@ export const organizerProfile =()=>{
 export const updateProfile =(values)=>{
     return organizerAxiosInstance.post('/updateProfile',values)
 }
+export const bookedClients =()=>{
+    return organizerAxiosInstance.get('/booked-clients')
+}

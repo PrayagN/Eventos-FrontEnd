@@ -7,7 +7,7 @@ function ServicesPage() {
   return (
     <div>
       <Navbar/>
-      <div className='mt-20'>
+      <div className=''>
 
       <Services/>
       </div>

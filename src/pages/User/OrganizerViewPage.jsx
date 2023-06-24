@@ -7,7 +7,7 @@ function OrganizerViewPage() {
   return (
     <div>
       <Navbar/>
-      <div className='mt-20'>
+      <div className=''>
       <Header title={'What we Do'}/>
 
       <OrganizerView/>

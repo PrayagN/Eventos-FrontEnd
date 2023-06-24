@@ -7,8 +7,8 @@ function BookedEventsPage() {
   return (
     <div>
       <Navbar/>
+      <div className='mt-24'>
       <Header title={'Booked Events'}/>
-      <div className='mt-20'>
 
       <BookedEvents/>
       </div>

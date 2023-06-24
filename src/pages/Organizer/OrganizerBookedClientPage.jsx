@@ -3,7 +3,7 @@ import Sidebar from '../../components/Organizer/sidebar/Sidebar'
 import BookedClients from '../../components/Organizer/BookedClients'
 function OrganizerBookedClientPage() {
   return (
-    <div>
+    <div className='flex'>
       <Sidebar/>
       <BookedClients/>
     </div>

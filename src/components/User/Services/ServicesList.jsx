@@ -6,6 +6,7 @@ import { Typography } from "@mui/material";
 import { photosAPI } from '../../../Services/photosApi'
 import List from "../../User/Organizer/List";
 import Pagination from '../Pagination/Pagination';
+import ScrollButton from "../ScrollButton/ScrollButton";
 function ServicesList() {
   const location = useLocation()
   const event_id = location?.state.id
@@ -82,6 +83,7 @@ function ServicesList() {
       <div className='flex justify-center'>
       <Pagination activePage ={activePage} limit ={organizerLimitPerPage} setActivePage={setActivePage} totalOrganizers ={totalOrganizers} />
       </div>
+      <ScrollButton/>
     </div>
   )
 }

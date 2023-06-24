@@ -4,7 +4,7 @@ import Gallery from "../Home/Gallery";
 import { eventList } from "../../../Services/userApi";
 import { useEffect, useState } from "react";
 import { photosAPI } from "../../../Services/photosApi";
-
+import ScrollButton from "../ScrollButton/ScrollButton";
 function Services() {
   const [eventlist, setEventList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -55,6 +55,7 @@ function Services() {
           />
         ))}
       </div>
+      <ScrollButton/>
     </div>
   );
 }

@@ -22,6 +22,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Checkout from "../Payment/Checkout";
 import Reviews from "./Reviews";
+import ScrollButton from "../ScrollButton/ScrollButton";
 
 function OrganizerView() {
   const [organizer, setOrganizer] = useState({});
@@ -447,6 +448,7 @@ function OrganizerView() {
           </div>
         </div>
       )}
+      <ScrollButton/>
       <Toaster />
     </div>
   );

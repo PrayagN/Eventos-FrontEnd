@@ -3,6 +3,7 @@ import { Typography } from "@mui/material";
 import { organizerList } from "../../../Services/userApi";
 import List from "./List";
 import Pagination from "../Pagination/Pagination";
+import ScrollButton from "../ScrollButton/ScrollButton";
 const Organizer = () => {
   const [organizers, setOrganizers] = useState([]);
   const [events, setEvents] = useState([]);
@@ -127,6 +128,7 @@ const Organizer = () => {
       <div className="flex justify-center mt-10">
         <Pagination activePage ={activePage} limit ={organizerLimitPerPage} setActivePage={setActivePage} totalOrganizers ={totalOrganizers} />
       </div>
+      <ScrollButton/>
     </div>
   );
 };
