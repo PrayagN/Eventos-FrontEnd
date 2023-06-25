@@ -135,15 +135,28 @@ function BookedEvents() {
                     onClick={() => {
                       setShowConfirmation(true, setSelectedId(booked._id));
                     }}
-                    disabled={booked.payment === "Cancelled" ? true : false}
-                    className=" relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-red-500 rounded-xl group"
+                    disabled={
+                      booked.payment === "Refunded" ||
+                      booked.payment === "Completed"
+                    }
+                    className={`relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all ${
+                      booked.payment === "Refunded"
+                        ? "bg-gray-500"
+                        : booked.payment === "Completed"
+                        ? "bg-green-500"
+                        : "bg-red-500"
+                    } rounded-xl group`}
                   >
                     <span className="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-red-700 rounded group-hover:-mr-4 group-hover:-mt-4">
                       <span className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
                     </span>
                     <span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full translate-y-full bg-red-600 rounded-2xl group-hover:mb-12 group-hover:translate-x-0"></span>
                     <span className="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-white">
-                      {booked.payment === "Cancelled" ? "Cancelled" : "Cancel"}
+                      {booked.payment === "Refunded"
+                        ? "Cancelled"
+                        : booked.payment === "Completed"
+                        ? "Completed"
+                        : "Cancel"}
                     </span>
                   </button>
                 </div>
@@ -153,7 +166,9 @@ function BookedEvents() {
                       <div className="relative p-4 text-center bg-white rounded-lg shadow transform transition-all duration-300 scale-100 opacity-100">
                         <button
                           type="button"
-                          onClick={() => {setShowConfirmation(false),setLoading(false)}}
+                          onClick={() => {
+                            setShowConfirmation(false), setLoading(false);
+                          }}
                           className="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                         >
                           <svg
@@ -183,13 +198,16 @@ function BookedEvents() {
                           </div>
 
                           <p className="mb-4 text-red-500 flex justify-start text-left ">
-                          Cancellations made within 7 days to the event will incur a 50% fee.
+                            Cancellations made within 7 days to the event will
+                            incur a 50% fee.
                           </p>
                         </div>
                         <div className="flex justify-center items-center space-x-4">
                           <button
                             type="button"
-                            onClick={() => {setShowConfirmation(false),setLoading(false)}}
+                            onClick={() => {
+                              setShowConfirmation(false), setLoading(false);
+                            }}
                             className="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10"
                           >
                             No, cancel
@@ -209,7 +227,6 @@ function BookedEvents() {
                               >
                                 <circle
                                   className="opacity-30 text-white"
-                                  
                                   cx="12"
                                   cy="12"
                                   r="10"

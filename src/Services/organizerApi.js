@@ -20,8 +20,8 @@ export const organizerProfile =()=>{
 export const updateProfile =(values)=>{
     return organizerAxiosInstance.post('/updateProfile',values)
 }
-export const bookedClients =()=>{
-    return organizerAxiosInstance.get('/booked-clients')
+export const bookedClients =(activePage,searchQuery)=>{
+    return organizerAxiosInstance.get('/booked-clients',{params:{activePage,searchQuery}})
 }
 export const updatePayment =(id)=>{
     return organizerAxiosInstance.put('/update-payment',{id})

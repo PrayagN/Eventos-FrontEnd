@@ -22,8 +22,8 @@ export const eventPhotos =()=>{
 export const listOrganizers =()=>{
     return adminAxiosInstance.get('/listOrganizers')
 }
-export const listCustomers =()=>{
-    return adminAxiosInstance.get('/listCustomers')
+export const listCustomers =(activePage,searchValue)=>{
+    return adminAxiosInstance.get('/listCustomers',{params:{activePage,searchValue}})
 }
 export const viewOrganizer =(id)=>{
     return adminAxiosInstance.post('/viewOrganizer/',{id})

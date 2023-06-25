@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import TablePagination from "../Admin/TablePagination/TablePagination";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import {
   ArrowDownTrayIcon,
@@ -9,6 +10,7 @@ import {
   Typography,
   Button,
   CardBody,
+  CardHeader,
   Chip,
   CardFooter,
   Avatar,
@@ -21,30 +23,40 @@ import dateFormat, { masks } from "dateformat";
 function BookedClients() {
   const [customers, setCustomers] = useState([]);
   const [show, setShow] = useState(null);
-  const [update,setUpdate] = useState('')
-  console.log(show);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [totalBooking, setTotalBooking] = useState(0);
+  const [activePage, setActivePage] = useState(1);
+  const [limit, setLimit] = useState(0);
+  const [update, setUpdate] = useState("");
+  const  bookingLimitPerPage = 1;
+  const skip = (activePage - 1)*limit ===0?1:(activePage-1) *limit+1
+
   
-    const updatePayments = (id) => {
-      setShow(null)
-      console.log(id);
-      updatePayment(id).then((response) => {
-        setUpdate(true)
-        toast.success(response.data.message)
-      }).catch((error)=>{
-        toast.error(error?.response?.data?.message)
-      })
-    };
-  useEffect(() => {
-    bookedClients()
+
+  const updatePayments = (id) => {
+    setShow(null);
+    console.log(id);
+    updatePayment(id)
       .then((response) => {
-        console.log(response.data.detail);
+        setUpdate(true);
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.message);
+      });
+  };
+  useEffect(() => {
+    bookedClients(activePage,searchQuery)
+      .then((response) => {
+        console.log(response);
+        setTotalBooking(response.data.total)
+        setLimit(response.data.size)
         setCustomers(response.data.detail);
       })
       .catch((error) => {
-        console.log(error.response.data.message);
+        toast.error(error.response.data.message);
       });
-  }, [update]);
-  console.log(customers[0]?.client);
+  }, [update,activePage,searchQuery]);
   const TABLE_HEAD = [
     "Sl.no",
     "Client",
@@ -73,6 +85,24 @@ function BookedClients() {
       </div>
       <div className="flex px-10 mt-32 ">
         <Card className="h-full w-full">
+          <CardHeader floated={false} shadow={false} className="rounded-none">
+            <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
+              <div>
+                <Typography variant="h5" color="blue-gray">
+                  Transactions
+                </Typography>
+                <Typography color="gray" className="mt-1 font-normal">
+                  These are details about all the transactions
+                </Typography>
+              </div>
+              <div className="flex w-full shrink-0 gap-2 md:w-max">
+                <div className="w-full md:w-72">
+                  <Input placeholder="Search"  onKeyUp={(e) => setSearchQuery(e.target.value)}/>
+                </div>
+              </div>
+            </div>
+          </CardHeader>
+
           <CardBody className="overflow-scroll px-0 scrollbar-hide">
             <table className="w-full min-w-max table-auto text-left">
               <thead>
@@ -161,14 +191,19 @@ function BookedClients() {
                             className={`bg-${
                               customer?.payment === "Advance Only"
                                 ? "blue-500"
-                                : "green-500"
+                                : customer?.payment === "Full paid"
+                                ? "green-500"
+                                : "red-500"
                             } text-white rounded-full lowercase`}
                             value={
                               customer?.payment === "Advance Only"
                                 ? "Advance Only"
-                                : "Full paid"
+                                : customer?.payment === "Full paid"
+                                ? "Full paid"
+                                : "Refunded"
                             }
                           />
+
                           <div className="relative">
                             <button
                               className="inline-flex items-center p-2 text-xs font-medium text-center text-gray-900 bg-white rounded-lg  hover:animate-pulse"
@@ -238,17 +273,11 @@ function BookedClients() {
             >
               Page 1 of 10
             </Typography>
-            <div className="flex gap-2">
-              <Button variant="outlined" color="blue-gray" size="sm">
-                Previous
-              </Button>
-              <Button variant="outlined" color="blue-gray" size="sm">
-                Next
-              </Button>
-            </div>
+              <div className="flex gap-2">
+                <TablePagination activePage={activePage} setActivePage={setActivePage} total={totalBooking} limit={limit} skip={skip} />
+              </div>
           </CardFooter>
         </Card>
-      
       </div>
     </div>
   );

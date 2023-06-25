@@ -2,31 +2,36 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { listCustomers } from "../../../Services/adminApi";
 import AdminLogo from "../../common/AdminLogo";
-
+import TablePagination from '../../Admin/TablePagination/TablePagination'
 function Customers() {
   const [customers, setCustomers] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-
+  const [activePage,setActivePage] = useState(1)
+  const [totalUser, setTotalUser] = useState(0);
+  const [limit, setLimit] = useState(0);
+  const skip = (activePage - 1)*limit ===0?1:(activePage-1) *limit+1
   useEffect(() => {
-    listCustomers().then((response) => {
+    listCustomers(activePage,searchValue).then((response) => {
       console.log(response.data.customers);
       setCustomers(response.data.customers);
+      setTotalUser(response.data.total)
+      setLimit(response.data.size)
     });
-  }, []);
+  }, [activePage,searchValue]);
 
-  const filteredCustomers = customers.filter((customer) =>
-    customer.username.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  // const filteredCustomers = customers.filter((customer) =>
+  //   customer.username.toLowerCase().includes(searchValue.toLowerCase())
+  // );
 
   return (
     <div className="w-full">
      <AdminLogo/>
 
-      <h1 className="m-12 text-4xl font-semibold font-arim">Customers</h1>
+      <h1 className="m-10 text-4xl font-semibold font-arim">Customers</h1>
 
-      <div className="mt-32 mx-8">
+      <div className="mt-20 mx-10">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg shadow-gray-600   ">
-          <div className="flex items-center justify-between pb-4 bg-white ">
+          <div className="flex items-center justify-end p-1 pb-4 bg-white ">
             <label className="sr-only">Search</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -71,7 +76,7 @@ function Customers() {
               </tr>
             </thead>
             <tbody>
-              {filteredCustomers.map((customer, index) => (
+              {customers.map((customer, index) => (
                 <tr
                   className="bg-white border-b hover:bg-gray-50 "
                   key={customer.id}
@@ -85,7 +90,7 @@ function Customers() {
                   >
                     <img
                       className="w-10 h-10 rounded-full"
-                      src="https://cliply.co/wp-content/uploads/2020/08/442008112_GLANCING_AVATAR_3D_400px.gif"
+                      src={customer?.image ? customer.image : 'https://cliply.co/wp-content/uploads/2020/08/442008112_GLANCING_AVATAR_3D_400px.gif'}
                       alt=""
                     />
                     <div className="pl-3">
@@ -106,6 +111,10 @@ function Customers() {
               ))}
             </tbody>
           </table>
+              <div className="flex justify-end w-full mt-2 mb-2">
+                
+              <TablePagination activePage={activePage} setActivePage={setActivePage} total={totalUser} limit={limit}/>
+              </div>
         </div>
       </div>
     </div>
