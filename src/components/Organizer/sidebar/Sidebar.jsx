@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { sidebarAction } from "../../../app/sidebarSlice";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import { FcAcceptDatabase } from "react-icons/fc";
-
+import { AiFillMessage } from "react-icons/ai";
 function Sidebar() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -28,14 +28,12 @@ function Sidebar() {
       link: "/organizer/booked-clients",
       icon: IoIosPeople,
     },
-    // {
-    //   name: "Events",
-    //   link: "/admin/events",
-    //   icon: SiEventstore,
-    //   submenu: true,
-    //   submenuItems: [{ name: "Booked Events", icon: FcAcceptDatabase, link: "/admin/events/bookedEvents" }],
-    // },
-    // { name: "Organizers", link: "/admin/organizers", icon: VscOrganization },
+    {
+      name: "Chats",
+      link: "/organizer/chats",
+      icon: AiFillMessage,
+    },
+
     {
       name: "Logout",
       link: "/organizer/",

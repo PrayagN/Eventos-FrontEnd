@@ -130,7 +130,7 @@ function Home() {
           <h1 className="font-semibold text-3xl ">Our Sponsors</h1>
         </div>
       </div>
-
+  
       <ScrollButton/>
       <div className="">
         <Sponsors />

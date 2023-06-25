@@ -51,3 +51,6 @@ export const reviewOrganizer = (id,rating,review) => {
 export const cancelBooking = (id)=>{
   return userAxiosInstance.post('/cancel-booking',{id})
 }
+export const chatbot =(message)=>{
+  return userAxiosInstance.post('/chatbot',message)
+}
