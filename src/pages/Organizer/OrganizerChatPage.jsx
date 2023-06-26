@@ -1,6 +1,6 @@
 import React from 'react'
 import Sidebar from '../../components/Organizer/sidebar/Sidebar'
-import Chat from '../../components/Organizer/Chat'
+import Chat from '../../components/Organizer/Chat/Chat'
 
 function OrganizerChatPage() {
   return (

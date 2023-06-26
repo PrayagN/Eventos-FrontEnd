@@ -6,7 +6,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { BiRupee } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { ImCross } from "react-icons/im";
-
+import { RiCloseCircleFill } from "react-icons/ri";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 import {
   Card,
   CardHeader,
@@ -36,6 +38,10 @@ function OrganizerView() {
   const [review, setReview] = useState("");
   const [showReview, setShowReview] = useState([]);
   const [done, setDone] = useState("");
+  /// chat
+  const [chatModal, setChatModal] = useState(false);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [text, setText] = useState("");
 
   const location = useLocation();
   const organizer_id = location?.state.id;
@@ -109,6 +115,20 @@ function OrganizerView() {
     setIsSubmitted((prevState) => !prevState);
   };
 
+  // chat
+
+  const addEmoji = (e) => {
+    const sym = e.unified.split("_");
+    const codeArray = [];
+    sym.forEach((element) => codeArray.push("0x" + element));
+    let emoji = String.fromCodePoint(...codeArray);
+    setText(text + emoji);
+  };
+
+  const submitChat = () => {
+    setShowEmoji(false);
+  };
+
   return (
     <div className="w-full">
       <div className="grid px-10 mx-10 gap-4 my-5">
@@ -133,13 +153,26 @@ function OrganizerView() {
                 </div>
               </div>
               <div className=" flex justify-center text-2xl m-6">
-                <div className="flex justify-center font-semibold bg-slate-50 border-b-2">
+                <div className="flex justify-center font-semibold  border-b-2">
                   <h1>About us</h1>
                 </div>
               </div>
 
               <div className="flex">
                 <h1>{organizer.description}</h1>
+              </div>
+              <div className="flex justify-end items-center w-full">
+                <button
+                  className="flex items-center space-x-2"
+                  onClick={() => setChatModal(true)}
+                >
+                  <img
+                    className="w-12 h-12"
+                    src="https://cdn3d.iconscout.com/3d/premium/thumb/message-button-8126891-6507155.png"
+                    alt=""
+                  />
+                  {/* <div className="shadow-lg shadow-gray-600">chat with us</div> */}
+                </button>
               </div>
             </Card>
           </div>
@@ -448,7 +481,151 @@ function OrganizerView() {
           </div>
         </div>
       )}
-      <ScrollButton/>
+      {chatModal && (
+        <div className="fixed bottom-0 right-0 w-96 max-h-[100]  bg-white rounded-lg shadow-lg shadow-gray-500 mx-2">
+          <div className="relative flex items-center  justify-between p-3 border-b border-gray-300">
+            <div className="flex items-center">
+              <img
+                className="object-cover w-10 h-10 rounded-full"
+                src={organizer?.logo}
+                alt="username"
+              />
+              <span className="block ml-2 font-bold text-gray-600">
+                {organizer.organizerName}
+              </span>
+              <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
+            </div>
+            <div className="cursor-pointer" onClick={() => {setChatModal(false),setShowEmoji(false)}}>
+              {<RiCloseCircleFill className="w-5 h-5 text-red-600" />}
+            </div>
+          </div>
+          <div className="relative w-full p-6 overflow-y-auto max-h-[30rem]">
+            <ul className="space-y-2">
+              <li className="flex justify-start">
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                  <span className="block">Hi</span>
+                </div>
+              </li>
+              <li className="flex justify-end">
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                  <span className="block">Hiiii</span>
+                </div>
+              </li>
+              <li className="flex justify-end">
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                  <span className="block">How are you?</span>
+                </div>
+              </li>
+              <li className="flex justify-start">
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                  <span className="block">I'm good. How about you?</span>
+                </div>
+              </li>
+              <li className="flex justify-end">
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                  <span className="block">I'm doing great!</span>
+                </div>
+              </li>
+              <li className="flex justify-start">
+                    <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                      <span className="block">That's good to hear!</span>
+                    </div>
+                  </li>
+                  <li className="flex justify-start">
+                    <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                      <span className="block">That's good to hear!</span>
+                    </div>
+                                    </li>
+
+                  
+            </ul>
+          </div>
+            
+          <div className="flex items-center justify-between w-full  p-3 border-t border-gray-300">
+            <button
+              onClick={() => setShowEmoji(!showEmoji)}
+              className="text-yellow-300 animate-pulse"
+              
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="grey"
+              >
+                <path d="M12 22c5.514 0 10-4.486 10-10S17.514 2 12 2 2 6.486 2 12s4.486 10 10 10zm3.493-13a1.494 1.494 0 1 1-.001 2.987A1.494 1.494 0 0 1 15.493 9zm-4.301 6.919a4.108 4.108 0 0 0 1.616 0c.253-.052.505-.131.75-.233.234-.1.464-.224.679-.368.208-.142.407-.306.591-.489.183-.182.347-.381.489-.592l1.658 1.117a6.027 6.027 0 0 1-1.619 1.621 6.003 6.003 0 0 1-2.149.904 6.116 6.116 0 0 1-2.414-.001 5.919 5.919 0 0 1-2.148-.903 6.078 6.078 0 0 1-1.621-1.622l1.658-1.117c.143.211.307.41.488.59a3.988 3.988 0 0 0 2.022 1.093zM8.5 9a1.5 1.5 0 1 1-.001 3.001A1.5 1.5 0 0 1 8.5 9z"></path>
+              </svg>
+            </button>
+            <button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                />
+              </svg>
+            </button>
+            <input
+              type="text"
+              placeholder="Message"
+              className="block w-full py-2 pl-4 mx-5 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+              name="message"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            {/* <button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                />
+              </svg>
+            </button> */}
+            <button type="submit" onClick={submitChat}>
+              <svg
+                className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+      {showEmoji && (
+  <div className="fixed bottom-0 right-80 m-12 flex justify-center">
+    <Picker
+ data={data}
+ emojiSize={20}
+ emojiButtonSize={28}
+ rows={3} // Specify the number of rows you want to display
+ onEmojiSelect={addEmoji}
+ theme="light"
+ onClickOutside ='null'
+      
+    />
+  </div>
+)}
+
+      {chatModal ? " " : <ScrollButton />}
       <Toaster />
     </div>
   );
