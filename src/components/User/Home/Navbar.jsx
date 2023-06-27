@@ -44,6 +44,7 @@ function Navbar() {
     { name: "Home", link: "/" },
     { name: "Services", link: "/services" },
     { name: "Organizers", link: "/organizers" },
+    { name: "Chat", link: "/chat" },
   ];
 
   const toggleDropdown = () => {
@@ -83,14 +84,28 @@ function Navbar() {
               : "top-[-490px]  "
           }`}
         >
-          {Links.map((link, index) => (
-            <li
-              key={index}
-              className="font-semibold flex justify-start  cursor-pointer my-10 md:my-0 md:ml-8 "
-            >
-              <Link to={link.link}>{link.name}</Link>
-            </li>
-          ))}
+          {Links.map((link, index) => {
+            if (link.name === "Chat") {
+              return authorized ? (
+                <li
+                  key={index}
+                  className="font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8"
+                >
+                  <Link to={link.link}>{link.name}</Link>
+                </li>
+              ) : null;
+            } else {
+              return (
+                <li
+                  key={index}
+                  className="font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8"
+                >
+                  <Link to={link.link}>{link.name}</Link>
+                </li>
+              );
+            }
+          })}
+
           <li className="ml-5">
             {authorized ? (
               <nav className="flex justify-between items-center  py-4 px-6">
@@ -106,35 +121,34 @@ function Navbar() {
                         alt=""
                       />
                       {isDropdownOpen && (
-                        <div >
-
-                        <ul className="dropdown-menu   absolute mt-2 bg-white border border-gray-200 shadow-lg z-[9999] ">
-                          <li>
-                            <Link
-                              to={"/profile"}
-                              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
-                            >
-                              Profile
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to={"/booked-events"}
-                              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
-                            >
-                              Booked Events
-                            </Link>
-                          </li>
-                          <li>
-                            <button
-                              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                              onClick={handleLogout}
-                            >
-                              Logout
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
+                        <div>
+                          <ul className="dropdown-menu   absolute mt-2 bg-white border border-gray-200 shadow-lg z-[9999] ">
+                            <li>
+                              <Link
+                                to={"/profile"}
+                                className="block px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
+                              >
+                                Profile
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to={"/booked-events"}
+                                className="block px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
+                              >
+                                Booked Events
+                              </Link>
+                            </li>
+                            <li>
+                              <button
+                                className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={handleLogout}
+                              >
+                                Logout
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
                       )}
                     </button>
                   </li>

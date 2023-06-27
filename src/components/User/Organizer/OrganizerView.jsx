@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { organizerView, reviewOrganizer } from "../../../Services/userApi";
+import { useLocation ,useNavigate } from "react-router-dom";
+import { connectionBuild, organizerView, reviewOrganizer } from "../../../Services/userApi";
 import { FcOk } from "react-icons/fc";
 import toast, { Toaster } from "react-hot-toast";
 import { BiRupee } from "react-icons/bi";
@@ -41,12 +41,12 @@ function OrganizerView() {
   /// chat
   const [chatModal, setChatModal] = useState(false);
   const [showEmoji, setShowEmoji] = useState(false);
-  const [text, setText] = useState("");
+  const [newMessage, setNewMessage] = useState("");
 
   const location = useLocation();
   const organizer_id = location?.state.id;
   const authorized = useSelector((state) => state.user.authorized);
-
+  const navigate = useNavigate() 
   const rateOrganizer = () => {
     reviewOrganizer(organizer_id, rated, review)
       .then((response) => {
@@ -115,19 +115,13 @@ function OrganizerView() {
     setIsSubmitted((prevState) => !prevState);
   };
 
-  // chat
-
-  const addEmoji = (e) => {
-    const sym = e.unified.split("_");
-    const codeArray = [];
-    sym.forEach((element) => codeArray.push("0x" + element));
-    let emoji = String.fromCodePoint(...codeArray);
-    setText(text + emoji);
-  };
-
-  const submitChat = () => {
-    setShowEmoji(false);
-  };
+  const goToChat =()=>{
+      connectionBuild(organizer_id).then((response)=>{
+        navigate('/chat')
+      }).catch((error)=>{
+        toast.error(error.response.data.message)
+      })
+  }
 
   return (
     <div className="w-full">
@@ -164,7 +158,7 @@ function OrganizerView() {
               <div className="flex justify-end items-center w-full">
                 <button
                   className="flex items-center space-x-2"
-                  onClick={() => setChatModal(true)}
+                  onClick={goToChat}
                 >
                   <img
                     className="w-12 h-12"
@@ -495,7 +489,12 @@ function OrganizerView() {
               </span>
               <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
             </div>
-            <div className="cursor-pointer" onClick={() => {setChatModal(false),setShowEmoji(false)}}>
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setChatModal(false), setShowEmoji(false);
+              }}
+            >
               {<RiCloseCircleFill className="w-5 h-5 text-red-600" />}
             </div>
           </div>
@@ -527,25 +526,22 @@ function OrganizerView() {
                 </div>
               </li>
               <li className="flex justify-start">
-                    <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                      <span className="block">That's good to hear!</span>
-                    </div>
-                  </li>
-                  <li className="flex justify-start">
-                    <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                      <span className="block">That's good to hear!</span>
-                    </div>
-                                    </li>
-
-                  
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                  <span className="block">That's good to hear!</span>
+                </div>
+              </li>
+              <li className="flex justify-start">
+                <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
+                  <span className="block">That's good to hear!</span>
+                </div>
+              </li>
             </ul>
           </div>
-            
+
           <div className="flex items-center justify-between w-full  p-3 border-t border-gray-300">
             <button
               onClick={() => setShowEmoji(!showEmoji)}
               className="text-yellow-300 animate-pulse"
-              
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -578,8 +574,8 @@ function OrganizerView() {
               placeholder="Message"
               className="block w-full py-2 pl-4 mx-5 bg-gray-100 rounded-full outline-none focus:text-gray-700"
               name="message"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
             />
             {/* <button>
               <svg
@@ -611,19 +607,18 @@ function OrganizerView() {
         </div>
       )}
       {showEmoji && (
-  <div className="fixed bottom-0 right-80 m-12 flex justify-center">
-    <Picker
- data={data}
- emojiSize={20}
- emojiButtonSize={28}
- rows={3} // Specify the number of rows you want to display
- onEmojiSelect={addEmoji}
- theme="light"
- onClickOutside ='null'
-      
-    />
-  </div>
-)}
+        <div className="fixed bottom-0 right-80 m-12 flex justify-center">
+          <Picker
+            data={data}
+            emojiSize={20}
+            emojiButtonSize={28}
+            rows={3} // Specify the number of rows you want to display
+            onEmojiSelect={addEmoji}
+            theme="light"
+            onClickOutside="null"
+          />
+        </div>
+      )}
 
       {chatModal ? " " : <ScrollButton />}
       <Toaster />

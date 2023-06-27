@@ -54,3 +54,7 @@ export const cancelBooking = (id)=>{
 export const chatbot =(message)=>{
   return userAxiosInstance.post('/chatbot',message)
 }
+export const connectionBuild=(id)=>{
+  return userAxiosInstance.post('/buildConnection',{id})
+
+}

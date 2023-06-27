@@ -1,9 +1,13 @@
 import { minWidth } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import { BiLeftArrowAlt } from "react-icons/bi";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 function Chat() {
   const [selectedChat, setSelectedChat] = useState(false);
   const [backButton, setBackButton] = useState(false);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [newMessage, setNewMessage] = useState("");
 
   const handleChatClick = (chat) => {
     setSelectedChat(chat);
@@ -25,6 +29,28 @@ function Chat() {
   }, []);
   console.log(screenWidth);
   console.log(backButton);
+
+
+  
+  const addEmoji = (e) => {
+    const sym = e.unified.split("_");
+    const codeArray = [];
+    sym.forEach((element) => codeArray.push("0x" + element));
+    let emoji = String.fromCodePoint(...codeArray);
+    setNewMessage(newMessage + emoji);
+  };
+
+  const submitChat = () => {
+    if(newMessage !==''){
+      const message ={
+        text:newMessage,
+        
+      }
+    }
+    setShowEmoji(false);
+
+
+  };
   return (
     <div className="w-full m-2">
       <div className="min-w-full border rounded lg:grid lg:grid-cols-2 sm:grid-cols-1 sm:h-full">
@@ -170,7 +196,8 @@ function Chat() {
                   </ul>
                 </div>
                 <div className="flex items-center justify-between w-full  p-3 border-t border-gray-300">
-                  <button>
+                  <button  onClick={() => setShowEmoji(!showEmoji)}
+              className="text-yellow-300 animate-pulse">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="w-6 h-6 text-gray-500"
@@ -236,7 +263,21 @@ function Chat() {
                     </svg>
                   </button>
                 </div>
+                {showEmoji && (
+        <div className="fixed bottom-0 right-80 m-12 flex justify-center">
+          <Picker
+            data={data}
+            emojiSize={20}
+            emojiButtonSize={28}
+            rows={3} // Specify the number of rows you want to display
+            onEmojiSelect={addEmoji}
+            theme="light"
+            onClickOutside="null"
+          />
+        </div>
+      )}
               </div>
+             
             ) : (
               <div className="flex justify-center items-center h-[40rem]">
                 <div className="flex flex-col items-center">

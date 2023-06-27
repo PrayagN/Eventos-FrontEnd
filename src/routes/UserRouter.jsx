@@ -14,6 +14,7 @@ import OrganizerViewPage from "../pages/User/OrganizerViewPage";
 import PaymentSuccess from "../components/User/Payment/PaymentSuccess";
 import PaymentForm from "../components/User/Payment/Checkout";
 import BookedEventsPage from "../pages/User/BookedEventsPage";
+import ChatPage from "../pages/User/ChatPage";
 
 function UserRouter() {
   return (
@@ -39,6 +40,7 @@ function UserRouter() {
         <Route path='/booked-events' element={<BookedEventsPage/>}/>
         <Route path="/paymentform" element={<PaymentForm />} />
         <Route path="/paymentSuccess" element={<PaymentSuccess />} />
+        <Route path="/chat" element={<ChatPage/>} />
       </Route>
     </Routes>
   );
