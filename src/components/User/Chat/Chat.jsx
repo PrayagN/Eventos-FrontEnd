@@ -1,8 +1,9 @@
 import { minWidth } from "@mui/system";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef } from "react";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import TimeAgo from "timeago-react";
 import {
   getConnections,
   getMessages,
@@ -17,6 +18,7 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [connections, setConnections] = useState([]);
 
+  const scrollRef = useRef();
   const handleChatClick = (connection) => {
     setSelectedChat(connection);
   };
@@ -78,10 +80,22 @@ function Chat() {
     if (selectedChat) {
       getMessages(selectedChat?._id).then((response) => {
         setMessages(response.data);
+        console.log(response.data);
       });
     }
   }, [selectedChat]);
 
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const keyDownHandler = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      // ️ call submit function here
+      submitChat();
+    }
+  };
   return (
     <div className="w-full ">
       <div className="min-w-full border rounded lg:grid lg:grid-cols-2 sm:grid-cols-1 sm:h-full">
@@ -183,10 +197,12 @@ function Chat() {
                 <div className="relative w-full p-6 overflow-y-auto h-[30rem]">
                   <ul className="space-y-2">
                     {messages.map((message, index) => (
-                      <li
+                      <li ref={scrollRef}
                         key={index}
                         className={`flex justify-${
-                          message.senderId ? "end" : "start"
+                          message.senderId ===senderId
+                            ? "end"
+                            : "start"
                         }`}
                       >
                         <div
@@ -197,6 +213,9 @@ function Chat() {
                           } shadow`}
                         >
                           <span className="block">{message.content}</span>
+                          <div className="text-xs text-gray-500">
+                            <TimeAgo datetime={message.createdAt}></TimeAgo>
+                          </div>
                         </div>
                       </li>
                     ))}
@@ -247,6 +266,7 @@ function Chat() {
                     required=""
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyDown={keyDownHandler}
                   />
                   {/* <button>
                     <svg
@@ -264,7 +284,7 @@ function Chat() {
                       />
                     </svg>
                   </button> */}
-                  <button type="submit" onClick={submitChat}>
+                  <button type="submit" onClick={submitChat}  >
                     <svg
                       className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
                       xmlns="http://www.w3.org/2000/svg"

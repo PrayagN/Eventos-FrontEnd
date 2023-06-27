@@ -1,11 +1,15 @@
 import { minWidth } from "@mui/system";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import 
+import TimeAgo from "timeago-react";
 import { toast } from "react-hot-toast";
-import { OrganizergetMessages, OrganizersendMessage, getOrganizerConnection } from "../../../Services/organizerApi";
+import {
+  OrganizergetMessages,
+  OrganizersendMessage,
+  getOrganizerConnection,
+} from "../../../Services/organizerApi";
 function Chat() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [backButton, setBackButton] = useState(false);
@@ -14,6 +18,7 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [connections, setConnections] = useState([]);
 
+  const scrollRef = useRef();
   const handleChatClick = (connection) => {
     setSelectedChat(connection);
   };
@@ -62,8 +67,8 @@ function Chat() {
     setShowEmoji(false);
   };
   useEffect(() => {
-    
-    getOrganizerConnection().then((response) => {
+    getOrganizerConnection()
+      .then((response) => {
         setConnections(response.data.connections);
       })
       .catch((error) => {
@@ -78,6 +83,18 @@ function Chat() {
       });
     }
   }, [selectedChat]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const keyDownHandler = (event) => {
+    if (event.key == "Enter") {
+      event.preventDefault();
+      // ️ call submit function here
+      submitChat();
+    }
+  };
 
   return (
     <div className="w-full ">
@@ -138,9 +155,7 @@ function Chat() {
                             <span className="block ml-2 font-semibold text-gray-600">
                               {connection.members.client.username}
                             </span>
-                            <span className="block ml-2 text-sm text-gray-600">
-                              {/* {getTimeDifference(connection.updatedAt)} */}
-                            </span>
+                            <span className="block ml-2 text-sm text-gray-600"></span>
                           </div>
                           <span className="block ml-2 text-sm text-gray-600">
                             {/* {getLastMessage(connection)} */}
@@ -180,20 +195,21 @@ function Chat() {
                 <div className="relative w-full p-6 overflow-y-auto h-[30rem]">
                   <ul className="space-y-2">
                     {messages.map((message, index) => (
-                      <li
+                      <li ref={scrollRef}
                         key={index}
-                        className={`flex justify-${
-                          message.senderId ? "end" : "start"
+                        className={`flex ${
+                          message.senderId ==senderId ? "justify-end" : "justify-start"
                         }`}
                       >
                         <div
-                          className={`relative max-w-xl px-4 py-2 text-gray-700 ${
-                            message.sentBy === "organizer"
-                              ? "bg-gray-100"
-                              : "rounded"
-                          } shadow`}
+                          className={`max-w-xl px-4 py-2 text-white rounded-lg shadow-md ${
+                            message.senderId ? "bg-green-500" : "bg-gray-300"
+                          }`}
                         >
                           <span className="block">{message.content}</span>
+                          <div className="text-xs text-gray-500">
+                            <TimeAgo datetime={message.createdAt}></TimeAgo>
+                          </div>
                         </div>
                       </li>
                     ))}
@@ -244,6 +260,7 @@ function Chat() {
                     required=""
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyDown={keyDownHandler}
                   />
                   {/* <button>
                     <svg
