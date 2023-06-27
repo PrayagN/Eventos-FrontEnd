@@ -10,6 +10,7 @@ import {
   OrganizersendMessage,
   getOrganizerConnection,
 } from "../../../Services/organizerApi";
+import { io } from "socket.io-client";
 function Chat() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [backButton, setBackButton] = useState(false);
@@ -17,7 +18,9 @@ function Chat() {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [connections, setConnections] = useState([]);
-
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  
+  const socket =useRef()
   const scrollRef = useRef();
   const handleChatClick = (connection) => {
     setSelectedChat(connection);
@@ -25,7 +28,11 @@ function Chat() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   //duplicate sender isd
   const senderId = "64802bf1b44a77c886c5e8fc";
-
+  useEffect(() => {
+    socket.current = io(import.meta.env.VITE_UserBaseUrl);
+    socket.current.emit('add-user',senderId)
+  }, [senderId]);
+  
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -48,24 +55,55 @@ function Chat() {
     setNewMessage(newMessage + emoji);
   };
 
-  const submitChat = () => {
-    if (newMessage == " ") {
-      return toast.error("write any message");
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on('msg-receive', (data) => {
+        setArrivalMessage({
+          senderId: data.senderId,
+          content: data.content,
+          createdAt: Date.now(),
+        });
+      });
     }
+  }, []);
+  
+  useEffect(() => {
+    arrivalMessage &&
+      arrivalMessage.senderId === selectedChat.members.client._id &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, selectedChat]);
+  
+  const submitChat = () => {
+    if (newMessage.trim() === '') {
+      return toast.error('Please write a message');
+    }
+  
     const message = {
       content: newMessage,
       connection_id: selectedChat._id,
       senderId: senderId,
     };
-
+  
+    const receiverId = selectedChat.members.client._id;
+  
+    socket.current.emit('send-msg', {
+      senderId: senderId,
+      receiverId: receiverId,
+      content: newMessage,
+    });
+  
     try {
       OrganizersendMessage(message).then((response) => {
-        setMessages([...messages, response.data]);
-        setNewMessage("");
+        setMessages((prev) => [...prev, response.data]);
+        setNewMessage('');
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  
     setShowEmoji(false);
   };
+  
   useEffect(() => {
     getOrganizerConnection()
       .then((response) => {
@@ -75,7 +113,7 @@ function Chat() {
         toast.error(error.response.data.message);
       });
   }, []);
-
+  
   useEffect(() => {
     if (selectedChat) {
       OrganizergetMessages(selectedChat?._id).then((response) => {
@@ -84,17 +122,17 @@ function Chat() {
     }
   }, [selectedChat]);
 
-  useEffect(() => {
+    useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
+  
   const keyDownHandler = (event) => {
-    if (event.key == "Enter") {
+    if (event.key === 'Enter') {
       event.preventDefault();
-      // ️ call submit function here
       submitChat();
     }
   };
+  
 
   return (
     <div className="w-full ">

@@ -4,6 +4,7 @@ import { BiLeftArrowAlt } from "react-icons/bi";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import TimeAgo from "timeago-react";
+import {io} from 'socket.io-client'
 import {
   getConnections,
   getMessages,
@@ -17,15 +18,22 @@ function Chat() {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [connections, setConnections] = useState([]);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
 
+  const socket = useRef()
   const scrollRef = useRef();
   const handleChatClick = (connection) => {
     setSelectedChat(connection);
   };
+  const senderId = "647f3c08bcebb856163a3f39";
+  //connecting to socket
+  useEffect(() => {
+   socket.current = io(import.meta.env.VITE_UserBaseUrl);
+   socket.current.emit('add-user',senderId)
+  }, [senderId]);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   //duplicate sender isd
-  const senderId = "647f3c08bcebb856163a3f39";
-
+  
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -47,25 +55,55 @@ function Chat() {
     let emoji = String.fromCodePoint(...codeArray);
     setNewMessage(newMessage + emoji);
   };
-
-  const submitChat = () => {
-    if (newMessage == " ") {
-      return toast.error("write any message");
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on('msg-receive', (data) => {
+        setArrivalMessage({
+          senderId: data.senderId,
+          content: data.content,
+          createdAt: Date.now(),
+        });
+      });
     }
+  }, []);
+  
+  useEffect(() => {
+    if (arrivalMessage && selectedChat?.members.organizer._id === arrivalMessage.senderId) {
+      setMessages((prev) => [...prev, arrivalMessage]);
+    }
+  }, [arrivalMessage, selectedChat]);
+  
+  const submitChat = () => {
+    if (newMessage.trim() === '') {
+      return toast.error('Please write a message');
+    }
+  
     const message = {
       content: newMessage,
       connection_id: selectedChat._id,
       senderId: senderId,
     };
-
+    const receiverId = selectedChat.members.organizer._id;
+  
+    socket.current.emit('send-msg', {
+      senderId: senderId,
+      receiverId: receiverId,
+      content: newMessage,
+    });
+  
     try {
       sendMessage(message).then((response) => {
-        setMessages([...messages, response.data]);
-        setNewMessage("");
+        setMessages((prev) => [...prev, response.data]);
+        setNewMessage('');
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  
     setShowEmoji(false);
   };
+  
+  
   useEffect(() => {
     getConnections()
       .then((response) => {
@@ -96,6 +134,8 @@ function Chat() {
       submitChat();
     }
   };
+
+
   return (
     <div className="w-full ">
       <div className="min-w-full border rounded lg:grid lg:grid-cols-2 sm:grid-cols-1 sm:h-full">
