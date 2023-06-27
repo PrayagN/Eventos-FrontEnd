@@ -25,7 +25,12 @@ export const eventOrganizers = (
     organizerLimitPerPage,
   });
 };
-export const organizerList = (activePage, organizerLimitPerPage, searchQuery, selectedEvent) => {
+export const organizerList = (
+  activePage,
+  organizerLimitPerPage,
+  searchQuery,
+  selectedEvent
+) => {
   return userAxiosInstance.get("/listOrganizers", {
     params: { activePage, organizerLimitPerPage, searchQuery, selectedEvent },
   });
@@ -45,16 +50,25 @@ export const checkoutPayment = (values) => {
 export const bookedEvents = () => {
   return userAxiosInstance.get("/booked-events");
 };
-export const reviewOrganizer = (id,rating,review) => {
-  return userAxiosInstance.post('/review-organizer',{id,rating,review});
+export const reviewOrganizer = (id, rating, review) => {
+  return userAxiosInstance.post("/review-organizer", { id, rating, review });
 };
-export const cancelBooking = (id)=>{
-  return userAxiosInstance.post('/cancel-booking',{id})
-}
-export const chatbot =(message)=>{
-  return userAxiosInstance.post('/chatbot',message)
-}
-export const connectionBuild=(id)=>{
-  return userAxiosInstance.post('/buildConnection',{id})
-
-}
+export const cancelBooking = (id) => {
+  return userAxiosInstance.post("/cancel-booking", { id });
+};
+export const chatbot = (message) => {
+  return userAxiosInstance.post("/chatbot", message);
+};
+export const connectionBuild = (id) => {
+  return userAxiosInstance.post("/buildConnection", { id });
+};
+export const getConnections = () => {
+  return userAxiosInstance.get("/getConnections");
+};
+export const sendMessage = (message) => {
+  return userAxiosInstance.post("/sendMessage", message);
+};
+export const getMessages = (id) => {
+  console.log(id,'indo');
+  return userAxiosInstance.get(`/getMessages/${id}`);
+};

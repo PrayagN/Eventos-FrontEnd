@@ -4,9 +4,9 @@ import Chat from '../../components/User/Chat/Chat'
 
 function ChatPage() {
   return (
-    <div>
+    <div className='h-screen'>
       <Navbar/>
-      <div className='h-screen'>
+      <div >
 
       <Chat/>
       </div>

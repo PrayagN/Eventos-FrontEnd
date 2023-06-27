@@ -47,6 +47,7 @@
     "socket.io-client": "^4.7.0",
     "tailwind-scrollbar": "^3.0.4",
     "tailwind-scrollbar-hide": "^1.1.7",
+    "timeago-react": "^3.0.6",
     "yup": "^1.1.1"
   },
   "devDependencies": {

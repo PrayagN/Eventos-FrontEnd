@@ -1,14 +1,25 @@
 import { minWidth } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import { BiLeftArrowAlt } from "react-icons/bi";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import 
+import { toast } from "react-hot-toast";
+import { OrganizergetMessages, OrganizersendMessage, getOrganizerConnection } from "../../../Services/organizerApi";
 function Chat() {
-  const [selectedChat, setSelectedChat] = useState(false);
+  const [selectedChat, setSelectedChat] = useState(null);
   const [backButton, setBackButton] = useState(false);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [newMessage, setNewMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [connections, setConnections] = useState([]);
 
-  const handleChatClick = (chat) => {
-    setSelectedChat(chat);
+  const handleChatClick = (connection) => {
+    setSelectedChat(connection);
   };
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  //duplicate sender isd
+  const senderId = "64802bf1b44a77c886c5e8fc";
 
   useEffect(() => {
     const handleResize = () => {
@@ -23,74 +34,129 @@ function Chat() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  console.log(screenWidth);
-  console.log(backButton);
+
+  const addEmoji = (e) => {
+    const sym = e.unified.split("_");
+    const codeArray = [];
+    sym.forEach((element) => codeArray.push("0x" + element));
+    let emoji = String.fromCodePoint(...codeArray);
+    setNewMessage(newMessage + emoji);
+  };
+
+  const submitChat = () => {
+    if (newMessage == " ") {
+      return toast.error("write any message");
+    }
+    const message = {
+      content: newMessage,
+      connection_id: selectedChat._id,
+      senderId: senderId,
+    };
+
+    try {
+      OrganizersendMessage(message).then((response) => {
+        setMessages([...messages, response.data]);
+        setNewMessage("");
+      });
+    } catch (error) {}
+    setShowEmoji(false);
+  };
+  useEffect(() => {
+    
+    getOrganizerConnection().then((response) => {
+        setConnections(response.data.connections);
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (selectedChat) {
+      OrganizergetMessages(selectedChat?._id).then((response) => {
+        setMessages(response.data);
+      });
+    }
+  }, [selectedChat]);
+
   return (
-    <div className="w-full m-2">
+    <div className="w-full ">
       <div className="min-w-full border rounded lg:grid lg:grid-cols-2 sm:grid-cols-1 sm:h-full">
-        { <div
-          className={`border-r border-gray-300 lg:col-span-1 md:block sm:${backButton || selectedChat==false ? 'block':'hidden'}  ${
-            selectedChat ? "hidden" : "block"
-          }`}
-        >
-          <div className="mx-3 my-3">
-            <div className="relative text-gray-600">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                  className="w-6 h-6 text-gray-300"
-                >
-                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </span>
-              <input
-                type="search"
-                className="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
-                name="search"
-                placeholder="Search"
-                required=""
-              />
-            </div>
-          </div>
-          <ul className="overflow-auto h-auto">
-            <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-            <li>
-              <a
-                className={`flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer ${
-                  selectedChat === 1 ? "bg-gray-100" : "hover:bg-gray-100"
-                } focus:outline-none`}
-                onClick={() => handleChatClick(1)}
-              >
-                <img
-                  className="object-cover w-10 h-10 rounded-full"
-                  src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg"
-                  alt="username"
-                />
-                <div className="w-full pb-2">
-                  <div className="flex justify-between">
-                    <span className="block ml-2 font-semibold text-gray-600">
-                      Jhon Don
-                    </span>
-                    <span className="block ml-2 text-sm text-gray-600">
-                      25 minutes
-                    </span>
-                  </div>
-                  <span className="block ml-2 text-sm text-gray-600">bye</span>
-                </div>
-              </a>
-             
-             
-            </li>
-          </ul>
-        </div>}
         {
           <div
-            className={`lg:block sm:grid-cols-1 ${
+            className={`border-r border-gray-300 lg:col-span-1 md:block sm:${
+              backButton || selectedChat == false ? "block" : "hidden"
+            }  ${selectedChat ? "hidden" : "block"}`}
+          >
+            <div className="mx-3 my-3">
+              <div className="relative text-gray-600">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    className="w-6 h-6 text-gray-300"
+                  >
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </span>
+                <input
+                  type="search"
+                  className="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
+                  name="search"
+                  placeholder="Search"
+                  required=""
+                />
+              </div>
+            </div>
+            <ul className="overflow-auto h-auto">
+              {connections.length > 0 && (
+                <>
+                  <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">
+                    Chats
+                  </h2>
+                  {connections.map((connection, index) => (
+                    <li key={index}>
+                      <a
+                        className={`flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer ${
+                          selectedChat === connection._id
+                            ? "bg-gray-100"
+                            : "hover:bg-gray-100"
+                        } focus:outline-none`}
+                        onClick={() => handleChatClick(connection)}
+                      >
+                        <img
+                          className="object-cover w-10 h-10 rounded-full"
+                          src={connection.members.client.image}
+                          alt={connection.members.client.username}
+                        />
+                        <div className="w-full pb-2">
+                          <div className="flex justify-between">
+                            <span className="block ml-2 font-semibold text-gray-600">
+                              {connection.members.client.username}
+                            </span>
+                            <span className="block ml-2 text-sm text-gray-600">
+                              {/* {getTimeDifference(connection.updatedAt)} */}
+                            </span>
+                          </div>
+                          <span className="block ml-2 text-sm text-gray-600">
+                            {/* {getLastMessage(connection)} */}
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                  ))}
+                </>
+              )}
+            </ul>
+          </div>
+        }
+        {
+          <div
+            className={`lg:block sm:grid-cols-1  ${
               screenWidth < 1025 && selectedChat == false ? "hidden" : "block"
             }`}
           >
@@ -103,74 +169,42 @@ function Chat() {
                   />
                   <img
                     className="object-cover w-10 h-10 rounded-full"
-                    src={
-                      selectedChat === 1
-                        ? "https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg"
-                        : selectedChat === 2
-                        ? "https://cdn.pixabay.com/photo/2016/06/15/15/25/loudspeaker-1459128__340.png"
-                        : "https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
-                    }
+                    src={selectedChat.members.client.image}
                     alt="username"
                   />
                   <span className="block ml-2 font-bold text-gray-600">
-                    {selectedChat === 1
-                      ? "Jhon Don"
-                      : selectedChat === 2
-                      ? "Same"
-                      : "Emma"}
+                    {selectedChat.members.client.username}
                   </span>
                   <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
                 </div>
-                <div className="relative w-full p-6 overflow-y-auto h-[38rem]">
+                <div className="relative w-full p-6 overflow-y-auto h-[30rem]">
                   <ul className="space-y-2">
-                    <li className="flex justify-start">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                        <span className="block">Hi</span>
-                      </div>
-                    </li>
-                    <li className="flex justify-end">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                        <span className="block">Hiiii</span>
-                      </div>
-                    </li>
-                    <li className="flex justify-end">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                        <span className="block">How are you?</span>
-                      </div>
-                    </li>
-                    <li className="flex justify-start">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                        <span className="block">I'm good. How about you?</span>
-                      </div>
-                    </li>
-                    <li className="flex justify-end">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                        <span className="block">I'm doing great!</span>
-                      </div>
-                    </li>
-                    <li className="flex justify-start">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                        <span className="block">That's good to hear!</span>
-                      </div>
-                    </li>
-                    <li className="flex justify-start">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                        <span className="block">
-                          Do you want to grab some lunch later?
-                        </span>
-                      </div>
-                    </li>
-                    <li className="flex justify-end">
-                      <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                        <span className="block">
-                          Sure, where do you want to go?
-                        </span>
-                      </div>
-                    </li>
+                    {messages.map((message, index) => (
+                      <li
+                        key={index}
+                        className={`flex justify-${
+                          message.senderId ? "end" : "start"
+                        }`}
+                      >
+                        <div
+                          className={`relative max-w-xl px-4 py-2 text-gray-700 ${
+                            message.sentBy === "organizer"
+                              ? "bg-gray-100"
+                              : "rounded"
+                          } shadow`}
+                        >
+                          <span className="block">{message.content}</span>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
+
                 <div className="flex items-center justify-between w-full  p-3 border-t border-gray-300">
-                  <button>
+                  <button
+                    onClick={() => setShowEmoji(!showEmoji)}
+                    className="text-yellow-300 animate-pulse"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="w-6 h-6 text-gray-500"
@@ -208,8 +242,10 @@ function Chat() {
                     className="block w-full py-2 pl-4 mx-5 bg-gray-100 rounded-full outline-none focus:text-gray-700"
                     name="message"
                     required=""
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
                   />
-                  <button>
+                  {/* <button>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="w-5 h-5 text-gray-500"
@@ -224,8 +260,8 @@ function Chat() {
                         d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
                       />
                     </svg>
-                  </button>
-                  <button type="submit">
+                  </button> */}
+                  <button type="submit" onClick={submitChat}>
                     <svg
                       className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
                       xmlns="http://www.w3.org/2000/svg"
@@ -236,6 +272,19 @@ function Chat() {
                     </svg>
                   </button>
                 </div>
+                {showEmoji && (
+                  <div className="fixed bottom-0 right-80 m-12 flex justify-center">
+                    <Picker
+                      data={data}
+                      emojiSize={20}
+                      emojiButtonSize={28}
+                      rows={3} // Specify the number of rows you want to display
+                      onEmojiSelect={addEmoji}
+                      theme="light"
+                      onClickOutside="null"
+                    />
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex justify-center items-center h-[40rem]">
