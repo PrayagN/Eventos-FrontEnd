@@ -112,7 +112,7 @@ function Chat() {
       .catch((error) => {
         toast.error(error.response.data.message);
       });
-  }, []);
+  }, [newMessage]);
 
   useEffect(() => {
     if (selectedChat) {
@@ -196,11 +196,11 @@ function Chat() {
                               {connection.members.organizer.organizerName}
                             </span>
                             <span className="block ml-2 text-sm text-gray-600">
-                              {/* {getTimeDifference(connection.updatedAt)} */}
+                              {connection.updatedAt}
                             </span>
                           </div>
                           <span className="block ml-2 text-sm text-gray-600">
-                            {/* {getLastMessage(connection)} */}
+                            {connection.lastMessage?.content}
                           </span>
                         </div>
                       </a>

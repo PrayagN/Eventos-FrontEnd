@@ -29,10 +29,11 @@ export const organizerList = (
   activePage,
   organizerLimitPerPage,
   searchQuery,
-  selectedEvent
+  selectedEvent,
+  selectedDistrict
 ) => {
   return userAxiosInstance.get("/listOrganizers", {
-    params: { activePage, organizerLimitPerPage, searchQuery, selectedEvent },
+    params: { activePage, organizerLimitPerPage, searchQuery, selectedEvent,selectedDistrict },
   });
 };
 export const organizerView = (id) => {
@@ -69,6 +70,6 @@ export const sendMessage = (message) => {
   return userAxiosInstance.post("/sendMessage", message);
 };
 export const getMessages = (id) => {
-  console.log(id,'indo');
+  
   return userAxiosInstance.get(`/getMessages/${id}`);
 };

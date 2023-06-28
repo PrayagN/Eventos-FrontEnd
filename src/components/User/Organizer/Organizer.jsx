@@ -7,33 +7,44 @@ import ScrollButton from "../ScrollButton/ScrollButton";
 const Organizer = () => {
   const [organizers, setOrganizers] = useState([]);
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState('All');
+  const [selectedEvent, setSelectedEvent] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [activePage, setActivePage] = useState(1);
-  const [totalOrganizers,setTotalOrganizers] = useState(0)
-  const [review,setReview] = useState([])
+  const [totalOrganizers, setTotalOrganizers] = useState(0);
+  const [review, setReview] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [selectedDistrict,setSelectedDistrict] = useState('')
+  const [openDrop, setOpenDrop] = useState(false);
   const organizerLimitPerPage = 2;
   useEffect(() => {
-    organizerList(activePage,organizerLimitPerPage,searchQuery,selectedEvent).then((response) => {
-      
+    organizerList(
+      activePage,
+      organizerLimitPerPage,
+      searchQuery,
+      selectedEvent,
+      selectedDistrict
+    ).then((response) => {
       setOrganizers(response?.data.organizers);
       setEvents(response.data.events);
-      setTotalOrganizers(response.data.total)
-      setReview(response.data.review)
+      setTotalOrganizers(response.data.total);
+      setReview(response.data.review);
+      setDistrict(response.data.district);
     });
-  }, [activePage,searchQuery,selectedEvent]);
+  }, [activePage, searchQuery, selectedEvent,selectedDistrict]);
   const handleEventClick = (event) => {
     setSelectedEvent(event);
   };
-  console.log(organizers);
+  console.log(selectedDistrict);
 
   const handleSearchChange = (event) => {
     const value = event.target.value;
     setSearchQuery(value);
-
+  };
+  const handleDropdownToggle = () => {
+    setOpenDrop(!openDrop);
   };
 
-
+  // console.log(organizers[0].district);
   return (
     <div className="w-fll items-center ">
       <div className="max-h-96 max-[1250px]:">
@@ -58,6 +69,45 @@ const Organizer = () => {
       <br />
 
       <div className="flex flex-col items-center justify-center md:flex-row md:justify-start md:items-center">
+        <div className="px-5 ">
+          <button
+            onClick={handleDropdownToggle}
+            className=" text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            type="button"
+          >
+            District
+            <svg
+              className="w-4 h-4 ml-2"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          {openDrop && (
+            <div className="absolute z-10 my-2 bg-white divide-y divide-gray-100 rounded-lg shadow ">
+              <ul
+                className="py-2 text-sm text-gray-700 "
+              >
+                {district.map((district, index) => (
+                  <div className="py-1 hover:bg-gray-100 rounded" key={index}>
+
+                  <li   onClick={()=>setSelectedDistrict(district)} className="cursor-pointer px-5 ">{district}</li>
+                  </div>
+                  
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
         <div className="flex justify-center flex-grow ml-5 md:ml-24  mb-4 md:mb-0 md:mr-4 ">
           <div
             className=" overflow-x-auto  h-14 pr-5  flex gap-4 justify-start items-center scrollbar-hide border-b-2 border-blue-500"
@@ -105,7 +155,7 @@ const Organizer = () => {
         </div>
       </div>
 
-      <div className="grid xl:grid-cols-3 md:grid-cols-3  mt-12 pt-1  gap-5  ">
+      <div className="grid xl:grid-cols-4 md:grid-cols-3  mt-12 pt-1  gap-5  ">
         {organizers.length > 0 ? (
           organizers.map((organizer, index) => (
             <List
@@ -115,8 +165,8 @@ const Organizer = () => {
               organizer={true}
               img={organizer.logo}
               id={organizer._id}
-              review = {organizer.review}
-              budget = {organizer.budget}
+              review={organizer.review}
+              budget={organizer.budget}
             />
           ))
         ) : (
@@ -126,9 +176,14 @@ const Organizer = () => {
         )}
       </div>
       <div className="flex justify-center mt-10">
-        <Pagination activePage ={activePage} limit ={organizerLimitPerPage} setActivePage={setActivePage} totalOrganizers ={totalOrganizers} />
+        <Pagination
+          activePage={activePage}
+          limit={organizerLimitPerPage}
+          setActivePage={setActivePage}
+          totalOrganizers={totalOrganizers}
+        />
       </div>
-      <ScrollButton/>
+      <ScrollButton />
     </div>
   );
 };

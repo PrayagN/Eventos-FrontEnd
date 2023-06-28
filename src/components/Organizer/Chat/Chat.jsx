@@ -1,5 +1,5 @@
 import { minWidth } from "@mui/system";
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
@@ -19,8 +19,8 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [connections, setConnections] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  
-  const socket =useRef()
+
+  const socket = useRef();
   const scrollRef = useRef();
   const handleChatClick = (connection) => {
     setSelectedChat(connection);
@@ -30,9 +30,9 @@ function Chat() {
   const senderId = "64802bf1b44a77c886c5e8fc";
   useEffect(() => {
     socket.current = io(import.meta.env.VITE_UserBaseUrl);
-    socket.current.emit('add-user',senderId)
+    socket.current.emit("add-user", senderId);
   }, [senderId]);
-  
+
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -57,7 +57,7 @@ function Chat() {
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on('msg-receive', (data) => {
+      socket.current.on("msg-receive", (data) => {
         setArrivalMessage({
           senderId: data.senderId,
           content: data.content,
@@ -66,44 +66,44 @@ function Chat() {
       });
     }
   }, []);
-  
+
   useEffect(() => {
     arrivalMessage &&
       arrivalMessage.senderId === selectedChat.members.client._id &&
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, selectedChat]);
-  
+
   const submitChat = () => {
-    if (newMessage.trim() === '') {
-      return toast.error('Please write a message');
+    if (newMessage.trim() === "") {
+      return toast.error("Please write a message");
     }
-  
+
     const message = {
       content: newMessage,
       connection_id: selectedChat._id,
       senderId: senderId,
     };
-  
+
     const receiverId = selectedChat.members.client._id;
-  
-    socket.current.emit('send-msg', {
+
+    socket.current.emit("send-msg", {
       senderId: senderId,
       receiverId: receiverId,
       content: newMessage,
     });
-  
+
     try {
       OrganizersendMessage(message).then((response) => {
         setMessages((prev) => [...prev, response.data]);
-        setNewMessage('');
+        setNewMessage("");
       });
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
     }
-  
+
     setShowEmoji(false);
   };
-  
+
   useEffect(() => {
     getOrganizerConnection()
       .then((response) => {
@@ -113,7 +113,7 @@ function Chat() {
         toast.error(error.response.data.message);
       });
   }, []);
-  
+
   useEffect(() => {
     if (selectedChat) {
       OrganizergetMessages(selectedChat?._id).then((response) => {
@@ -122,17 +122,16 @@ function Chat() {
     }
   }, [selectedChat]);
 
-    useEffect(() => {
+  useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-  
+
   const keyDownHandler = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
       submitChat();
     }
   };
-  
 
   return (
     <div className="w-full ">
@@ -233,10 +232,13 @@ function Chat() {
                 <div className="relative w-full p-6 overflow-y-auto h-[30rem]">
                   <ul className="space-y-2">
                     {messages.map((message, index) => (
-                      <li ref={scrollRef}
+                      <li
+                        ref={scrollRef}
                         key={index}
                         className={`flex ${
-                          message.senderId ==senderId ? "justify-end" : "justify-start"
+                          message.senderId == senderId
+                            ? "justify-end"
+                            : "justify-start"
                         }`}
                       >
                         <div

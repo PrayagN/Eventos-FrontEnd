@@ -38,3 +38,6 @@ export const OrganizergetMessages = (id) => {
   console.log(id, "indo");
   return organizerAxiosInstance.get(`/organizer-getMessages/${id}`);
 };
+export const loadDashboard =()=>{
+  return organizerAxiosInstance.get('/load-dashboard')
+}
