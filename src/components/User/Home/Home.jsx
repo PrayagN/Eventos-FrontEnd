@@ -5,17 +5,21 @@ import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PieChartOutlineIcon from "@mui/icons-material/PieChartOutline";
 import ServiceCard from "./ServiceCard";
 import Gallery from "./Gallery";
-import img1 from "../../../assets/gallery/img1.jpg";
-import img2 from "../../../assets/gallery/img2.jpg";
-import img3 from "../../../assets/gallery/img3.jpg";
-import img4 from "../../../assets/gallery/img4.jpg";
-import img5 from "../../../assets/gallery/img5.webp";
+import {photosAPI} from '../../../Services/photosApi'
 import RotatingSquare from "../../RotatingSquare";
 import Sponsors from "./Sponsers";
 import Footer from "./Footer";
 import ScrollButton from "../ScrollButton/ScrollButton";
+import { eventList } from "../../../Services/userApi";
 
 function Home() {
+
+  const [events,setEvents] = useState([])
+  useEffect(()=>{
+    eventList().then((response)=>{
+      setEvents(response.data.events)
+    })
+  })
  
   return (
     <div className="w-full h-screen  items-center  z-[1]  ">
@@ -60,17 +64,18 @@ function Home() {
           <ServiceCard
             icon={ExtensionOutlineIcon}
             title="Great Services"
-            content="Corem ipsum dolor sit amet consectetur elit sed lusm tempor incididunt ut labore et dolore mag aliqua enima minim veniam quis nostrud exercitation"
+            content="These organizers excel in their ability to understand their clients' vision and translate it into a memorable event experience, seamlessly incorporating elements such as themes, decor, entertainment, and catering"
           />
           <ServiceCard
             icon={PeopleOutlineIcon}
             title="Great People"
-            content="Corem ipsum dolor sit amet consectetur elit sed lusm tempor incididunt ut labore et dolore mag aliqua enima minim veniam quis nostrud exercitation"
+            content="Great people in event management organizers possess a natural talent for building strong relationships with clients, vendors, and team members, fostering a collaborative and supportive environment"
           />
           <ServiceCard
             icon={PieChartOutlineIcon}
             title="Great Ideas"
-            content="Corem ipsum dolor sit amet consectetur elit sed lusm tempor incididunt ut labore et dolore mag aliqua enima minim veniam quis nostrud exercitation"
+            content="
+            Great ideas from event management organizers breathe life into events, infusing them with creativity, uniqueness, and a memorable experience that leaves a lasting impact on attendees"
           />
         </div>
       </div>
@@ -89,12 +94,15 @@ function Home() {
           services
         </Typography>
       </div>
-      <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid mt-12 pt-1 mx-14 gap-10 ">
-        <Gallery Image={img1} title="Alumini Party" />
-        <Gallery Image={img2} title="Reception Events" />
-        <Gallery Image={img3} title="Birthday Party" />
-        <Gallery Image={img4} title="Tech Events" />
-        <Gallery Image={img5} title="Wedding Events" />
+      <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 mt-12 pt-1 mx-10 gap-10">
+        {events.map((event, index) => (
+          <Gallery
+            key={index}
+            Image={`${photosAPI}eventsPhotos/${event.image}`}
+            title={event.title}
+            id={event._id}
+          />
+        ))}
       </div>
       <div className="mx ">
         <img
@@ -119,8 +127,11 @@ function Home() {
               Do You want To Work With Us!
             </h2>
             <span className="text-white text-sm mx-3  ">
-              If you have a good team for organizing events, you can contact us.
+              If you have a good team for organizing events, you can be our part.
             </span>
+            <div className="flex justify-center pt-5">
+              <button  className="text-white bg-gra">Join</button>
+            </div>
           </div>
         </div>
       </div>

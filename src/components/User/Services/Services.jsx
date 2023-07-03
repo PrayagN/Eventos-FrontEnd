@@ -45,7 +45,7 @@ function Services() {
             )}
           </div>
         </div>
-      <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 mt-12 pt-1 mx-10 gap-10">
+      <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 mt-12 pt-1 mx-10 gap-10  ">
         {eventlist.map((event, index) => (
           <Gallery
             key={index}

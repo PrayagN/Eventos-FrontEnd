@@ -11,6 +11,7 @@ import { adminActions } from "../app/adminSlice";
 import { useDispatch } from "react-redux";
 import OrganizerViewPage from "../pages/Admin/OrganizerViewPage";
 import BookedEventsPage from "../pages/Admin/BookedEventsPage";
+import Client404 from "../components/Error/Client404";
 
 function AdminRouter() {
   return (
@@ -22,6 +23,7 @@ function AdminRouter() {
       >
         <Route path="/" element={<AdminLoginPage />} />
       </Route>
+      <Route path="/*" element={< Client404 />} />
       <Route element={<PrivateRoutes role={"admin"} route={"/admin"} />}>
         <Route path="/dashboard" element={<Dashboardpage />} />
         <Route path="/customers" element={<CustomerPage />} />

@@ -48,7 +48,7 @@ function BookedClients() {
   useEffect(() => {
     bookedClients(activePage,searchQuery)
       .then((response) => {
-        console.log(response);
+      
         setTotalBooking(response.data.total)
         setLimit(response.data.size)
         setCustomers(response.data.detail);
@@ -271,7 +271,7 @@ function BookedClients() {
               color="blue-gray"
               className="font-normal"
             >
-              Page 1 of 10
+              
             </Typography>
               <div className="flex gap-2">
                 <TablePagination activePage={activePage} setActivePage={setActivePage} total={totalBooking} limit={limit} skip={skip} />

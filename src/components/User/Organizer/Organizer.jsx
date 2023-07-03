@@ -68,8 +68,36 @@ const Organizer = () => {
       </div>
       <br />
 
-      <div className="flex flex-col items-center justify-center md:flex-row md:justify-start md:items-center">
-        <div className="px-5 ">
+      <div className="flex flex-col lg:flex-col-3 items-center justify-center md:flex-row md:justify-start md:items-center">
+        
+        <div className="flex justify-center flex-grow ml-5 md:ml-24  mb-4 md:mb-0 md:mr-4 ">
+          <div
+            className=" overflow-x-auto  h-14 pr-5  flex gap-4 justify-start items-center scrollbar-hide border-b-2 border-blue-500"
+            style={{ width: "300px", scrollLeft: 0 }}
+          >
+            <button
+              className={` py-1 ml-2 px-4 rounded-lg ${
+                selectedEvent === "All" ? "bg-blue-500 text-white" : ""
+              } hover:scale-110 duration-100`}
+              onClick={() => handleEventClick("All")}
+            >
+              All
+            </button>
+            {events.map((event, index) => (
+              <button
+                key={index}
+                className={` py-1 px-2  rounded-lg ${
+                  selectedEvent === event.title ? "bg-blue-500 text-white" : ""
+                } hover:scale-110 duration-100`}
+                onClick={() => handleEventClick(event.title)}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {event.title}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="p-5 ">
           <button
             onClick={handleDropdownToggle}
             className=" text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -108,34 +136,6 @@ const Organizer = () => {
             </div>
           )}
         </div>
-        <div className="flex justify-center flex-grow ml-5 md:ml-24  mb-4 md:mb-0 md:mr-4 ">
-          <div
-            className=" overflow-x-auto  h-14 pr-5  flex gap-4 justify-start items-center scrollbar-hide border-b-2 border-blue-500"
-            style={{ width: "300px", scrollLeft: 0 }}
-          >
-            <button
-              className={` py-1 ml-2 px-4 rounded-lg ${
-                selectedEvent === "All" ? "bg-blue-500 text-white" : ""
-              } hover:scale-110 duration-100`}
-              onClick={() => handleEventClick("All")}
-            >
-              All
-            </button>
-            {events.map((event, index) => (
-              <button
-                key={index}
-                className={` py-1 px-2  rounded-lg ${
-                  selectedEvent === event.title ? "bg-blue-500 text-white" : ""
-                } hover:scale-110 duration-100`}
-                onClick={() => handleEventClick(event.title)}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {event.title}
-              </button>
-            ))}
-          </div>
-        </div>
-
         <div
           className="relative mb-3 shadow-lg shadow-gray-600 rounded-xl mr-5"
           data-te-input-wrapper-init

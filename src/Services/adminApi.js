@@ -31,6 +31,6 @@ export const viewOrganizer =(id)=>{
 export const AcceptOrganizer =(id)=>{
     return adminAxiosInstance.post('/acceptOrganizer',{id})
 }
-export const BookedEventsData =()=>{
-    return adminAxiosInstance.get('/bookedEventsData')
+export const BookedEventsData =(activePage,searchQuery)=>{
+    return adminAxiosInstance.get('/bookedEventsData',{params:{activePage,searchQuery}})
 }

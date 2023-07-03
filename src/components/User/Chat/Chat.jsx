@@ -11,6 +11,9 @@ import {
   sendMessage,
 } from "../../../Services/userApi";
 import { toast } from "react-hot-toast";
+import moment from 'moment-timezone';
+import jwt from "jwt-decode";
+
 function Chat() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [backButton, setBackButton] = useState(false);
@@ -19,13 +22,38 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [connections, setConnections] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [search,setSearch] = useState('')
 
   const socket = useRef()
   const scrollRef = useRef();
-  const handleChatClick = (connection) => {
+  const  handleChatClick = (connection) => {
     setSelectedChat(connection);
   };
-  const senderId = "647f3c08bcebb856163a3f39";
+let userId ;
+    const token = localStorage.getItem("usertoken");
+    console.log(token,'sdfasdf');
+    if(token){
+
+      const decodedToken = jwt(token)
+      userId = decodedToken ? decodedToken.id:null
+    }
+
+  useEffect(() => {
+    getConnections()
+      .then((response) => {
+        setConnections(response.data.connections);
+        // setUser(response.data.user_id)
+
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+  }, []);
+
+  const senderId = userId;
+ const indianTime=(time)=>{
+    return moment(time).tz('Asia/Kolkata').format(' hh:mm A');
+  }
   //connecting to socket
   useEffect(() => {
    socket.current = io(import.meta.env.VITE_UserBaseUrl);
@@ -104,15 +132,7 @@ function Chat() {
   };
   
   
-  useEffect(() => {
-    getConnections()
-      .then((response) => {
-        setConnections(response.data.connections);
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message);
-      });
-  }, [newMessage]);
+ 
 
   useEffect(() => {
     if (selectedChat) {
@@ -165,7 +185,8 @@ function Chat() {
                   className="block w-full py-2 pl-10 bg-gray-100 rounded outline-none"
                   name="search"
                   placeholder="Search"
-                  required=""
+                  value={search}
+                  onChange={(e)=>setSearch(e.target.value)}
                 />
               </div>
             </div>
@@ -196,7 +217,7 @@ function Chat() {
                               {connection.members.organizer.organizerName}
                             </span>
                             <span className="block ml-2 text-sm text-gray-600">
-                              {connection.updatedAt}
+                            {indianTime(connection.updatedAt)}
                             </span>
                           </div>
                           <span className="block ml-2 text-sm text-gray-600">
@@ -336,15 +357,17 @@ function Chat() {
                   </button>
                 </div>
                 {showEmoji && (
-                  <div className="fixed bottom-0 right-80 m-12 flex justify-center">
-                    <Picker
+                  <div className="fixed bottom-28 flex justify-center">
+                    <Picker  
                       data={data}
                       emojiSize={20}
                       emojiButtonSize={28}
-                      rows={3} // Specify the number of rows you want to display
+                      maxRows={3} // Specify the number of rows you want to display
                       onEmojiSelect={addEmoji}
                       theme="light"
-                      onClickOutside="null"
+                      previewPosition='none'
+                      maxFrequentRows={0}
+                      // onClickOutside={()=>setShowEmoji(!showEmoji)}
                     />
                   </div>
                 )}

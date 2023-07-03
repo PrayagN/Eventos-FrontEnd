@@ -12,7 +12,7 @@ function Customers() {
   const skip = (activePage - 1)*limit ===0?1:(activePage-1) *limit+1
   useEffect(() => {
     listCustomers(activePage,searchValue).then((response) => {
-      console.log(response.data.customers);
+      
       setCustomers(response.data.customers);
       setTotalUser(response.data.total)
       setLimit(response.data.size)

@@ -8,6 +8,7 @@ import UnauthorizedRoutes  from '../middleware/UnauthorizedRoutes'
 import OrganizerDashboardPage from '../pages/Organizer/OrganizerDashboardPage'
 import OrganizerBookedClientPage from '../pages/Organizer/OrganizerBookedClientPage'
 import OrganizerChatPage from '../pages/Organizer/OrganizerChatPage'
+import Organizer404 from '../components/Error/Organizer404'
 function OrganizerRouter() {
   return (
     <Routes>
@@ -16,6 +17,7 @@ function OrganizerRouter() {
         <Route path='/signup' element={< OrganizerSignupPage />} />
 
       </Route>
+      <Route path='/*' element={< Organizer404 />} />
         <Route element={<PrivateRoutes role={"organizer"} route={"/organizer"} />}>
         <Route path='/dashboard' element={<OrganizerDashboardPage/>} />
         <Route path='/profile' element ={<OrganizerProfilePage/>} />

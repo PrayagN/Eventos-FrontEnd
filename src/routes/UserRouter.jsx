@@ -15,7 +15,7 @@ import PaymentSuccess from "../components/User/Payment/PaymentSuccess";
 import PaymentForm from "../components/User/Payment/Checkout";
 import BookedEventsPage from "../pages/User/BookedEventsPage";
 import ChatPage from "../pages/User/ChatPage";
-
+import Client404 from "../components/Error/Client404";
 function UserRouter() {
   return (
     <Routes>
@@ -33,7 +33,7 @@ function UserRouter() {
       <Route path="/organizers/view" element={<OrganizerViewPage />} />
       <Route path="/services/view" element={<OrganizerViewPage />} />
       <Route path="/services/:title" element={<ServicesListPage />} />
-      <Route path="/*" element={<div>page not found</div>} />
+      <Route path="/*" element={< Client404/>} />
 
       <Route element={<PrivateRoutes role={"user"} route={"/"} />}>
         <Route path="/profile" element={<ProfilePage />} />

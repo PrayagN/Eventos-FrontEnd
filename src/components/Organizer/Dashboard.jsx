@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import SmallCard from '../Admin/dashboard/smallCards/SmallCard'
 import { loadDashboard } from '../../Services/organizerApi'
 import {toast} from 'react-hot-toast'
+import Graph from './Graph'
 function Dashboard() {
   const [dashboard,setDashboard] = useState('')
+
   useEffect(()=>{
     loadDashboard().then((response)=>{
       setDashboard(response.data)
@@ -17,7 +19,7 @@ function Dashboard() {
   });
   return (
     <div className='w-full'>
-       <div className="flex flex-wrap justify-center">
+       <div className="grid lg:grid-cols-4">
         <SmallCard color
           count={dashboard?.totalBooking}
           path={
@@ -36,7 +38,7 @@ function Dashboard() {
 
         <SmallCard  money name='Total Earnings' count={totalPrice}  path={<path d="M20 4H4c-1.103 0-2 .897-2 2v2h20V6c0-1.103-.897-2-2-2zM2 18c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-6H2v6zm3-3h6v2H5v-2z"></path>} />
       </div>
-  
+          <Graph />
      </div>
   )
 }

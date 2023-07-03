@@ -158,7 +158,7 @@ function OrganizerView() {
               <div className="flex justify-end items-center w-full">
                 <button
                   className="flex items-center space-x-2"
-                  onClick={goToChat}
+                  onClick={()=>goToChat()}
                 >
                   <img
                     className="w-12 h-12"
