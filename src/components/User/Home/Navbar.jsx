@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Bars3BottomRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,NavLink } from "react-router-dom";
 import EventosLogo from "../../../assets/EventosLogo.png";
 import { userAuth } from "../../../Services/userApi";
 import { useSelector, useDispatch } from "react-redux";
@@ -87,21 +87,26 @@ function Navbar() {
           {Links.map((link, index) => {
             if (link.name === "Chat") {
               return authorized ? (
-                <li
+                <NavLink
                   key={index}
-                  className="font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8"
-                >
-                  <Link to={link.link}>{link.name}</Link>
-                </li>
+                  to={link.link}
+                  className={({ isActive }) =>
+                  `font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8 ${isActive ? "border-b-2 border-blue-600" : ""}`
+                }                >
+                  {link.name}
+                </NavLink>
               ) : null;
             } else {
               return (
-                <li
+                <NavLink
                   key={index}
-                  className="font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8"
+                  to={link.link}
+                  className={({ isActive }) =>
+                  `font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8 ${isActive ? "border-b-2 border-blue-600" : ""}`
+                }
                 >
-                  <Link to={link.link}>{link.name}</Link>
-                </li>
+                {link.name}
+                </NavLink>
               );
             }
           })}
