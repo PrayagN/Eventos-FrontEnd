@@ -51,7 +51,7 @@ function Navbar() {
     setIsDropdownOpen(!isDropdownOpen);
   };
   return (
-    <div className="shadow-md w-full  ">
+    <div className="shadow-md w-full px-1  ">
       <div className="p-5  md:flex justify-between items-center flex-wrap">
         <div className="flex text-2xl cursor-pointer items-center gap-2">
           <div>
@@ -121,7 +121,7 @@ function Navbar() {
                         alt=""
                       />
                       {isDropdownOpen && (
-                        <div>
+                        <div className="">
                           <ul className="dropdown-menu   absolute mt-2 bg-white border border-gray-200 shadow-lg z-[9999] ">
                             <li>
                               <Link

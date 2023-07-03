@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation ,useNavigate } from "react-router-dom";
-import { connectionBuild, organizerView, reviewOrganizer } from "../../../Services/userApi";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  connectionBuild,
+  organizerView,
+  reviewOrganizer,
+} from "../../../Services/userApi";
 import { FcOk } from "react-icons/fc";
 import toast, { Toaster } from "react-hot-toast";
 import { BiRupee } from "react-icons/bi";
@@ -39,14 +43,11 @@ function OrganizerView() {
   const [showReview, setShowReview] = useState([]);
   const [done, setDone] = useState("");
   /// chat
-  const [chatModal, setChatModal] = useState(false);
-  const [showEmoji, setShowEmoji] = useState(false);
-  const [newMessage, setNewMessage] = useState("");
 
   const location = useLocation();
   const organizer_id = location?.state.id;
   const authorized = useSelector((state) => state.user.authorized);
-  const navigate = useNavigate() 
+  const navigate = useNavigate();
   const rateOrganizer = () => {
     reviewOrganizer(organizer_id, rated, review)
       .then((response) => {
@@ -115,13 +116,15 @@ function OrganizerView() {
     setIsSubmitted((prevState) => !prevState);
   };
 
-  const goToChat =()=>{
-      connectionBuild(organizer_id).then((response)=>{
-        navigate('/chat')
-      }).catch((error)=>{
-        toast.error(error.response.data.message)
+  const goToChat = () => {
+    connectionBuild(organizer_id)
+      .then((response) => {
+        navigate("/chat");
       })
-  }
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+  };
 
   return (
     <div className="w-full">
@@ -158,7 +161,7 @@ function OrganizerView() {
               <div className="flex justify-end items-center w-full">
                 <button
                   className="flex items-center space-x-2"
-                  onClick={()=>goToChat()}
+                  onClick={() => goToChat()}
                 >
                   <img
                     className="w-12 h-12"
@@ -417,7 +420,66 @@ function OrganizerView() {
       <div></div>
       {isSubmitted && <Checkout status={isSubmitted} values={values} />}
 
-         <ScrollButton />
+      <ScrollButton />
+      {isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center ">
+          <div className="relative flex flex-col items-center bg-gray-50 w-1/3 rounded-lg">
+            <button
+              className="place-self-end mx-2 my-2 text-red-600"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            >
+              <ImCross />
+            </button>
+            <div className="bg-black opacity-10 inset-0 z-0" />
+            <div className="sm:max-w-lg w-full p-2  bg-white rounded-xl z-10">
+              <label className="text-xl flex justify-center font-bold text-black tracking-wide">
+                Rate & Review
+              </label>
+              <br />
+
+              <div className="flex justify-center gap-2">
+                <Rating
+                  value={1}
+                  className="text-yellow-400"
+                  onChange={(value) => setRated(value)}
+                  
+                />
+                <Typography color="blue-gray" className="font-medium">
+                  {rated}.0 Rated
+                </Typography>
+              </div>
+              <br />
+              <div className="grid grid-cols-1 space-y-2">
+                <div className="flex items-center justify-center w-full">
+                  {/* <label className="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
+                    <div className="h-full w-full text-center flex flex-col items-center justify-center"> */}
+                  <div className="w-full">
+                    <Textarea
+                      className="w-full h-96 "
+                      style={{ borderColor: "black" }}
+                      placeholder="write your review"
+                      onChange={(e) => setReview(e.target.value)}
+                    />
+                  </div>
+                  {/* </div>
+                  </label> */}
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  onClick={rateOrganizer}
+                  type="submit"
+                  className="my-5  bg-blue-500 text-gray-100 p-4 rounded-full tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <Toaster />
     </div>
   );

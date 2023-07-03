@@ -13,8 +13,9 @@ const Organizer = () => {
   const [totalOrganizers, setTotalOrganizers] = useState(0);
   const [review, setReview] = useState([]);
   const [district, setDistrict] = useState([]);
-  const [selectedDistrict,setSelectedDistrict] = useState('')
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const [openDrop, setOpenDrop] = useState(false);
+  const [rating, setRating] = useState([]);
   const organizerLimitPerPage = 2;
   useEffect(() => {
     organizerList(
@@ -27,14 +28,13 @@ const Organizer = () => {
       setOrganizers(response?.data.organizers);
       setEvents(response.data.events);
       setTotalOrganizers(response.data.total);
-      setReview(response.data.review);
+      setRating(response.data.rating);
       setDistrict(response.data.district);
     });
-  }, [activePage, searchQuery, selectedEvent,selectedDistrict]);
+  }, [activePage, searchQuery, selectedEvent, selectedDistrict]);
   const handleEventClick = (event) => {
     setSelectedEvent(event);
   };
-  console.log(selectedDistrict);
 
   const handleSearchChange = (event) => {
     const value = event.target.value;
@@ -69,7 +69,6 @@ const Organizer = () => {
       <br />
 
       <div className="flex flex-col lg:flex-col-3 items-center justify-center md:flex-row md:justify-start md:items-center">
-        
         <div className="flex justify-center flex-grow ml-5 md:ml-24  mb-4 md:mb-0 md:mr-4 ">
           <div
             className=" overflow-x-auto  h-14 pr-5  flex gap-4 justify-start items-center scrollbar-hide border-b-2 border-blue-500"
@@ -122,15 +121,16 @@ const Organizer = () => {
           </button>
           {openDrop && (
             <div className="absolute z-10 my-2 bg-white divide-y divide-gray-100 rounded-lg shadow ">
-              <ul
-                className="py-2 text-sm text-gray-700 "
-              >
+              <ul className="py-2 text-sm text-gray-700 ">
                 {district.map((district, index) => (
                   <div className="py-1 hover:bg-gray-100 rounded" key={index}>
-
-                  <li   onClick={()=>setSelectedDistrict(district)} className="cursor-pointer px-5 ">{district}</li>
+                    <li
+                      onClick={() => setSelectedDistrict(district)}
+                      className="cursor-pointer px-5 "
+                    >
+                      {district}
+                    </li>
                   </div>
-                  
                 ))}
               </ul>
             </div>
@@ -142,7 +142,7 @@ const Organizer = () => {
         >
           <input
             type="text"
-            className="peer rounded-xl min-h-[auto] w-full outline-none px-3 py-[0.32rem] leading-[1.6] transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+            className="peer rounded-xl min-h-[auto] w-full outline-none  py-[0.32rem] leading-[1.6] transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
             id="exampleFormControlInput1"
             value={searchQuery}
             onChange={handleSearchChange}
@@ -165,8 +165,11 @@ const Organizer = () => {
               organizer={true}
               img={organizer.logo}
               id={organizer._id}
-              review={organizer.review}
+              review={rating.find((item)=>item._id === organizer._id)?.reviewCount||0}
               budget={organizer.budget}
+              rating={
+                rating.find((item) => item._id === organizer._id)?.ratings || 0
+              }
             />
           ))
         ) : (

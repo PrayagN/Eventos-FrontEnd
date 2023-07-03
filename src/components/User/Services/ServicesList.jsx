@@ -15,6 +15,7 @@ function ServicesList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activePage, setActivePage] = useState(1);
   const [totalOrganizers,setTotalOrganizers] = useState(0)
+  const [rating,setRating] = useState([])
   const organizerLimitPerPage = 2;
   useEffect(()=>{
     eventOrganizers(event_id,activePage,searchQuery,organizerLimitPerPage).then((response)=>{
@@ -22,6 +23,7 @@ function ServicesList() {
       setOrganizers(response.data.organizers)
       seteventPhoto(response.data.eventPhoto)
       setTotalOrganizers(response.data.total)
+      setRating(response.data.rating)
     },[])
   })
   return (
@@ -75,6 +77,9 @@ function ServicesList() {
             title={organizer.organizerName}
             // organizer={true}
             budget={organizer.budget}
+            rating ={rating.find((item)=>item._id === organizer._id)?.ratings || 0}
+            review ={rating.find((item)=>item._id === organizer._id)?.reviewCount||0}
+            
             img={organizer.logo}
             id={organizer._id}
             />

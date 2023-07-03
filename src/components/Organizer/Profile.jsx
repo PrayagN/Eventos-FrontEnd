@@ -142,7 +142,7 @@ function Profile() {
       </div>
       <div className="flex p-3  flex-wrap">
         <div className="">
-          <div className="mb-5">
+          <div className="mb-5 ">
 
           <Card
             title={formik.values.organizerName}
@@ -151,6 +151,7 @@ function Profile() {
             size="true"
             event={formik.values.event}
             setLogo={setLogo}
+            
             />
             </div>
           <div className="w-96">
