@@ -136,12 +136,14 @@ function Profile() {
   };
 
   return (
-    <div className="w-full m-3">
-      <div className="w-full m-3">
+    <div className="w-full  ">
+      <div className="w-full ">
         <h1 className="text-4xl font-semibold font-arim">Profile</h1>
       </div>
-      <div className="flex gap-10 ">
-        <div className=" space-y-16 ">
+      <div className="flex p-3  flex-wrap">
+        <div className="">
+          <div className="mb-5">
+
           <Card
             title={formik.values.organizerName}
             logo={orgLogo}
@@ -149,8 +151,9 @@ function Profile() {
             size="true"
             event={formik.values.event}
             setLogo={setLogo}
-          />
-          <div className="w-full">
+            />
+            </div>
+          <div className="w-96">
             <Slide autoSlide={true}>
               {orgImages.length > 0
                 ? orgImages.map((file, index) => (
@@ -164,7 +167,7 @@ function Profile() {
                     />
                   ))}
             </Slide>
-            <div className="flex justify-center mt-3 ">
+            <div className="flex justify-center m-5 ">
               <Button>
                 <label className="flex item-center gap-3">
                   <input
@@ -182,10 +185,16 @@ function Profile() {
             </div>
           </div>
         </div>
-        <div className="flex ">
+        <div>
+
+       
+        <div className="flex flex-wrap ml-5">
           <form className=" " onSubmit={formik.handleSubmit}>
-            <div className="flex   ">
-              <div className="border p-4 w-96  ">
+            <div className="flex flex-wrap  ">
+              <div className="">
+
+             
+              <div className="border p-4 w-96 ">
                 <div className="">
                   <label className="block mb-2 text-sm font-medium text-black">
                     Organizer Name
@@ -269,9 +278,12 @@ function Profile() {
                   ></textarea>
                 </div>
               </div>
+              </div>
+              <div className="flex items-end h-full">
 
-              <div className="border p-4 ml-4 mt-52 w-80 ">
-                <div className="flex gap-8">
+              
+              <div className="border p-4 w-80  ">
+                <div className="flex gap-5 ">
                   <div className="">
                     <label className="block mb-2 text-sm font-medium text-black">
                       Budget/person
@@ -307,7 +319,7 @@ function Profile() {
                     )}
                   </div>
                 </div>
-                <div className="flex gap-8 ">
+                <div className="flex  ">
                   <div className="">
                     <label className="block mb-2 text-sm font-medium text-black">
                       District
@@ -327,9 +339,13 @@ function Profile() {
                   </div>
                 </div>
               </div>
+              </div>
             </div>
+            <div>
+
+           
             <div
-              className="flex py-5 "
+              className="flex mt-4 "
               // style={{ marginLeft: "500px", marginTop: "-400px" }}
             >
               <input
@@ -346,9 +362,9 @@ function Profile() {
               </button>
             </div>
 
-            <div style={{}}>
+            <div style={{}} className="flex justify-center">
               {services.length > 0 ? (
-                <ul className="grid lg:grid-cols-5 gap-2">
+                <ul className="grid lg:grid-cols-4 gap-2 place-items-center">
                   {services.map((service, index) => (
                     <li key={index}>{service}</li>
                   ))}
@@ -358,7 +374,7 @@ function Profile() {
               )}
             </div>
 
-            <div className="flex justify-end mt-3">
+            <div className="flex justify-end ">
               <button
                 type="submit"
                 className="bg-blue-600 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
@@ -366,9 +382,10 @@ function Profile() {
                 Update
               </button>
             </div>
+            </div>
           </form>
         </div>
-
+        </div>
         <Toaster />
       </div>
     </div>

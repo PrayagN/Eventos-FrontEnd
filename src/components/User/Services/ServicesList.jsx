@@ -74,6 +74,7 @@ function ServicesList() {
             description={organizer.description}
             title={organizer.organizerName}
             // organizer={true}
+            budget={organizer.budget}
             img={organizer.logo}
             id={organizer._id}
             />

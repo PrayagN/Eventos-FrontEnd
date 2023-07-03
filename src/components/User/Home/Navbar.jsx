@@ -52,11 +52,11 @@ function Navbar() {
   };
   return (
     <div className="shadow-md w-full  ">
-      <div className="py-4 mx-20 md:flex justify-between items-center">
+      <div className="p-5  md:flex justify-between items-center flex-wrap">
         <div className="flex text-2xl cursor-pointer items-center gap-2">
           <div>
             <img
-              className="w-12  sm:w-12 md:w-16 lg:w-16 xl:w-16 mx-4  "
+              className="w-12    "
               src={EventosLogo}
               alt=""
             />{" "}

@@ -40,7 +40,7 @@ function BookedEvents() {
             key={index}
             className="flex flex-wrap bg-blue-400 rounded-xl shadow-lg p-1 shadow-gray-300"
           >
-            <div className="flex bg-white p-4 gap-10  rounded-xl ">
+            <div className="flex flex-wrap bg-white p-4 gap-10  rounded-xl ">
               <div className="">
                 <h1 className="text-2xl font-bold">Booking Details</h1>
 
@@ -104,7 +104,10 @@ function BookedEvents() {
                 </div>
                 <br />
               </div>
-              <div className="flex justify-center h-min  ">
+              <div className="flex justify-center">
+
+          
+              <div className=" h-min   ">
                 <div className="">
                   <div className="w-full shadow-lg rounded-xl p-5 ">
                     <div className="flex justify-center  text-4xl font-bold text-blue-600">
@@ -130,7 +133,7 @@ function BookedEvents() {
                     </div>
                   </div>
                 </div>
-                <div>
+                <div className="mt-2 flex justify-center">
                   <button
                     onClick={() => {
                       setShowConfirmation(true, setSelectedId(booked._id));
@@ -247,6 +250,7 @@ function BookedEvents() {
                     </div>
                   </div>
                 )}
+              </div>
               </div>
             </div>
           </div>
