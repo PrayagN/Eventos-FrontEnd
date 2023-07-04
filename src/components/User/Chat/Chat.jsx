@@ -5,6 +5,7 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import TimeAgo from "timeago-react";
 import {io} from 'socket.io-client'
+import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 import {
   getConnections,
   getMessages,
@@ -31,7 +32,6 @@ function Chat() {
   };
 let userId ;
     const token = localStorage.getItem("usertoken");
-    console.log(token,'sdfasdf');
     if(token){
 
       const decodedToken = jwt(token)
@@ -60,7 +60,6 @@ let userId ;
    socket.current.emit('add-user',senderId)
   }, [senderId]);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  //duplicate sender isd
   
   useEffect(() => {
     const handleResize = () => {
@@ -138,7 +137,6 @@ let userId ;
     if (selectedChat) {
       getMessages(selectedChat?._id).then((response) => {
         setMessages(response.data);
-        console.log(response.data);
       });
     }
   }, [selectedChat]);
@@ -358,15 +356,19 @@ let userId ;
                 </div>
                 {showEmoji && (
                   <div className="fixed bottom-28 flex justify-center">
-                    <Picker  
-                      data={data}
-                      emojiSize={20}
-                      emojiButtonSize={28}
-                      maxRows={3} // Specify the number of rows you want to display
-                      onEmojiSelect={addEmoji}
-                      theme="light"
-                      previewPosition='none'
-                      maxFrequentRows={0}
+                    <EmojiPicker
+                     onEmojiClick={(emoji) =>
+                      setNewMessage(
+                        (prevMessage) => prevMessage + emoji.emoji
+                      )
+                    }
+                    searchDisabled={true}
+                    emojiStyle={EmojiStyle.APPLE}
+                    previewConfig={{ showPreview: false }}
+                    height={300}
+                    width={300}
+
+
                       // onClickOutside={()=>setShowEmoji(!showEmoji)}
                     />
                   </div>

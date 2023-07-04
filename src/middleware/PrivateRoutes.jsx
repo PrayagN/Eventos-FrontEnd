@@ -38,9 +38,7 @@ function PrivateRoutes({ role, route }) {
     } else if (role === "user") {
       userAuth()
         .then((response) => {
-          console.log(response,'response');
           if (response.data.auth) {
-            console.log(response.data.auth);
             dispatch(userActions.userLogin());
           }else{
             dispatch(userActions.userLogout())
