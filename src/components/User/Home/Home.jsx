@@ -4,6 +4,8 @@ import ExtensionOutlineIcon from "@mui/icons-material/ExtensionOutlined";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PieChartOutlineIcon from "@mui/icons-material/PieChartOutline";
 import ServiceCard from "./ServiceCard";
+import { Button } from "@material-tailwind/react";
+
 import Gallery from "./Gallery";
 import {photosAPI} from '../../../Services/photosApi'
 import RotatingSquare from "../../RotatingSquare";
@@ -11,6 +13,7 @@ import Sponsors from "./Sponsers";
 import Footer from "./Footer";
 import ScrollButton from "../ScrollButton/ScrollButton";
 import { eventList } from "../../../Services/userApi";
+import { Link } from "react-router-dom";
 
 function Home() {
 
@@ -129,14 +132,14 @@ function Home() {
             <span className="text-white text-sm mx-3  ">
               If you have a good team for organizing events, you can be our part.
             </span>
-            <div className="flex justify-center pt-5">
-              <button  className="text-white bg-gra">Join</button>
-            </div>
+            <Link to={'/organizer/signup'} className="flex justify-center pt-5">
+              <Button   className="text-blue-500 bg-white ">Join</Button>
+            </Link>
           </div>
         </div>
       </div>
       <div className="">
-        <div className=" justify-center grid   ">
+        <div className=" justify-center grid  pt-2  ">
           <h1 className="text-red-600 pl-12 ">WORLDWIDE</h1>
           <h1 className="font-semibold text-3xl ">Our Sponsors</h1>
         </div>

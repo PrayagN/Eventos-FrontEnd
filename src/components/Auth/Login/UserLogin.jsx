@@ -21,7 +21,7 @@ const validate =(values)=>{
   let errors ={}
   if(!values.email){
     errors.email = 'required'
-  }else if(!/^[A-Z0-9._+-]+@[A-Z0-9.0-]+\.[A-Z]{2,4}$/i.test(values.email)){
+  }else if(!/^[A-Z0-9._+-]+@[A-Z0-9.0-]+\.[A-Z]{2,4}$/i.test(values.email|| /\s/.test(values.email))){
     errors.email = 'Invalid email format'
   }
   if(!values.password){

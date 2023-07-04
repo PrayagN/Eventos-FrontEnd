@@ -3,7 +3,7 @@ import React from 'react';
 function SmallCard({count,path,name,color,cancel,money}) {
   return (
     <div className='flex flex-wrap'>
-  <div className="bg-white h-auto m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600">
+  <div className="bg-white h-auto m-4  rounded-xl grid shadow-lg shadow-gray-600">
     <div className="flex justify-center items-center text-5xl gap-5">
 
       <div className="flex p-5 items-center bg-white rounded-xl shadow-xs" style={{ width: '250px' }}>
