@@ -49,9 +49,9 @@ function Events() {
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("image", image);
-    // formData.append("title", title);
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("title", title);
 
     try {
       const response = await addEvents(formData, {
