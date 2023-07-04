@@ -28,10 +28,9 @@ function BookedClients() {
   const [activePage, setActivePage] = useState(1);
   const [limit, setLimit] = useState(0);
   const [update, setUpdate] = useState("");
-  const  bookingLimitPerPage = 1;
-  const skip = (activePage - 1)*limit ===0?1:(activePage-1) *limit+1
+  const bookingLimitPerPage = 2;
+  const skip = (activePage - 1) * limit;
 
-  
 
   const updatePayments = (id) => {
     setShow(null);
@@ -46,17 +45,16 @@ function BookedClients() {
       });
   };
   useEffect(() => {
-    bookedClients(activePage,searchQuery)
+    bookedClients(activePage, searchQuery)
       .then((response) => {
-      
-        setTotalBooking(response.data.total)
-        setLimit(response.data.size)
+        setTotalBooking(response.data.total);
+        setLimit(response.data.size);
         setCustomers(response.data.detail);
       })
       .catch((error) => {
         toast.error(error.response.data.message);
       });
-  }, [update,activePage,searchQuery]);
+  }, [update, activePage, searchQuery]);
   const TABLE_HEAD = [
     "Sl.no",
     "Client",
@@ -78,6 +76,10 @@ function BookedClients() {
       setShow(index); // Open the dropdown for the clicked row
     }
   };
+  const calculateSerialNumber = (index) => {
+    return skip + index + 1;
+  };
+
   return (
     <div className="w-full ">
       <div className="m-10   mt-12">
@@ -97,7 +99,10 @@ function BookedClients() {
               </div>
               <div className="flex w-full shrink-0 gap-2 md:w-max">
                 <div className="w-full md:w-72">
-                  <Input placeholder="Search"  onKeyUp={(e) => setSearchQuery(e.target.value)}/>
+                  <Input
+                    placeholder="Search"
+                    onKeyUp={(e) => setSearchQuery(e.target.value)}
+                  />
                 </div>
               </div>
             </div>
@@ -133,7 +138,7 @@ function BookedClients() {
                           color="blue-gray"
                           className="font-normal flex justify-center"
                         >
-                          {index + 1}
+                          {calculateSerialNumber(index)}
                         </Typography>
                       </td>
                       <td className="p-4 border-b border-blue-gray-50">
@@ -270,12 +275,16 @@ function BookedClients() {
               variant="small"
               color="blue-gray"
               className="font-normal"
-            >
-              
-            </Typography>
-              <div className="flex gap-2">
-                <TablePagination activePage={activePage} setActivePage={setActivePage} total={totalBooking} limit={limit} skip={skip} />
-              </div>
+            ></Typography>
+            <div className="flex gap-2">
+              <TablePagination
+                activePage={activePage}
+                setActivePage={setActivePage}
+                total={totalBooking}
+                limit={limit}
+                skip={skip}
+              />
+            </div>
           </CardFooter>
         </Card>
       </div>

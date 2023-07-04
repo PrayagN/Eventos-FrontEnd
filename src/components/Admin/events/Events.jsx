@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Gallery from "../../User/Home/Gallery";
-import img5 from "../../../assets/gallery/img5.webp";
+
 import { Link, useNavigate } from "react-router-dom";
 import { ImCross } from "react-icons/im";
 import {
@@ -11,6 +11,8 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { photosAPI } from "../../../Services/photosApi";
 import AdminLogo from "../../common/AdminLogo";
+import { storage } from "../../../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 function Events() {
   const inputRef = useRef(null);
   const [addevents, setAddevents] = useState(false);
@@ -18,7 +20,10 @@ function Events() {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [events, setEvents] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [originalEventList, setOriginalEventList] = useState([]);
   const navigate = useNavigate();
+
   const handleImage = (event) => {
     const file = event.target.files[0];
     setPreviewImage(URL.createObjectURL(file));
@@ -32,6 +37,7 @@ function Events() {
         console.log(response.data.events);
         if (response.data.events) {
           setEvents(response.data.events);
+          setOriginalEventList(response.data.events);
         }
       } catch (error) {
         console.log(error);
@@ -43,9 +49,9 @@ function Events() {
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("title", title);
+    // const formData = new FormData();
+    // formData.append("image", image);
+    // formData.append("title", title);
 
     try {
       const response = await addEvents(formData, {
@@ -62,29 +68,39 @@ function Events() {
         const updatedEventsResponse = await eventsLoad();
 
         if (updatedEventsResponse.data.events) {
-          
           setEvents(updatedEventsResponse.data.events);
+          setOriginalEventList(updatedEventsResponse.data.events);
           setTitle("");
           setImage(null);
           setPreviewImage("");
-        
+        } else {
+          toast.error(updatedEventsResponse.data.message);
+        }
       } else {
-        toast.error(response.data.message);
-      }
-      } else if (response.status == false) {
         toast.error(response.message);
       }
-      // Handle the response if needed
-      console.log(response);
     } catch (error) {
-      // Handle the error if needed
       console.log(error);
+    }
+  };
+
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query === "") {
+      setEvents(originalEventList);
+    } else {
+      const filteredData = originalEventList.filter((event) =>
+        event.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setEvents(filteredData);
     }
   };
 
   return (
     <div className="w-full">
-      <AdminLogo/>
+      <AdminLogo />
       <h1 className="m-12 text-4xl font-semibold font-arim">Events</h1>
 
       <div className="flex justify-end mx-6 gap-3">
@@ -95,27 +111,29 @@ function Events() {
           Add Events
         </button>
       </div>
-      <div className="relative mx-3 ">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg
-                  className="w-5 h-5 text-gray-500 "
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"></path>
-                </svg>
-              </div>
-              <input
-                type="text"
-                id="table-search-users"
-                className="block p-2   pl-10 text-sm text-black border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search for events"
-              
-                onKeyUp={(e) => setSearchValue(e.target.value)}
-              />
-            </div>
+
+      <div className="relative mx-3">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg
+            className="w-5 h-5 text-gray-500"
+            aria-hidden="true"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"></path>
+          </svg>
+        </div>
+        <input
+          type="text"
+          id="table-search-users"
+          className="block p-2 pl-10 text-sm text-black border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Search for events"
+          value={searchQuery}
+          onChange={handleSearch}
+        />
+      </div>
+
       <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid mt-12 my-4 mx-8 gap-6 p-4 pt-3 rounded-lg shadow shadow-gray-600">
         {events.map((event) => (
           <Gallery

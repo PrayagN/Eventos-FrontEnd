@@ -68,7 +68,7 @@ function UserSignup() {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values.mobile);
+      
 
       const { data } = await userSignup(values);
       if (data.status) {
@@ -107,7 +107,7 @@ function UserSignup() {
   });
   const handleOTPVerification = async () => {
     try {
-      console.log(formik.values, "dsfa");
+     
       await verify.confirm(formik.values.otp);
       const { data } = await userSignup(formik.values);
       if (data.status) {
