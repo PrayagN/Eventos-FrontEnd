@@ -72,22 +72,6 @@ function UserLogin() {
             toast.error(data.message,{duration:4000})
           }
         })
-
-
-
-
-      // axios.post(`${userAPI}signin`,values).then((response)=>{
-      //   if(response.data.status){
-      //     toast.success(response.data.message,{duration:4000})
-      //     localStorage.setItem('token',response.data.token)
-      //     dispatch(userActions.userAddDetails({username:response.data.username,token:response.data.token}))
-      //     navigate('/')
-      //   }else{
-      //     toast.error(response.data.message,{duration:4000})
-      //   }
-      // }).catch((error)=>{
-      //   toast.error(error,{duration:4000})
-      // })
     }
   });
   console.log(formik.errors);

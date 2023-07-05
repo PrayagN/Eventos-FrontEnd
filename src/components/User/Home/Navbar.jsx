@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Bars3BottomRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
-
-import { Link, useNavigate,NavLink } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import EventosLogo from "../../../assets/EventosLogo.png";
 import { userAuth } from "../../../Services/userApi";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../../../Redux/app/userSlice";
 import { Card, CardHeader, Typography } from "@material-tailwind/react";
 import defaultAvatar from "/logoutAvatar.avif";
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState(defaultAvatar);
   const [modal, setModal] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
+
   useEffect(() => {
     userAuth()
       .then((response) => {
         if (response.data.auth) {
-          {
-            response.data.userData.image &&
-              setImage(response.data.userData.image);
+          if (response.data.userData.image) {
+            setImage(response.data.userData.image);
           }
           dispatch(userActions.userLogin());
         }
@@ -32,15 +32,17 @@ function Navbar() {
         }
       });
   }, []);
+
   const authorized = useSelector((state) => state.user.authorized);
   const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.removeItem("usertoken");
     dispatch(userActions.userLogout());
     navigate("/");
   };
 
-  let Links = [
+  const Links = [
     { name: "Home", link: "/" },
     { name: "Services", link: "/services" },
     { name: "Organizers", link: "/organizers" },
@@ -50,38 +52,32 @@ function Navbar() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
   return (
-    <div className="shadow-md w-full px-1  ">
-      <div className="p-5  md:flex justify-between items-center flex-wrap">
+    <div className="shadow-md w-full px-5">
+      <div className="p-5 md:flex justify-between items-center flex-wrap">
         <div className="flex text-2xl cursor-pointer items-center gap-2">
           <div>
-            <img
-              className="w-12    "
-              src={EventosLogo}
-              alt=""
-            />{" "}
+            <img className="w-12" src={EventosLogo} alt="" />
           </div>
           <div>
-            <span className="font-bold ">Eventos</span>
-            <div className="  ">
-              <span className="text-xs grid text-gray-400">
-                Making Events Simpler
-              </span>
+            <span className="font-bold">Eventos</span>
+            <div className="text-xs grid text-gray-400">
+              Making Events Simpler
             </div>
           </div>
-          <br />
         </div>
         <div
           onClick={() => setIsOpen(!isOpen)}
-          className="w-7 h-7 absolute right-8 top-6 cursor-pointer md:hidden "
+          className="w-7 h-7 absolute right-8 top-6 cursor-pointer md:hidden"
         >
           {isOpen ? <XMarkIcon /> : <Bars3BottomRightIcon />}
         </div>
         <ul
-          className={` md:flex pl-9 md:pl-0      md:items-center    absolute bg-transparent  md:static  md:z-auto z-[1] left-0 w-full md:w-auto   transition-all duration-500 ease in ${
+          className={`md:flex pl-9 md:pl-0 md:items-center absolute bg-transparent md:static md:z-auto z-[1] left-0 w-full md:w-auto transition-all duration-500 ease-in ${
             isOpen
-              ? "top-12 backdrop-filter backdrop-blur-sm mt-12 text-white "
-              : "top-[-490px]  "
+              ? "top-10 h-[20.1rem] backdrop-filter backdrop-blur-sm mt-12 text-black bg-white"
+              : "top-[-490px]"
           }`}
         >
           {Links.map((link, index) => {
@@ -91,8 +87,11 @@ function Navbar() {
                   key={index}
                   to={link.link}
                   className={({ isActive }) =>
-                  `font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8 ${isActive ? "border-b-2 border-blue-600" : ""}`
-                }                >
+                    `font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8 ${
+                      isActive ? "md:border-b-2 border-blue-600" : ""
+                    }`
+                  }
+                >
                   {link.name}
                 </NavLink>
               ) : null;
@@ -102,66 +101,85 @@ function Navbar() {
                   key={index}
                   to={link.link}
                   className={({ isActive }) =>
-                  `font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8 ${isActive ? "border-b-2 border-blue-600" : ""}`
-                }
+                    `font-semibold flex justify-start cursor-pointer my-10 md:my-0 md:ml-8 ${
+                      isActive ? "md:border-b-2 border-blue-600  " : ""
+                    }`
+                  }
                 >
-                {link.name}
+                  {link.name}
                 </NavLink>
               );
             }
           })}
 
-          <li className="ml-5">
+          <li className="">
             {authorized ? (
-              <nav className="flex justify-between items-center  py-4 px-6">
-                <ul className="flex">
-                  <li className="relative">
-                    <button
-                      className="dropdown-button focus:outline-none"
-                      onClick={toggleDropdown}
+              <div className="relative ml-3">
+                <div>
+                  <button
+                    type="button"
+                    onClick={toggleDropdown}
+                    className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    id="user-menu-button"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <img className="h-9 w-9 rounded-full" src={image} alt="" />
+                  </button>
+                </div>
+                {/*
+                 Dropdown menu, show/hide based on menu state.
+           
+                 Entering: "transition ease-out duration-100"
+                   From: "transform opacity-0 scale-95"
+                   To: "transform opacity-100 scale-100"
+                 Leaving: "transition ease-in duration-75"
+                   From: "transform opacity-100 scale-100"
+                   To: "transform opacity-0 scale-95"
+               */}
+                {isDropdownOpen && (
+                  <div
+                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu-button"
+                    tabIndex={-1}
+                  >
+                    {/* Active: "bg-gray-100", Not Active: "" */}
+                    <Link
+                      to={"/profile"}
+                      className="block px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                      tabIndex={-1}
+                      id="user-menu-item-0"
                     >
-                      <img
-                        src={image}
-                        className="w-10 rounded-lg flex justify-center"
-                        alt=""
-                      />
-                      {isDropdownOpen && (
-                        <div className="">
-                          <ul className="dropdown-menu   absolute mt-2 bg-white border border-gray-200 shadow-lg z-[9999] ">
-                            <li>
-                              <Link
-                                to={"/profile"}
-                                className="block px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
-                              >
-                                Profile
-                              </Link>
-                            </li>
-                            <li>
-                              <Link
-                                to={"/booked-events"}
-                                className="block px-4 py-2 hover:bg-gray-100 cursor-pointer opacity-100"
-                              >
-                                Booked Events
-                              </Link>
-                            </li>
-                            <li>
-                              <button
-                                className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                onClick={handleLogout}
-                              >
-                                Logout
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
-                      )}
+                      Your Profile
+                    </Link>
+                    <Link
+                      to={"/booked-events"}
+                      className="block px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                      tabIndex={-1}
+                      id="user-menu-item-1"
+                    >
+                      Booked Events
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-sm text-gray-700"
+                      role="menuitem"
+                      tabIndex={-1}
+                      id="user-menu-item-2"
+                    >
+                      Sign out
                     </button>
-                  </li>
-                </ul>
-              </nav>
+                  </div>
+                )}
+              </div>
             ) : (
-              <button onClick={() => setModal(true)}>
-                <li className="font-semibold cursor-pointer my-7 md:my-0 md:ml-8 text-blue-500 opacity-100">
+              <button onClick={() => setModal(!modal)}>
+                <li className="font-semibold cursor-pointer my-7 md:my-0 md:ml-8 text-blue-500 opacity-100 ">
                   Log in
                 </li>
               </button>
@@ -171,15 +189,14 @@ function Navbar() {
       </div>
 
       {modal && (
-        <div className="flex inset-0 justify-center items-center h-screen md:flex-col ">
-          {" "}
-          <div className="rounded-lg p-6">
+        <div className={`flex justify-center   `}>
+          <div className="rounded-lg p-6 ">
             <div className="flex flex-col justify-center items-center">
               <h2 className="text-2xl font-bold mb-4">Choose</h2>
               <div className="flex flex-col md:flex-row justify-center items-center">
                 <Link
                   to={"/organizer/"}
-                  className="flex justify-center items-center mx-5 my-5 "
+                  className="flex justify-center items-center mx-5 my-5"
                 >
                   <Card className="w-96">
                     <CardHeader
