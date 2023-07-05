@@ -5,7 +5,9 @@ import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PieChartOutlineIcon from "@mui/icons-material/PieChartOutline";
 import ServiceCard from "./ServiceCard";
 import { Button } from "@material-tailwind/react";
-
+import banner from '../../../assets/gallery/banner.jpg'
+import footerbanner from '../../../assets/gallery/footerbanner.jpg'
+import textur from '../../../assets/gallery/texture-1.png'
 import Gallery from "./Gallery";
 import {photosAPI} from '../../../Services/photosApi'
 import RotatingSquare from "../../RotatingSquare";
@@ -28,8 +30,8 @@ function Home() {
     <div className="w-full h-screen  items-center  z-[1]  ">
       <div className="relative ">
         <img
-          className="w-full opacity-60"
-          src="https://demo.ovatheme.com/dvents/wp-content/uploads/2017/06/bg-1-1.jpg"
+          className="w-full opacity-90"
+          src={banner}
           alt=""
         />
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -110,7 +112,7 @@ function Home() {
       <div className="mx ">
         <img
           className=" max-h-64 w-full pt-5"
-          src="https://demo.ovatheme.com/dvents/wp-content/uploads/2017/06/1-2.jpg?id=81"
+          src={footerbanner}
           alt=""
         />
       </div>
@@ -121,7 +123,7 @@ function Home() {
         >
           <img
             className="w-full h-60 bg-blue-600 justify-center items-center rounded-t-xl"
-            src="https://demo.ovatheme.com/dvents/wp-content/uploads/2017/06/texture-1.png"
+            src={textur}
             alt=""
           />
 

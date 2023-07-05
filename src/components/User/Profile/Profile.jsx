@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FcVoicePresentation } from "react-icons/fc";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import avatar from "/avatar.gif";
+import avatar from "../../../assets/gallery/defatultProfile.jpg";
 import {
   Card,
   CardHeader,
