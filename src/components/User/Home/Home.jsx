@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+
 import React, { useEffect, useState } from "react";
 import ExtensionOutlineIcon from "@mui/icons-material/ExtensionOutlined";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
@@ -51,19 +51,17 @@ function Home() {
         <h2 className="text-center  text-3xl  sm:text-3xl  md:text-3xl lg:text-4xl xl:text-5xl mt-24  text-gray-500">
           Welcome to <span style={{ color: "#1976d2" }}>Eventos</span>{" "}
         </h2>
-        <Typography
+        <h1
           align="center"
-          fontSize={"20px"}
-          marginLeft={"0px"}
-          marginTop={"30px"}
-          className="text-sm  sm:text-3xl  md:text-2xl lg:text-4xl xl:text-5xl font-bold transform scale-90"
+        
+          className="text-sm pt-4  sm:text-xl  md:text-lg lg:text-4xl xl:text-xl  transform scale-90"
         >
           From Wedding Functions to Birthday Parties or Corporate Events to
           Musical Functions,
           <br />
           We offer full range of Events Management Services that scale to your
           needs & budget.
-        </Typography>
+        </h1>
       </div>
       <div className="mx-20">
         <div className=" mt-12 ml-6  grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
@@ -89,16 +87,14 @@ function Home() {
         <h2 className="text-center   mt-24  text-gray-500 text-3xl  sm:text-3xl  md:text-3xl lg:text-4xl xl:text-5xl">
           <span style={{ color: "#1976d2" }}>Eventos</span> Services
         </h2>
-        <Typography
+        <h1
           align="center"
-          fontSize={"20px"}
-          marginLeft={"0px"}
-          marginTop={"30px"}
-          className="sm:text-sm  md:text-2xl lg:text-3xl xl:text-5xl font-bold transform scale-90"
+         
+          className="text-sm p-4  sm:text-xl  md:text-lg lg:text-4xl xl:text-xl  transform scale-90"
         >
           We make your events smart & impactful by personalised event management
           services
-        </Typography>
+        </h1>
       </div>
       <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 mt-12 pt-1 mx-10 gap-10">
         {events.map((event, index) => (
