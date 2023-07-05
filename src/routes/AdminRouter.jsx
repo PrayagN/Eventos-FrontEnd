@@ -7,8 +7,7 @@ import OrganizerPage from "../pages/Admin/OrganizerPage";
 import PrivateRoutes from "../utils/PrivateRoutes";
 import UnauthorizedRoutes from "../utils/UnauthorizedRoutes";
 import AdminLoginPage from "../pages/Admin/AdminLoginPage";
-import { adminActions } from "../app/adminSlice";
-import { useDispatch } from "react-redux";
+
 import OrganizerViewPage from "../pages/Admin/OrganizerViewPage";
 import BookedEventsPage from "../pages/Admin/BookedEventsPage";
 import Organizer404 from "../components/Error/Organizer404";

@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import toast,{ Toaster } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
-import { userActions } from "../../../app/userSlice";
+import { userActions } from "../../../Redux/app/userSlice";
 import { userSignin } from "../../../Services/userApi";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode"

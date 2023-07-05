@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast,{ Toaster } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
 import { adminSignin } from "../../../Services/adminApi";
-import { adminActions } from "../../../app/adminSlice";
+import { adminActions } from "../../../Redux/app/adminSlice";
 
 
 const initialValues ={

@@ -5,7 +5,7 @@ import { Link, useNavigate,NavLink } from "react-router-dom";
 import EventosLogo from "../../../assets/EventosLogo.png";
 import { userAuth } from "../../../Services/userApi";
 import { useSelector, useDispatch } from "react-redux";
-import { userActions } from "../../../app/userSlice";
+import { userActions } from "../../../Redux/app/userSlice";
 import { Card, CardHeader, Typography } from "@material-tailwind/react";
 import defaultAvatar from "/logoutAvatar.avif";
 function Navbar() {

@@ -9,7 +9,7 @@ import { VscOrganization } from "react-icons/vsc";
 import { BiLogOutCircle } from "react-icons/bi";
 import EventosLogo from "../../../assets/EventosLogo.png";
 import { useDispatch } from "react-redux";
-import { sidebarAction } from "../../../app/sidebarSlice";
+import { sidebarAction } from "../../../Redux/app/sidebarSlice";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import { FcAcceptDatabase } from "react-icons/fc";
 import { AiFillMessage } from "react-icons/ai";

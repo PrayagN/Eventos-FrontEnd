@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import toast,{ Toaster } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
-import { organizerActions } from "../../../app/organizerSlice";
+import { organizerActions } from "../../../Redux/app/organizerSlice";
 import {organizerSignin} from '../../../Services/organizerApi'
 
 const initialValues ={

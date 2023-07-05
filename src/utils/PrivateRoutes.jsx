@@ -5,7 +5,7 @@ import { organizerAuth } from "../Services/organizerApi";
 import { userAuth } from "../Services/userApi";
 import { useDispatch } from "react-redux";
 
-import { userActions } from "../app/userSlice";
+import { userActions } from "../Redux/app/userSlice";
 function PrivateRoutes({ role, route }) {
   const [auth, setAuth] = useState(null);
   const dispatch = useDispatch();
