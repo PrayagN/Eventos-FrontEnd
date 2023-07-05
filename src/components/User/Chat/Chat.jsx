@@ -1,8 +1,7 @@
 import { minWidth } from "@mui/system";
 import React, { useState, useEffect ,useRef } from "react";
 import { BiLeftArrowAlt } from "react-icons/bi";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
+
 import TimeAgo from "timeago-react";
 import {io} from 'socket.io-client'
 import EmojiPicker, { EmojiStyle } from "emoji-picker-react";

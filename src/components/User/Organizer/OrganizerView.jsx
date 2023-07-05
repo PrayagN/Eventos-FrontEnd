@@ -11,8 +11,7 @@ import { BiRupee } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { ImCross } from "react-icons/im";
 import { RiCloseCircleFill } from "react-icons/ri";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
+
 import {
   Card,
   CardHeader,

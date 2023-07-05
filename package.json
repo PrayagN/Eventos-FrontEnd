@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emoji-mart/data": "^1.1.2",
-    "@emoji-mart/react": "^1.1.1",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.0.18",
@@ -38,6 +36,7 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.8.0",
+    "react-loading-skeleton": "^3.3.1",
     "react-modal": "^3.16.1",
     "react-otp-input": "^3.0.2",
     "react-redux": "^8.0.5",

@@ -16,13 +16,16 @@ import Footer from "./Footer";
 import ScrollButton from "../ScrollButton/ScrollButton";
 import { eventList } from "../../../Services/userApi";
 import { Link } from "react-router-dom";
-
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 function Home() {
 
   const [events,setEvents] = useState([])
+  const [isLoading,setIsLoading] = useState(true)
   useEffect(()=>{
     eventList().then((response)=>{
       setEvents(response.data.events)
+      setIsLoading(false)
     })
   })
  

@@ -3,7 +3,6 @@ import { AcceptOrganizer, viewOrganizer } from "../../../Services/adminApi";
 import AdminLogo from "../../common/AdminLogo";
 import { useLocation } from "react-router-dom";
 import { Input } from "@material-tailwind/react";
-import Shimmer from "../../common/Shimmer";
 import "tailwindcss/tailwind.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
