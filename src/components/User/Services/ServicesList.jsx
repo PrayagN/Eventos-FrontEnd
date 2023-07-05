@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom'
 import { eventOrganizers } from '../../../Services/userApi'
 import Header from '../Header/Header2'
 import { Typography } from "@mui/material";
-import { photosAPI } from '../../../Services/photosApi'
 import List from "../../User/Organizer/List";
 import Pagination from '../Pagination/Pagination';
 import ScrollButton from "../ScrollButton/ScrollButton";
@@ -28,7 +27,7 @@ function ServicesList() {
   })
   return (
     <div className='w-full items-center'>
-      <Header image={`${photosAPI}eventsPhotos/${eventPhoto}`} />
+      <Header image={`${import.meta.env.VITE_UserBaseUrl}eventsPhotos/${eventPhoto}`} />
       <div className="max-h-96 max-[1250px]:">
         <h2 className="text-center text-3xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl mt-24 text-gray-500">
           The <span style={{ color: "#1976d2" }}>Event Management</span>{" "}

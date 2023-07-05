@@ -9,7 +9,6 @@ import banner from '../../../assets/gallery/banner.jpg'
 import footerbanner from '../../../assets/gallery/footerbanner.jpg'
 import textur from '../../../assets/gallery/texture-1.png'
 import Gallery from "./Gallery";
-import {photosAPI} from '../../../Services/photosApi'
 import RotatingSquare from "../../RotatingSquare";
 import Sponsors from "./Sponsers";
 import Footer from "./Footer";
@@ -19,7 +18,6 @@ import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
 function Home() {
-
   const [events,setEvents] = useState([])
   const [isLoading,setIsLoading] = useState(true)
   useEffect(()=>{
@@ -106,7 +104,7 @@ function Home() {
         {events.map((event, index) => (
           <Gallery
             key={index}
-            Image={`${photosAPI}eventsPhotos/${event.image}`}
+            Image={`${import.meta.env.VITE_UserBaseUrl}eventsPhotos/${event.image}`}
             title={event.title}
             id={event._id}
           />

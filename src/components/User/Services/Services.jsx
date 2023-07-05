@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import Gallery from "../Home/Gallery";
 import { eventList } from "../../../Services/userApi";
-import { photosAPI } from "../../../Services/photosApi";
 import ScrollButton from "../ScrollButton/ScrollButton";
 
 function Services() {
@@ -61,7 +60,7 @@ function Services() {
         {eventListData.map((event) => (
           <Gallery
             key={event._id}
-            Image={`${photosAPI}eventsPhotos/${event.image}`}
+            Image={`${import.meta.env.VITE_UserBaseUrl}eventsPhotos/${event.image}`}
             title={event.title}
             id={event._id}
           />

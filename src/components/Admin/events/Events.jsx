@@ -9,7 +9,6 @@ import {
   eventPhotos,
 } from "../../../Services/adminApi.js";
 import toast, { Toaster } from "react-hot-toast";
-import { photosAPI } from "../../../Services/photosApi";
 import AdminLogo from "../../common/AdminLogo";
 import { storage } from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -138,7 +137,7 @@ function Events() {
         {events.map((event) => (
           <Gallery
             key={event._id}
-            Image={`${photosAPI}eventsPhotos/${event.image}`}
+            Image={`${import.meta.env.VITE_UserBaseUrl}eventsPhotos/${event.image}`}
             title={event.title}
           />
         ))}
