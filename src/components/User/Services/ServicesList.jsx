@@ -15,16 +15,22 @@ function ServicesList() {
   const [activePage, setActivePage] = useState(1);
   const [totalOrganizers,setTotalOrganizers] = useState(0)
   const [rating,setRating] = useState([])
+  const [district, setDistrict] = useState([]);
+  const [openDrop, setOpenDrop] = useState(false);
+
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const organizerLimitPerPage = 2;
   useEffect(()=>{
-    eventOrganizers(event_id,activePage,searchQuery,organizerLimitPerPage).then((response)=>{
+    eventOrganizers(event_id,activePage,searchQuery,organizerLimitPerPage,selectedDistrict).then((response)=>{
      
       setOrganizers(response.data.organizers)
       seteventPhoto(response.data.eventPhoto)
       setTotalOrganizers(response.data.total)
       setRating(response.data.rating)
-    },[])
+      setDistrict(response.data.district)
+    },[activePage,searchQuery,selectedDistrict])
   })
+  
   return (
     <div className='w-full items-center'>
       <Header image={`${import.meta.env.VITE_UserBaseUrl}eventsPhotos/${eventPhoto}`} />
@@ -46,7 +52,48 @@ function ServicesList() {
           needs & budget.
         </Typography>
       </div>
-      <div className='flex justify-end'>
+      
+      <div className='flex justify-end flex-wrap'>
+      <div className="">
+          <button
+            onClick={()=>setOpenDrop(!openDrop)}
+            className=" text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            type="button"
+          >
+            District
+            <svg
+              className="w-4 h-4 ml-2"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          {openDrop && (
+            <div className="absolute z-10 my-2 bg-white divide-y divide-gray-100 rounded-lg shadow ">
+              <ul className="py-2 text-sm text-gray-700 ">
+                {district.map((district, index) => (
+                  <div className="py-1 hover:bg-gray-100 rounded" key={index}>
+                    <li
+                      onClick={() => setSelectedDistrict(district)}
+                      className="cursor-pointer px-5 "
+                    >
+                      {district}
+                    </li>
+                  </div>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
 
       <div
           className="relative mb-3 shadow-lg shadow-gray-600 rounded-xl mr-5"

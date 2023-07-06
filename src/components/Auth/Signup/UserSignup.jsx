@@ -231,6 +231,7 @@ function UserSignup() {
                   >
                     Verify
                   </button>
+                  
                 </div>
               </div>
             </div>

@@ -87,15 +87,18 @@ function Profile() {
 
   return (
     <div className="flex flex-col md:flex-row mt-20 mb-2">
-      <div className="m-5 w-full md:w-3/12 ">
-        <Card className="w-96 ml-16 shadow-lg shadow-gray-600">
-          <CardHeader floated={false} className="">
+      <div className="m-4  md:w-3/12 flex justify-center ">
+        <Card className="  shadow-lg shadow-gray-600 flex justify-center ">
+          <div className="flex justify-center items-center">
+
+          <CardHeader floated={false} className="w-52 rounded h-52 flex justify-center">
             {imagePreview ? (
-              <img src={URL.createObjectURL(imagePreview)} alt="" />
-            ) : (
-              <img src={uploadedPhoto} />
-            )}
+              <img src={URL.createObjectURL(imagePreview)} alt="" className="object-cover" />
+              ) : (
+                <img src={uploadedPhoto} className="" />
+                )}
           </CardHeader>
+                </div>
           <CardBody className="text-center">
             {/* <Typography variant="h4" color="blue-gray" className="mb-2"> */}
             <label className="relative text-white px-52">
@@ -113,7 +116,7 @@ function Profile() {
           </CardBody>
         </Card>
       </div>
-      <div className="shadow-lg shadow-gray-600 h-auto md:w-9/12 w-full mx-5 md:mx-32 mt-5 p-3 rounded-lg">
+      <div className="shadow-lg shadow-gray-600 h-auto md:w-9/12  mx-5  mt-5 p-3 rounded-lg">
         <div className="flex items-center gap-4">
           <FcVoicePresentation className="w-8 h-8" />
           <span>About</span>
