@@ -108,11 +108,16 @@ function OrganizerView() {
   };
 
   const handleSubmit = () => {
-    if (!selectedDate || !guests) {
-      toast.error("please fill the details");
-      return;
+    if(authorized){
+
+      if (!selectedDate || !guests) {
+        toast.error("please fill the details");
+        return;
+      }
+      setIsSubmitted((prevState) => !prevState);
+    }else{
+      toast.error('before booking you should want to login...!')
     }
-    setIsSubmitted((prevState) => !prevState);
   };
 
   const goToChat = () => {

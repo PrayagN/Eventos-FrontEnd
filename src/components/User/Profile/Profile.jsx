@@ -91,11 +91,11 @@ function Profile() {
         <Card className="  shadow-lg shadow-gray-600 flex justify-center ">
           <div className="flex justify-center items-center">
 
-          <CardHeader floated={false} className="w-52 rounded h-52 flex justify-center">
+          <CardHeader floated={false} className="w-52 rounded h-52 flex justify-center object-contain">
             {imagePreview ? (
               <img src={URL.createObjectURL(imagePreview)} alt="" className="object-cover" />
               ) : (
-                <img src={uploadedPhoto} className="" />
+                <img src={uploadedPhoto} className="object-cover" />
                 )}
           </CardHeader>
                 </div>
