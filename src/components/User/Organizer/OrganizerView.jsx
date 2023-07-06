@@ -223,7 +223,7 @@ function OrganizerView() {
                       </div>
                       <div className="pt-5">
                         <input
-                          type="text"
+                          type="number"
                           value={guests}
                           onChange={handleGuests}
                           className="px-4 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
