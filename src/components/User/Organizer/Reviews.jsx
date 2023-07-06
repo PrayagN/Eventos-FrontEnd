@@ -31,7 +31,7 @@ function Reviews({ review }) {
               />
               <div className="space-y-1 font-medium text-black">
                 <p>
-                  {review.reviewedBy.username}{" "}
+                  {review.reviewedBy?.username}{" "}
                   <time
                     dateTime="2014-08-16 19:00"
                     className="block text-sm text-gray-500 dark:text-gray-400"

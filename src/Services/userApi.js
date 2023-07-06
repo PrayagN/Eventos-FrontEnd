@@ -16,13 +16,16 @@ export const eventOrganizers = (
   id,
   activePage,
   searchQuery,
-  organizerLimitPerPage
+  organizerLimitPerPage,
+  selectedDistrict
+
 ) => {
   return userAxiosInstance.post("/eventOrganizers", {
     id,
     activePage,
     searchQuery,
     organizerLimitPerPage,
+    selectedDistrict
   });
 };
 export const organizerList = (

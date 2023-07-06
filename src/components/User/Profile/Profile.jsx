@@ -14,6 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { profileGet, updateProfile } from "../../../Services/userApi";
 import { storage } from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { validateImage } from "../../../constants/constants";
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("username is required"),
   email: Yup.string().email("invalid email").required("Email is required"),
@@ -44,7 +45,7 @@ function Profile() {
   const handleProfileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setImagePreview(file);
+      setImagePreview(validateImage(file));
       setUploadedPhoto(null);
     }
   };

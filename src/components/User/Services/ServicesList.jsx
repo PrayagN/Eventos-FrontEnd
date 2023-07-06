@@ -54,7 +54,7 @@ function ServicesList() {
       </div>
       
       <div className='flex justify-end flex-wrap'>
-      <div className="">
+      <div className="pr-3">
           <button
             onClick={()=>setOpenDrop(!openDrop)}
             className=" text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -113,7 +113,7 @@ function ServicesList() {
           )}
         </div>
         </div>
-      <div className="grid xl:grid-cols-3 md:grid-cols-3  mt-12 pt-1 ml-32 gap-5  ">
+      <div className="grid xl:grid-cols-3 md:grid-cols-3  mt-12 pt-1  gap-5 place-items-center  ">
         { organizers.length >0 ?(
 
           organizers.map((organizer, index) => (
@@ -132,7 +132,7 @@ function ServicesList() {
             ))
             ): ( <p className=' text-red-500'>There is no such data found</p>)}
             </div>
-      <div className='flex justify-center'>
+      <div className='flex justify-center mt-2'>
       <Pagination activePage ={activePage} limit ={organizerLimitPerPage} setActivePage={setActivePage} totalOrganizers ={totalOrganizers} />
       </div>
       <ScrollButton/>
