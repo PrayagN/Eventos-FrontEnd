@@ -33,7 +33,7 @@ function Dashboard() {
     currency: "INR",
   });
   return (
-    <div className="w-full h-screen ">
+    <div className="w-full  ">
       <AdminLogo />
 
       <div className="flex flex-wrap justify-center">
@@ -60,7 +60,6 @@ function Dashboard() {
         />
 
         <SmallCard
-         
           name="Total Earnings"
           count={totalPrice}
           path={
@@ -69,15 +68,11 @@ function Dashboard() {
         />
       </div>
 
-      <div
-        className={`flex flex-col justify-center  md:flex-row md:gap-5 ${
-          open ? "ml-0" : "ml-32"
-        }`}
-      >
-        <div className="w-full md:w-1/3 ">
-          <div className="bg-white h-auto m-4 md:m-12 rounded-xl shadow-lg shadow-gray-600">
+      <div className="flex flex-col md:flex-row ">
+        <div className="  sm:w-1/3">
+          <div className="bg-white h-auto m-4 rounded-xl shadow-lg shadow-gray-600 w-fu">
             <h1 className="p-2">Latest Organizers</h1>
-            <div>
+            <div className="overflow-y-auto max-h-72 md:max-h-full">
               {dashboard?.organizers.map((organizer, index) => (
                 <React.Fragment key={index}>
                   <div className="flex items-center p-2">
@@ -96,80 +91,76 @@ function Dashboard() {
                       />
                     </div>
                   </div>
-                  <hr />
+                  {index !== dashboard.organizers.length - 1 && <hr />}
                 </React.Fragment>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="w-full md:w-2/3">
-          <div className="bg-white h-auto m-4 md:m-12 rounded-xl grid shadow-lg shadow-gray-600">
+        <div className="w-2/3">
+          <div className="bg-white h-auto m-4 rounded-xl shadow-lg shadow-gray-600">
             <h1 className="p-2">Latest Booking</h1>
-            <table className="w-full text-sm text-left text-gray-900 font-semibold">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="p-4">
-                    Sl.no
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Organizer
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Client
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Event
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    EventScheduled
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    PaymentStatus
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {booked.map((customer, index) => (
-                  <tr
-                    className="bg-white border-b hover:bg-gray-50 "
-                    key={index}
-                  >
-                    <td className="w-4 p-4">
-                      <div className="flex items-center">{index + 1}</div>
-                    </td>
-                    <th
-                      scope="row"
-                      className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-black"
-                    >
-                      {/* <img
-                      className="w-10 h-10 rounded-full"
-                      src="https://cliply.co/wp-content/uploads/2020/08/442008112_GLANCING_AVATAR_3D_400px.gif"
-                      alt=""
-                    /> */}
-                      <div className="pl-3">
-                        <div className="text-base font-semibold">
-                          {customer.organizerName}
-                        </div>
-                      </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-900 font-semibold">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="p-4">
+                      Sl.no
                     </th>
-                    <td className="px-6 py-4 first-letter:uppercase">
-                      {customer.clientName}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center">
-                        {/* <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>{" "} */}
-                        {<span>{customer.event}</span>}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      {customer.eventScheduled.slice(0, 10)}
-                    </td>
-                    <td className="px-6 py-4">{customer.paymentStatus}</td>
+                    <th scope="col" className="px-6 py-3">
+                      Organizer
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Client
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Event
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Event Scheduled
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Payment Status
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {booked.map((customer, index) => (
+                    <tr
+                      className="bg-white border-b hover:bg-gray-50"
+                      key={index}
+                    >
+                      <td className="w-4 p-4">
+                        <div className="flex items-center">{index + 1}</div>
+                      </td>
+                      <td
+                        scope="row"
+                        className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-black"
+                      >
+                        <div className="pl-3">
+                          <div className="text-base font-semibold">
+                            {customer.organizerName}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 first-letter:uppercase">
+                        {customer.clientName}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center">
+                          {<span>{customer.event}</span>}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        {customer.eventScheduled.slice(0, 10)}
+                      </td>
+                      <td className="px-6 py-4">{customer.paymentStatus}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -256,8 +256,8 @@ function BookedEvents() {
           </div>
         ))}
       </div>
-      <div className="flex justify-center text-lg text-black-500 font-bold underline">
-        🎉Completed🎉
+      <div className="flex justify-center text-xl text-black-500 font-bold underline">
+       {completed.length >0 ? ('🎉Completed🎉'):'There is no booking😓'}
       </div>
       <div className="flex flex-wrap justify-between gap-10 p-5">
         {completed.map((booked, index) => (

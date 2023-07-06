@@ -178,7 +178,7 @@ function Navbar() {
                 )}
               </div>
             ) : (
-              <button onClick={() => setModal(!modal)}>
+              <button onClick={() => {setModal(!modal),setIsOpen(!isOpen)}}>
                 <li className="font-semibold cursor-pointer my-7 md:my-0 md:ml-8 text-blue-500 opacity-100 ">
                   Log in
                 </li>
@@ -189,7 +189,7 @@ function Navbar() {
       </div>
 
       {modal && (
-        <div className={`flex justify-center   `}>
+        <div className={`flex justify-center`}>
           <div className="rounded-lg p-6 ">
             <div className="flex flex-col justify-center items-center">
               <h2 className="text-2xl font-bold mb-4">Choose</h2>
