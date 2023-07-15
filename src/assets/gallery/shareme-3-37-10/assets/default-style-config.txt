@@ -1,0 +1,11 @@
+{
+  "styleList": [
+    {
+      "adType": 1,
+      "tagid": "1.460.1.1",
+      "tid": "4.1",
+      "sid": "4.1.108",
+      "styleInfo": {"title":{"distance":"48,0,21,0","size":"14","color":"#000000","darkFontColor":"#FFFFFF","bold":"false","interaction":"true"},"summary":{"distance":"21,0,21,0","size":"14","color":"#9B9B9B","darkFontColor":"#9B9B9B","bold":"false","interaction":"true"},"img":{"distance":"33,33,33,0","width":"492","ratio":"1.9","strategy":"2","radius":"4","interaction":"true"},"icon":{"distance":"39,0,21,0","size":"69","radius":"4","interaction":"true"},"cta":{"distance":"30,0,21,0","padding":"0,0,0,0","size":"14","bold":"true","fontColor":"#FFFFFF","darkFontColor":"#FFFFFF","btnSize":"492,78","btnColor":"#0496FF","darkBtnColor":"#0496FF","btnTransparent":"1","borderRadius":"20","borderThickness":"0","borderColor":"","darkBorderColor":""},"adx":{"distance":"48,0,21,0","interaction":"0"},"adCard":{"color":"#FFFFFF","darkTransparent":"0","transparent":"0","borderThickness":"0","borderColor":"#FFFFFF"},"animation":{"toColor":"#FFFFFF","start":"0","duration":"0"},"appstore_info":{"text":"","intltags":0}}
+    }
+  ]
+}

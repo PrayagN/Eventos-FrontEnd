@@ -45,7 +45,6 @@ function UserSignup() {
     console.log(values);
     userSignup(values).then((response) => {
       if (response.data.status) {
-        console.log(response, "sdfs");
         localStorage.setItem("usertoken", response.data.token);
 
         navigate("/");

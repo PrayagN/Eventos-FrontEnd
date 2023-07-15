@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ImCross } from "react-icons/im";
-import axios from "axios";
 import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
 import * as Yup from "yup";
@@ -9,9 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../../../firebase";
-import Modal from "react-modal";
 import { viewEvents, organizerSignup } from "../../../Services/organizerApi";
-import { Select, Option } from "@material-tailwind/react";
 const initialValues = {
   organizerName: "",
   email: "",
@@ -23,19 +20,24 @@ const initialValues = {
 const validationSchema = Yup.object({
   organizerName: Yup.string().required("required"),
   email: Yup.string().email("invalid email format").required("required"),
-  password: Yup.string().min(4).required("please enter your password"),
+  password: Yup.string()
+    .min(4, "Password must be at least 4 characters")
+    .max(8, "Password can be at most 8 characters")
+    .required("Please enter your password"),
   mobile: Yup.string()
     .matches(/^[0-9]{10}$/, "mobile number is not valid")
     .required("required"),
-  event: Yup.string().required(),
+  event: Yup.string().required("required"),
 });
 
 function OrganizerSignup() {
   const [isOTPOpen, setOTPOpen] = useState(false);
   const [verify, setVerify] = useState(null);
   const [eventOptions, setEventOptions] = useState([]);
+  const [time, setTime] = useState(4);
+  const [resend, setResend] = useState(false);
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
-  // const [otp,setOTP] = useState(null)
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -51,12 +53,28 @@ function OrganizerSignup() {
 
     fetchOptions();
   }, []);
+  useEffect(() => {
+    if (resend) {
+      setTime(4); // Reset the timer value to the desired initial value
+      const timer = setInterval(() => {
+        setTime((prevTime) => prevTime - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [resend]); // Only include resend as a dependency
+  
+  useEffect(() => {
+    if (time === 0) {
+      setResend(!resend); // Reset resend to false when the timer reaches 0
+    }
+  }, [time]);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
       console.log(values.mobile);
+      setButtonDisabled(true)
       const { response } = await organizerSignup(values)
         .then((response) => {
           if (response.data.status) {
@@ -84,9 +102,11 @@ function OrganizerSignup() {
 
                 setOTPOpen(true);
               } catch (error) {
+                toast.error("mobile number is not valid");
                 console.log("Error sending OTP:", error);
               }
             };
+
             sendOtp();
           } else {
             toast.error(response.data.message);
@@ -99,7 +119,6 @@ function OrganizerSignup() {
   });
   const handleOTPVerification = async () => {
     try {
-      console.log(formik.values, "dsfa");
       await verify.confirm(formik.values.otp);
       const { data } = await organizerSignup(formik.values);
 
@@ -128,7 +147,7 @@ function OrganizerSignup() {
               Welcome to Eventos Organizers.
             </h2>
             <p className="pl-4 mb-2 text-gray-400">
-              Already have an account ?{" "}
+              Already have  an account ?{" "}
               <span className="text-blue-600">
                 <Link to="/organizer/">Log in</Link>
               </span>
@@ -187,7 +206,7 @@ function OrganizerSignup() {
 
                 <select
                   id="events"
-                  className=" text-base p-2 mt-8 rounded-lg focus:outline-none focus:border-indigo-500 border-gray-300 bg-white  dark:border-gray-600 transition duration-300 hover:bg-gray-100"
+                  className="text-base p-2 mt-8 rounded-lg focus:outline-none focus:border-indigo-500 border-gray-300 bg-white dark:border-gray-600 transition duration-300 hover:bg-gray-100"
                   name="event"
                   {...formik.getFieldProps("event")}
                   onChange={formik.handleChange}
@@ -199,20 +218,19 @@ function OrganizerSignup() {
                     </option>
                   ))}
                 </select>
-                
               </div>
               {formik.touched.mobile && formik.errors.mobile ? (
                 <div className="text-red-600 pl-2">{formik.errors.mobile}</div>
               ) : null}
-             
             </div>
-            
+
             <div id="recaptcha-container" className="p-2"></div>
             <Button
               variant="contained"
               color="primary"
               type="submit"
-              className="w-full"
+              className='w-full'
+              disabled={isButtonDisabled}
               style={{ marginTop: "30px" }}
             >
               Register
@@ -246,6 +264,22 @@ function OrganizerSignup() {
                   >
                     Verify
                   </button>
+                  {/* <div className="flex justify-center">
+                    <button
+                      onClick={() => {setResend(!resend)}}
+                      className={`font-medium ${
+                        resend ? "text-green-500 disabled" : "text-red-500"
+                      }`}
+                      // disabled={resend}
+                    >
+                      {resend ? "Resend OTP in:" : "Resend OTP"}
+                    </button>
+                    {resend && (
+                      <div className="text-red-500 font-medium pl-2">
+                        00:{time.toString().padStart(2, "0")}
+                      </div>
+                    )}
+                  </div> */}
                 </div>
               </div>
             </div>

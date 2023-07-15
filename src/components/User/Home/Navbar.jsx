@@ -76,7 +76,7 @@ function Navbar() {
         <ul
           className={`md:flex pl-9 md:pl-0 md:items-center absolute bg-transparent md:static md:z-auto z-[1] left-0 w-full md:w-auto transition-all duration-500 ease-in ${
             isOpen
-              ? "top-10 h-[20.1rem] backdrop-filter backdrop-blur-sm mt-12 text-black bg-white"
+              ? "top-10  backdrop-filter backdrop-blur-sm mt-12 text-black bg-white"
               : "top-[-490px]"
           }`}
         >

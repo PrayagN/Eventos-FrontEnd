@@ -1,0 +1,74 @@
+{
+    "poslist": [
+        {
+            "adtype": 18,
+            "placeid": "1.375.17.3",
+            "isPreCache": true,
+            "info": [
+                {
+                    "name": "fbi",
+                    "parameter": "VID_HD_16_9_46S_APP_INSTALL#1073415526028942_1258613054175854",
+                    "weight": 0
+                },
+                {
+                    "name": "abi",
+                    "parameter": "ca-app-pub-3940256099942544/1033173712",
+                    "weight": 10
+                },
+                {
+                    "name": "mii",
+                    "parameter": "1.305.17.2",
+                    "weight": 0
+                }
+            ]
+        },
+        {
+            "adtype": 18,
+            "placeid": "1.375.17.4",
+            "isPreCache": true,
+            "info": [
+                {
+                    "name": "fbi",
+                    "parameter": "VID_HD_16_9_46S_APP_INSTALL#1073415526028942_1258613054175854",
+                    "weight": 0
+                },
+                {
+                    "name": "abi",
+                    "parameter": "ca-app-pub-3940256099942544/1033173712",
+                    "weight": 10
+                },
+                {
+                    "name": "mii",
+                    "parameter": "1.305.17.2",
+                    "weight": 0
+                }
+            ]
+        },
+        {
+            "adtype": 1,
+            "placeid": "1.375.1.6",
+            "isStopBidding": false,
+            "info": [
+                {
+                    "name": "mi",
+                    "parameter": "1.305.1.1",
+                    "weight": 0,
+                    "budgetType":0
+                },
+                {
+                    "name": "fb",
+                    "parameter": "1073415526028942_1258613054175854",
+                    "weight": 0,
+                    "budgetType":1
+                },
+                {
+                    "name": "ab",
+                    "parameter": "ca-app-pub-3940256099942544/3166925565",
+                    "weight": 10,
+                    "budgetType":0
+                }
+            ]
+        },
+    ],
+    "extend":""
+}
