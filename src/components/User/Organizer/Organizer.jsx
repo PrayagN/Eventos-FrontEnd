@@ -4,6 +4,7 @@ import { organizerList } from "../../../Services/userApi";
 import List from "./List";
 import Pagination from "../Pagination/Pagination";
 import ScrollButton from "../ScrollButton/ScrollButton";
+import OrganizerCardSkelton from "../Skelton/organizerCardSkelton";
 const Organizer = () => {
   const [organizers, setOrganizers] = useState([]);
   const [events, setEvents] = useState([]);
@@ -16,6 +17,7 @@ const Organizer = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [openDrop, setOpenDrop] = useState(false);
   const [rating, setRating] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const organizerLimitPerPage = 2;
   useEffect(() => {
     organizerList(
@@ -30,6 +32,7 @@ const Organizer = () => {
       setTotalOrganizers(response.data.total);
       setRating(response.data.rating);
       setDistrict(response.data.district);
+      setIsLoading(false);
     });
   }, [activePage, searchQuery, selectedEvent, selectedDistrict]);
   const handleEventClick = (event) => {
@@ -155,29 +158,45 @@ const Organizer = () => {
         </div>
       </div>
 
-      <div className="grid xl:grid-cols-4 md:grid-cols-3  mt-12 pt-1  gap-5  ">
-        {organizers.length > 0 ? (
-          organizers.map((organizer, index) => (
-            <List
-              key={index}
-              description={organizer.description}
-              title={organizer.organizerName}
-              organizer={true}
-              img={organizer.logo}
-              id={organizer._id}
-              review={rating.find((item)=>item._id === organizer._id)?.reviewCount||0}
-              budget={organizer.budget}
-              rating={
-                rating.find((item) => item._id === organizer._id)?.ratings || 0
-              }
-            />
-          ))
-        ) : (
-          <div className="grid-cols-none">
-            There is no such organizer available
-          </div>
-        )}
-      </div>
+      <div className="grid xl:grid-cols-4 md:grid-cols-3 gap-5 mt-5">
+      {!isLoading ? (
+    organizers.map((organizer, index) => (
+      <List
+        key={index}
+        description={organizer.description}
+        title={organizer.organizerName}
+        organizer={true}
+        img={organizer.logo}
+        id={organizer._id}
+        review={
+          rating.find((item) => item._id === organizer._id)?.reviewCount || 0
+        }
+        budget={organizer.budget}
+        rating={
+          rating.find((item) => item._id === organizer._id)?.ratings || 0
+        }
+      />
+    ))
+    ) : (
+      <>
+      {/* // <div className="flex flex-wrap gap-5 mx-5"> */}
+    < OrganizerCardSkelton/>
+    < OrganizerCardSkelton/>
+      </>
+
+  // </div>
+) 
+// : 
+
+// (
+  //   <div className="flex justify-center w-full h-80">
+  //     <img src="/src/assets/gallery/no_result.gif" alt="No Result" />
+  //   </div>
+  // )
+}
+  </div>
+
+
       <div className="flex justify-center mt-10">
         <Pagination
           activePage={activePage}

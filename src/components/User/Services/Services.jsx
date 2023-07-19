@@ -3,18 +3,25 @@ import Header from "../Header/Header";
 import Gallery from "../Home/Gallery";
 import { eventList } from "../../../Services/userApi";
 import ScrollButton from "../ScrollButton/ScrollButton";
+import ServiceCardSkelton from "../Skelton/ServiceCardSkelton";
+
 
 function Services() {
   const [eventListData, setEventListData] = useState([]);
   const [originalEventList, setOriginalEventList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading,setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await eventList();
-        setEventListData(response.data.events);
-        setOriginalEventList(response.data.events);
+        if(response){
+
+          setEventListData(response.data.events);
+          setOriginalEventList(response.data.events);
+          setIsLoading(false)
+        }
       } catch (error) {
         console.log(error);
       }
@@ -57,14 +64,20 @@ function Services() {
         </div>
       </div>
       <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 mt-12 pt-1 mx-10 gap-10">
-        {eventListData.map((event) => (
-          <Gallery
-            key={event._id}
-            Image={`${import.meta.env.VITE_UserBaseUrl}eventsPhotos/${event.image}`}
-            title={event.title}
-            id={event._id}
-          />
-        ))}
+        {!isLoading ? (
+          eventListData.map((event, index) => (
+            <Gallery
+              key={index}
+              Image={`${import.meta.env.VITE_UserBaseUrl}eventsPhotos/${
+                event.image
+              }`}
+              title={event.title}
+              id={event._id}
+            />
+          ))
+        ) : (
+          <ServiceCardSkelton/>
+        )}
       </div>
       <ScrollButton />
     </div>

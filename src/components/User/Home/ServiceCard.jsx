@@ -6,8 +6,9 @@ function ServiceCard({icon:Icon,title,content}) {
           <div className="flex ">
           <Icon className="text-blue-600"/>
 
-            <h1 className="pl-4 text-gray-500 font-bold font-sans ">{title}</h1>
+            <h1 className="pl-4 text-gray-500 font-bold font-sans pb-2 ">{title}</h1>
           </div>
+          
           <p>{content}</p>
           
         </div>

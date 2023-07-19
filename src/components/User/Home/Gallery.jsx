@@ -27,12 +27,7 @@ function Gallery({ Image, title, id }) {
           {isLoading ? (
             <Skeleton height={imageHeight} />
           ) : (
-            <img
-              className="rounded-xl"
-              src={Image}
-              alt=""
-              onLoad={() => {}}
-            />
+            <img className="rounded-xl" src={Image} alt="" onLoad={() => {}} />
           )}
           <div className="flex justify-center">
             <h1 className="font-bold mt-3">{title}</h1>
@@ -43,12 +38,7 @@ function Gallery({ Image, title, id }) {
           {isLoading ? (
             <Skeleton height={imageHeight} />
           ) : (
-            <img
-              className="rounded-xl"
-              src={Image}
-              alt=""
-              onLoad={() => {}}
-            />
+            <img className="rounded-xl" src={Image} alt="" onLoad={() => {}} />
           )}
           <h1 className="font-bold font-serif pl-36 pt-2">{title}</h1>
         </div>

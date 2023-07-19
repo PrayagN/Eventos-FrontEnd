@@ -1,13 +1,12 @@
-
 import React, { useEffect, useState } from "react";
 import ExtensionOutlineIcon from "@mui/icons-material/ExtensionOutlined";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PieChartOutlineIcon from "@mui/icons-material/PieChartOutline";
 import ServiceCard from "./ServiceCard";
 import { Button } from "@material-tailwind/react";
-import banner from '../../../assets/gallery/banner.jpg'
-import footerbanner from '../../../assets/gallery/footerbanner.jpg'
-import textur from '../../../assets/gallery/texture-1.png'
+import banner from "../../../assets/gallery/banner.jpg";
+import footerbanner from "../../../assets/gallery/footerbanner.jpg";
+import textur from "../../../assets/gallery/texture-1.png";
 import Gallery from "./Gallery";
 import RotatingSquare from "../../RotatingSquare";
 import Sponsors from "./Sponsers";
@@ -15,26 +14,22 @@ import Footer from "./Footer";
 import ScrollButton from "../ScrollButton/ScrollButton";
 import { eventList } from "../../../Services/userApi";
 import { Link } from "react-router-dom";
-import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css'
+import ServiceCardSkelton from "../Skelton/ServiceCardSkelton";
+
 function Home() {
-  const [events,setEvents] = useState([])
-  const [isLoading,setIsLoading] = useState(true)
-  useEffect(()=>{
-    eventList().then((response)=>{
-      setEvents(response.data.events)
-      setIsLoading(false)
-    })
-  })
- 
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    eventList().then((response) => {
+      setEvents(response.data.events);
+      setIsLoading(false);
+    });
+  });
+
   return (
     <div className="w-full h-screen  items-center  z-[1]  ">
       <div className="relative ">
-        <img
-          className="w-full opacity-90"
-          src={banner}
-          alt=""
-        />
+        <img className="w-full opacity-90" src={banner} alt="" />
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
@@ -53,8 +48,7 @@ function Home() {
         </h2>
         <h1
           align="center"
-        
-          className="text-sm pt-4  sm:text-xl  md:text-lg lg:text-4xl xl:text-xl  transform scale-90"
+          className="text-md pt-4  sm:text-xl  md:text-lg lg:text-4xl xl:text-xl  transform scale-90"
         >
           From Wedding Functions to Birthday Parties or Corporate Events to
           Musical Functions,
@@ -63,7 +57,7 @@ function Home() {
           needs & budget.
         </h1>
       </div>
-      <div className="mx-20">
+      <div className="md:mx-20 mx-2  ">
         <div className=" mt-12 ml-6  grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
           <ServiceCard
             icon={ExtensionOutlineIcon}
@@ -89,7 +83,6 @@ function Home() {
         </h2>
         <h1
           align="center"
-         
           className="text-sm p-4  sm:text-xl  md:text-lg lg:text-4xl xl:text-xl  transform scale-90"
         >
           We make your events smart & impactful by personalised event management
@@ -97,21 +90,27 @@ function Home() {
         </h1>
       </div>
       <div className="grid xl:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 mt-12 pt-1 mx-10 gap-10">
-        {events.map((event, index) => (
-          <Gallery
-            key={index}
-            Image={`${import.meta.env.VITE_UserBaseUrl}eventsPhotos/${event.image}`}
-            title={event.title}
-            id={event._id}
-          />
-        ))}
+        {!isLoading ? (
+          events.map((event, index) => (
+            <Gallery
+              key={index}
+              Image={`${import.meta.env.VITE_UserBaseUrl}eventsPhotos/${
+                event.image
+              }`}
+              title={event.title}
+              id={event._id}
+            />
+          ))
+        ) : (
+          <>
+          <ServiceCardSkelton/>
+          <ServiceCardSkelton/>
+          <ServiceCardSkelton/>
+          </>
+          )}
       </div>
       <div className="mx ">
-        <img
-          className=" max-h-64 w-full pt-5"
-          src={footerbanner}
-          alt=""
-        />
+        <img className=" max-h-64 w-full pt-5" src={footerbanner} alt="" />
       </div>
       <div className="flex justify-center items-center mt-12">
         <div
@@ -128,11 +127,14 @@ function Home() {
             <h2 className="text-white text-xl sm:text-3xl md:text-3xl lg:text-3xl xl:text-3xl font-bold transform scale-90 ">
               Do You want To Work With Us!
             </h2>
-            <span className="text-white text-sm mx-3  ">
-              If you have a good team for organizing events, you can be our part.
-            </span>
-            <Link to={'/organizer/signup'} className="flex justify-center pt-5">
-              <Button   className="text-blue-500 bg-white ">Join</Button>
+            <div className="text-white text-sm mx-3 flex flex-wrap justify-center">
+              If you have a good team for organizing events ,&nbsp;
+              <br />
+              <span className="block text-center">you can be our part.</span>
+            </div>
+
+            <Link to={"/organizer/signup"} className="flex justify-center pt-5">
+              <Button className="text-blue-500 bg-white ">Join</Button>
             </Link>
           </div>
         </div>
@@ -143,12 +145,12 @@ function Home() {
           <h1 className="font-semibold text-3xl ">Our Sponsors</h1>
         </div>
       </div>
-  
-      <ScrollButton/>
+
+      <ScrollButton />
       <div className="">
         <Sponsors />
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
