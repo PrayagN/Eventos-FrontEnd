@@ -4,7 +4,7 @@ import { organizerList } from "../../../Services/userApi";
 import List from "./List";
 import Pagination from "../Pagination/Pagination";
 import ScrollButton from "../ScrollButton/ScrollButton";
-import OrganizerCardSkelton from "../Skelton/organizerCardSkelton";
+import OrganizerCardSkelton from "../Skelton/OrganizerCardSkelton";
 const Organizer = () => {
   const [organizers, setOrganizers] = useState([]);
   const [events, setEvents] = useState([]);
@@ -180,8 +180,8 @@ const Organizer = () => {
     ) : (
       <>
       {/* // <div className="flex flex-wrap gap-5 mx-5"> */}
-    < OrganizerCardSkelton/>
-    < OrganizerCardSkelton/>
+    <OrganizerCardSkelton/>
+    <OrganizerCardSkelton/>
       </>
 
   // </div>
