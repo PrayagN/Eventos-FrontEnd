@@ -130,7 +130,7 @@ function ServicesList() {
             id={organizer._id}
             />
             ))
-            ): (<img src='/src/assets/gallery/no_result.gif'/>)}
+            ): (<img src='../../../../src/assets/gallery/no_result.gif'/>)}
             </div>
       <div className='flex justify-center mt-2'>
       <Pagination activePage ={activePage} limit ={organizerLimitPerPage} setActivePage={setActivePage} totalOrganizers ={totalOrganizers} />
