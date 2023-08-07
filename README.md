@@ -1,10 +1,13 @@
-# Eventos - Client
+# Eventos - Client  
+
 
 🌟 All in One Event Hub - 📍EVENTOS🎉
 
 Welcome to Eventos,
 
-  your ultimate destination for seamless connections between clients and the perfect event management organizers!
+  your ultimate destination for seamless connections between clients and the perfect event management organizers.
+  
+ 🔗 backend link -> https://github.com/PrayagN/Eventos-BackEnd
 
 # Features:
  
