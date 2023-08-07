@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,7 +6,7 @@ import toast,{ Toaster } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
 import { organizerActions } from "../../../Redux/app/organizerSlice";
 import {organizerSignin} from '../../../Services/organizerApi'
-
+import OrganizerPhoto from '../../../assets/Login/event-organizer-in-jakarta.jpg'
 const initialValues ={
     email:'',
     password:''
@@ -47,11 +46,11 @@ function OrganizerLogin() {
 
   return (
     <main className=" w-full  h-screen flex  rounded bg-cover">
-      <div className=" bg-white grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] rounded-2xl">
-        <div className="hidden md:block">
+      <div className=" bg-white grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] rounded-2xl ">
+        <div className="hidden  md:items-center md:flex  ">
           <img
             className=" rounded-tl-2xl"
-            src="https://digitaltokri.com/wp-content/uploads/2016/11/digital-03.png"
+            src={OrganizerPhoto}
             alt=""
           />
         </div>

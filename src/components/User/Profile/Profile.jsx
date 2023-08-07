@@ -27,6 +27,7 @@ function Profile() {
   // const [profile, setProfile] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [uploadedPhoto, setUploadedPhoto] = useState(avatar);
+  const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
     profileGet().then((response) => {
@@ -57,7 +58,9 @@ function Profile() {
       district: "",
       state: "",
     },
+    
     validationSchema,
+    
     onSubmit: async (values) => {
       
       toast.loading("updating");
@@ -184,6 +187,7 @@ function Profile() {
               <input
                 className="px-2 mx-2 py-2 border border-gray-300 rounded-md w-48"
                 name="mobile"
+                type="number"
                 {...formik.getFieldProps("mobile")}
               />
               {formik.touched.mobile && formik.errors.mobile && (

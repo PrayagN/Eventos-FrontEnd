@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { viewEvents, organizerSignup } from "../../../Services/organizerApi";
+import organizerSignupPhoto from '../../../assets/Login/OrganizerSignup.jpg'
 const initialValues = {
   organizerName: "",
   email: "",
@@ -136,7 +137,7 @@ function OrganizerSignup() {
       <div className="bg-white grid grid-cols-1 h-auto md:grid-cols-2 m-auto shadow-lg shadow-gray-600 sm:max-w-[900px] rounded-2xl">
         <div className="hidden md:block">
           <img
-            src="https://media.istockphoto.com/id/1430871384/vector/event-planner-template-hand-drawn-cartoon-flat-illustration-with-planning-schedule-time.jpg?s=612x612&w=0&k=20&c=Aa-8uNDJCHmiilHB5A9-VYrbUmy5GhYG4VIfEtr9hmE="
+            src={organizerSignupPhoto}
             className="mt-20 rounded-tl-2xl rounded-bl-2xl"
             alt=""
           />

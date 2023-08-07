@@ -7,7 +7,7 @@ import toast,{ Toaster } from "react-hot-toast";
 import {useDispatch} from 'react-redux'
 import { adminSignin } from "../../../Services/adminApi";
 import { adminActions } from "../../../Redux/app/adminSlice";
-
+import AdminPhoto from '../../../assets/Login/adminLogin.jpg'
 
 const initialValues ={
   email:'',
@@ -51,7 +51,7 @@ function AdminLogin() {
         <div className="hidden md:block">
           <img
             className="w-full h-full rounded-tl-2xl"
-            src="https://www.eventleaf.com/assets/images/stock/event-clipart.jpg"
+            src={AdminPhoto}
             alt=""
           />
         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import eMSignup from "../../../assets/Login/eMSignup.jfif";
+import eMSignup from "../../../assets/Login/userSignup.jfif";
 
 import { useFormik } from "formik";
 import { Button } from "@mui/material";
@@ -67,8 +67,6 @@ function UserSignup() {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      
-
       const { data } = await userSignup(values);
       if (data.status) {
         const sendOtp = async () => {
@@ -106,7 +104,6 @@ function UserSignup() {
   });
   const handleOTPVerification = async () => {
     try {
-     
       await verify.confirm(formik.values.otp);
       const { data } = await userSignup(formik.values);
       if (data.status) {
@@ -230,7 +227,6 @@ function UserSignup() {
                   >
                     Verify
                   </button>
-                  
                 </div>
               </div>
             </div>

@@ -226,6 +226,8 @@ function OrganizerView() {
                 onChange={handleGuests}
                 className=" py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                 placeholder="👥 Guests"
+                min={1}
+                
                 required
               />
             </div>
