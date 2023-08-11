@@ -1,11 +1,8 @@
 import React from "react";
-
-import { Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { userActions } from "../../../Redux/app/userSlice";
 import { userSignin } from "../../../Services/userApi";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
@@ -103,22 +100,21 @@ function UserLogin() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="Email"
-                className="p-2 mr-2 w-full border rounded-lg shadow-md focus:ring focus:border-blue-300"
+                className="p-2 mr-2 w-full  rounded-lg shadow-md "
               />
               {formik.touched.email && formik.errors.email ? (
                 <div className="text-red-600 pl-2">{formik.errors.email}</div>
               ) : null}
             </div>
             <div className="form-control">
-              <TextField
-                variant="standard"
+              <input
                 onChange={formik.handleChange}
                 value={formik.values.password}
                 onBlur={formik.handleBlur}
                 type="password"
                 name="password"
-                label="Password"
-                className="border p-2  w-full text-black  shadow-lg shadow-gray-200"
+                placeholder="Password"
+                className="p-2 mr-2 w-full  rounded-lg shadow-md "
                 style={{ marginTop: "20px" }}
               />
               {formik.touched.password && formik.errors.password ? (

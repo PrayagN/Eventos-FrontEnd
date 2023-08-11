@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ImCross } from "react-icons/im";
 import { useFormik } from "formik";
-import { Button, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -154,13 +153,12 @@ function OrganizerSignup() {
               </span>
             </p>
             <div>
-              <TextField
-                variant="standard"
+              <input
                 name="organizerName"
                 style={{ marginTop: "20px" }}
                 className="border p-2 mr-2 w-full rounded-2xl "
                 type="text"
-                label="organizerName"
+                placeholder="organizerName"
                 {...formik.getFieldProps("organizerName")}
               />
               {formik.touched.organizerName && formik.errors.organizerName ? (
@@ -168,25 +166,23 @@ function OrganizerSignup() {
                   {formik.errors.organizerName}
                 </div>
               ) : null}
-              <TextField
-                variant="standard"
+              <input
                 name="email"
                 style={{ marginTop: "20px" }}
                 className="border p-2 mr-2 w-full rounded-2xl "
                 type="text"
-                label="email"
+                placeholder="email"
                 {...formik.getFieldProps("email")}
               />
               {formik.touched.email && formik.errors.email ? (
                 <div className="text-red-600 pl-2">{formik.errors.email}</div>
               ) : null}
-              <TextField
-                variant="standard"
+              <input
                 name="password"
                 style={{ marginTop: "20px" }}
                 className="border p-2 mr-2 w-full rounded-2xl "
                 type="password"
-                label="password"
+                placeholder="password"
                 {...formik.getFieldProps("password")}
               />
               {formik.touched.password && formik.errors.password ? (
@@ -195,13 +191,12 @@ function OrganizerSignup() {
                 </div>
               ) : null}
               <div className="flex">
-                <TextField
-                  variant="standard"
+                <input
                   name="mobile"
                   style={{ marginTop: "20px" }}
                   className="border p-2 mr-2 w-full rounded-2xl"
                   type="text"
-                  label="mobile"
+                  placeholder="mobile"
                   {...formik.getFieldProps("mobile")}
                 />
 
@@ -226,16 +221,14 @@ function OrganizerSignup() {
             </div>
 
             <div id="recaptcha-container" className="p-2"></div>
-            <Button
-              variant="contained"
-              color="primary"
+            <button
               type="submit"
-              className='w-full'
+              className="w-full py-2 px-4 mt-5 bg-blue-500 text-white rounded-md focus:outline-none focus:ring focus:border-blue-300"
               disabled={isButtonDisabled}
               style={{ marginTop: "30px" }}
             >
               Register
-            </Button>
+            </button>
           </form>
           {isOTPOpen && (
             <div className="w-20">
@@ -265,22 +258,7 @@ function OrganizerSignup() {
                   >
                     Verify
                   </button>
-                  {/* <div className="flex justify-center">
-                    <button
-                      onClick={() => {setResend(!resend)}}
-                      className={`font-medium ${
-                        resend ? "text-green-500 disabled" : "text-red-500"
-                      }`}
-                      // disabled={resend}
-                    >
-                      {resend ? "Resend OTP in:" : "Resend OTP"}
-                    </button>
-                    {resend && (
-                      <div className="text-red-500 font-medium pl-2">
-                        00:{time.toString().padStart(2, "0")}
-                      </div>
-                    )}
-                  </div> */}
+                  
                 </div>
               </div>
             </div>

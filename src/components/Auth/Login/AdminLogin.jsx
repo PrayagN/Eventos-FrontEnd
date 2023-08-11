@@ -59,43 +59,41 @@ function AdminLogin() {
           <form onSubmit={formik.handleSubmit}>
             <h2 className="text-4xl font-bold p-5">Eventos.</h2>
             <p>Welcome Admin..</p>
+            
             <div className="form-control">
-              <TextField
-                variant="standard"
+              <input
+                
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 onBlur={formik.handleBlur}
                 type="email"
                 name="email"
-                label="Email"
-                className="border p-2 mr-2  w-full rounded-2xl shadow-lg shadow-gray-200"
+                placeholder="Email"
+                className="p-2 mr-2 w-full  rounded-lg shadow-md "
                 />
                  {formik.touched.email &&formik.errors.email ? <div className="text-red-600 pl-2">{formik.errors.email}</div> :null}
               </div>
               <div className="form-control">
-              <TextField
-                variant="standard"
+              <input
                 onChange={formik.handleChange}
                 value={formik.values.password}
                 onBlur={formik.handleBlur}
                 type="password"
                 name="password"
-                label="Password"
-                className="border p-2  w-full rounded-2xl shadow-lg shadow-gray-200"
+                placeholder="Password"
+                className="p-2 mr-2 w-full  rounded-lg shadow-md "
                 style={{marginTop:'20px'}}
               />
               {formik.touched.password && formik.errors.password ? <div className="text-red-600 pl-2">{formik.errors.password}</div>:null}
             </div>
             {/* <p className="pl-2 p-5 text-gray-500 ">Forgot password ?</p> */}
-            <Button
-              variant="contained"
-              color="primary"
+            <button
               type="submit"
-              className="w-full "
+              className="w-full py-2 px-4 mt-5 bg-blue-500 text-white rounded-md focus:outline-none focus:ring focus:border-blue-300"
               style={{marginTop:'20px'}}
             >
               Login
-            </Button>
+            </button>
             <Toaster/>
           </form>
         </div>
