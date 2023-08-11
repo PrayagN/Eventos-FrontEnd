@@ -33,7 +33,6 @@ function Events() {
     const fetchEvents = async () => {
       try {
         const response = await eventsLoad();
-        console.log(response.data.events);
         if (response.data.events) {
           setEvents(response.data.events);
           setOriginalEventList(response.data.events);

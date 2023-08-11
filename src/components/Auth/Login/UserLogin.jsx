@@ -71,7 +71,7 @@ function UserLogin() {
       });
     },
   });
-  console.log(formik.errors);
+ 
   return (
     <main className=" w-full  h-screen flex  rounded bg-cover">
       <div className=" bg-white grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-600 sm:max-w-[900px] rounded-2xl">

@@ -25,7 +25,6 @@ function BookedEvents() {
       console.log(error);
     }
   };
-  console.log(data);
   const dateformat = (date) => {
     return dateFormat(date, "dd/mm/yyyy");
   };

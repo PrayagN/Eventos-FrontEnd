@@ -26,7 +26,6 @@ function Dashboard() {
       state: { organizer_id: organizer_id },
     });
   };
-  console.log(booked, "sdfsd");
 
   const totalPrice = dashboard?.totalEarning.toLocaleString("en-US", {
     style: "currency",
