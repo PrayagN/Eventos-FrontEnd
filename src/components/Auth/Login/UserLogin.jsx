@@ -9,7 +9,7 @@ import { userActions } from "../../../Redux/app/userSlice";
 import { userSignin } from "../../../Services/userApi";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import userLoginPhoto from '../../../assets/Login/userLogin.jpg'
+import userLoginPhoto from "../../../assets/Login/userLogin.jpg";
 const initialValues = {
   email: "",
   password: "",
@@ -90,21 +90,20 @@ function UserLogin() {
             <h2 className="text-4xl font-bold p-5">Eventos.</h2>
             <p className="pl-4 mb-5 text-gray-400">
               Don't have an account?{" "}
-              <span className="text-blue-600">
+              <span className="text-blue-500  font-medium">
                 {" "}
                 <Link to="/signup"> Register </Link>{" "}
               </span>
             </p>
             <div className="form-control">
-              <TextField
-                variant="standard"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                onBlur={formik.handleBlur}
+              <input
                 type="email"
                 name="email"
-                label="Email"
-                className="border p-2 mr-2  w-full rounded-2xl shadow-lg shadow-gray-200"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Email"
+                className="p-2 mr-2 w-full border rounded-lg shadow-md focus:ring focus:border-blue-300"
               />
               {formik.touched.email && formik.errors.email ? (
                 <div className="text-red-600 pl-2">{formik.errors.email}</div>
@@ -119,7 +118,7 @@ function UserLogin() {
                 type="password"
                 name="password"
                 label="Password"
-                className="border p-2  w-full rounded-2xl shadow-lg shadow-gray-200"
+                className="border p-2  w-full text-black  shadow-lg shadow-gray-200"
                 style={{ marginTop: "20px" }}
               />
               {formik.touched.password && formik.errors.password ? (
@@ -129,15 +128,12 @@ function UserLogin() {
               ) : null}
             </div>
             {/* <p className="pl-2 p-5 text-gray-500 ">Forgot password ?</p> */}
-            <Button
-              variant="contained"
-              color="primary"
+            <button
+              className="w-full py-2 px-4 mt-5 bg-blue-500 text-white rounded-md focus:outline-none focus:ring focus:border-blue-300"
               type="submit"
-              className="w-full p"
-              style={{ marginTop: "20px" }}
             >
               Login
-            </Button>
+            </button>
             <Toaster />
           </form>
           <div className="flex justify-center my-5">

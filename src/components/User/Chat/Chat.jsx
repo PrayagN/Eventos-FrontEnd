@@ -1,9 +1,9 @@
 import { minWidth } from "@mui/system";
-import React, { useState, useEffect ,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
 import TimeAgo from "timeago-react";
-import {io} from 'socket.io-client'
+import { io } from "socket.io-client";
 import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 import {
   getConnections,
@@ -11,7 +11,7 @@ import {
   sendMessage,
 } from "../../../Services/userApi";
 import { toast } from "react-hot-toast";
-import moment from 'moment-timezone';
+import moment from "moment-timezone";
 import jwt from "jwt-decode";
 
 function Chat() {
@@ -22,27 +22,26 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [connections, setConnections] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [search,setSearch] = useState('')
+  const [search, setSearch] = useState("");
 
-  const socket = useRef()
+  const socket = useRef();
   const scrollRef = useRef();
-  const  handleChatClick = (connection) => {
+  const handleChatClick = (connection) => {
     setSelectedChat(connection);
   };
-let userId ;
-    const token = localStorage.getItem("usertoken");
-    if(token){
 
-      const decodedToken = jwt(token)
-      userId = decodedToken ? decodedToken.id:null
-    }
+  let userId;
+  const token = localStorage.getItem("usertoken");
+  if (token) {
+    const decodedToken = jwt(token);
+    userId = decodedToken ? decodedToken.id : null;
+  }
 
   useEffect(() => {
     getConnections()
       .then((response) => {
         setConnections(response.data.connections);
         // setUser(response.data.user_id)
-
       })
       .catch((error) => {
         toast.error(error.response.data.message);
@@ -50,16 +49,17 @@ let userId ;
   }, []);
 
   const senderId = userId;
- const indianTime=(time)=>{
-    return moment(time).tz('Asia/Kolkata').format(' hh:mm A');
-  }
+  const indianTime = (time) => {
+    return moment(time).tz("Asia/Kolkata").format(" hh:mm A");
+  };
   //connecting to socket
   useEffect(() => {
-   socket.current = io(import.meta.env.VITE_UserBaseUrl);
-   socket.current.emit('add-user',senderId)
+    socket.current = io(import.meta.env.VITE_UserBaseUrl);
+    socket.current.emit("add-user", senderId);
   }, [senderId]);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -83,7 +83,7 @@ let userId ;
   };
   useEffect(() => {
     if (socket.current) {
-      socket.current.on('msg-receive', (data) => {
+      socket.current.on("msg-receive", (data) => {
         setArrivalMessage({
           senderId: data.senderId,
           content: data.content,
@@ -92,46 +92,47 @@ let userId ;
       });
     }
   }, []);
-  
+
   useEffect(() => {
-    if (arrivalMessage && selectedChat?.members.organizer._id === arrivalMessage.senderId) {
+    if (
+      arrivalMessage &&
+      selectedChat?.members.organizer._id === arrivalMessage.senderId
+    ) {
       setMessages((prev) => [...prev, arrivalMessage]);
     }
   }, [arrivalMessage, selectedChat]);
-  
+
   const submitChat = () => {
-    if (newMessage.trim() === '') {
-      return toast.error('Please write a message');
+    if (newMessage.trim() === "") {
+      return toast.error("Please write a message");
     }
-  
+
     const message = {
       content: newMessage,
       connection_id: selectedChat._id,
       senderId: senderId,
     };
     const receiverId = selectedChat.members.organizer._id;
-  
-    socket.current.emit('send-msg', {
+
+    socket.current.emit("send-msg", {
       senderId: senderId,
       receiverId: receiverId,
       content: newMessage,
     });
-  
+
     try {
       sendMessage(message).then((response) => {
         setMessages((prev) => [...prev, response.data]);
-        setNewMessage('');
+        setNewMessage("");
       });
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
     }
-  
+
     setShowEmoji(false);
   };
-  
-  
- 
 
+  
   useEffect(() => {
     if (selectedChat) {
       getMessages(selectedChat?._id).then((response) => {
@@ -151,7 +152,6 @@ let userId ;
       submitChat();
     }
   };
-
 
   return (
     <div className="w-full ">
@@ -183,7 +183,7 @@ let userId ;
                   name="search"
                   placeholder="Search"
                   value={search}
-                  onChange={(e)=>setSearch(e.target.value)}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
             </div>
@@ -214,7 +214,7 @@ let userId ;
                               {connection.members.organizer.organizerName}
                             </span>
                             <span className="block ml-2 text-sm text-gray-600">
-                            {indianTime(connection.updatedAt)}
+                              {indianTime(connection.updatedAt)}
                             </span>
                           </div>
                           <span className="block ml-2 text-sm text-gray-600">
@@ -255,12 +255,11 @@ let userId ;
                 <div className="relative w-full p-6 overflow-y-auto h-[30rem]">
                   <ul className="space-y-2">
                     {messages.map((message, index) => (
-                      <li ref={scrollRef}
+                      <li
+                        ref={scrollRef}
                         key={index}
                         className={`flex justify-${
-                          message.senderId ===senderId
-                            ? "end"
-                            : "start"
+                          message.senderId === senderId ? "end" : "start"
                         }`}
                       >
                         <div
@@ -342,7 +341,7 @@ let userId ;
                       />
                     </svg>
                   </button> */}
-                  <button type="submit" onClick={submitChat}  >
+                  <button type="submit" onClick={submitChat}>
                     <svg
                       className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
                       xmlns="http://www.w3.org/2000/svg"
@@ -356,17 +355,16 @@ let userId ;
                 {showEmoji && (
                   <div className="fixed bottom-28 flex justify-center">
                     <EmojiPicker
-                     onEmojiClick={(emoji) =>
-                      setNewMessage(
-                        (prevMessage) => prevMessage + emoji.emoji
-                      )
-                    }
-                    searchDisabled={true}
-                    emojiStyle={EmojiStyle.APPLE}
-                    previewConfig={{ showPreview: false }}
-                    height={300}
-                    width={300}
-
+                      onEmojiClick={(emoji) =>
+                        setNewMessage(
+                          (prevMessage) => prevMessage + emoji.emoji
+                        )
+                      }
+                      searchDisabled={true}
+                      emojiStyle={EmojiStyle.APPLE}
+                      previewConfig={{ showPreview: false }}
+                      height={300}
+                      width={300}
 
                       // onClickOutside={()=>setShowEmoji(!showEmoji)}
                     />
