@@ -55,7 +55,7 @@ const Organizer = () => {
           The <span style={{ color: "#1976d2" }}>Event Management</span>{" "}
           Specialists
         </h2>
-        <div className="text-center text-3xl md:text-2xl lg:text-4xl xl:text-5xl font-bold transform scale-90 mt-30">
+        <div className="text-center text-xl md:text-2xl   transform scale-90 mt-4">
   From Wedding Functions to Birthday Parties or Corporate Events to Musical Functions,
   <br />
   We offer a full range of Events Management Services that scale to your needs & budget.
