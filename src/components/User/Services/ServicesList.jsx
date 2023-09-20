@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { eventOrganizers } from '../../../Services/userApi'
 import Header from '../Header/Header2'
-import { Typography } from "@mui/material";
+
 import List from "../../User/Organizer/List";
 import Pagination from '../Pagination/Pagination';
 import ScrollButton from "../ScrollButton/ScrollButton";
@@ -39,18 +39,15 @@ function ServicesList() {
           The <span style={{ color: "#1976d2" }}>Event Management</span>{" "}
           Specialists
         </h2>
-        <Typography
-          align="center"
-          fontSize={"20px"}
-          marginLeft={"0px"}
-          marginTop={"30px"}
-          className="text-sm sm:text-3xl md:text-2xl lg:text-4xl xl:text-5xl font-bold transform scale-90"
+        <div
+          
+          className="text-center text-xl md:text-2xl   transform scale-90 mt-4 mb-5"
         >
          Bringing your vision to life with meticulous planning, exceptional design, and flawless execution,
           <br />
           We offer a full range of Events Management Services that scale to your
           needs & budget.
-        </Typography>
+        </div>
       </div>
       
       <div className='flex justify-end flex-wrap'>
